@@ -1,0 +1,83 @@
+<div class="conatiner mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-3 col-md-2 col-sm-1"></div>
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <form [formGroup]="formularioCliente" class="row g-3">
+                <div class="col-12">
+                    <label for="codigo" class="form-label">Código</label>
+                    <input type="text" class="form-control" id="codigo" name="clienteCodigo" formControlName="clienteCodigo">
+                </div>
+                <div class="col-12">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre">
+                </div>
+                <div class="col-md-6">
+                    <label for="apellido1" class="form-label">Primer Apellido</label>
+                    <input type="text" class="form-control" id="apellido1" name="clienteApellido1" formControlName="clienteApellido1">
+                </div>
+                <div class="col-md-6">
+                    <label for="apellido2" class="form-label">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="apellido2" name="clienteApellido2" formControlName="clienteApellido2">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputSelect" class="form-label">Identificación</label>
+                    <div class="input-group mb-3">
+                        <select class="form-select" id="inputSelect">
+                        <option selected>DNI</option>
+                        <option value="1">Pasaporte</option>
+                        </select>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="nacimiento" class="form-label">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento">
+                </div>
+                <div class="col-12">
+                    <label for="calle" class="form-label">Dirección</label> <br>
+                    <label for="calle" class="form-label">Calle</label>
+                    <input type="text" class="form-control" id="calle" name="clienteCalle" formContrlName="clienteCalle">
+                </div>
+                <div class="col-md-3">
+                    <label for="portal" class="form-label">Portal</label>
+                    <input type="text" class="form-control" id="portal" name="clientePortal" formControlName="clientePortal">
+                </div>
+                <div class="col-md-3">
+                    <label for="piso" class="form-label">Piso</label>
+                    <input type="text" class="form-control" id="piso" name="clientePiso" formControlName="clientePiso">
+                </div>
+                <div class="col-md-6">
+                    <label for="escalera" class="form-label">Escalera</label>
+                    <input type="text" class="form-control" id="escalera" name="clienteEscalera" formControlName="clienteEscalera">
+                </div>
+                <div class="col-md-3">
+                    <label for="codigoPostal" class="form-label">Código Postal</label>
+                    <input type="text" class="form-control" id="codigoPostal" name="clienteCodigoPostal" formControlName="clienteCodigoPostal">
+                </div>
+                <div class="col-md-5">
+                    <label for="ciudad" class="form-label">Ciudad</label>
+                    <input type="text" class="form-control" id="ciudad" name="clienteCiudad" formControlName="clienteCiudad">
+                </div>
+                <div class="col-md-4">
+                    <label for="provincia" class="form-label">Provincia</label>
+                    <input type="text" class="form-control" id="provincia" name="clienteProvincia" formControlName="clienteProvincia">
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="imagenes" class="form-label">Imágenes DNI</label>
+                        <input class="form-control" type="file" id="imagenes" accept="img/*" multiple>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4 text-center">
+                    <button type="submit" class="btn btn-dark">Enviar</button>
+                </div>
+                <div class="col-md-4 text-center">
+                    <button type="reset" class="btn btn-dark">Limpiar</button>
+                </div>
+                <div class="col-md-2"></div>
+            </form>
+            <div class="col-lg-3 col-md-2 col-sm-1"></div>
+        </div>
+    </div>
+</div>
