@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-crear',
-  imports: [],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './crear.component.html',
   styleUrl: './crear.component.scss'
 })
