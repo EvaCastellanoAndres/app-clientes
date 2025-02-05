@@ -60,7 +60,8 @@ export class CrearComponent {
              escalera: this.escalera,
              codigoPostal: this.codigoPostal,
              ciudad: this.ciudad,
-             provincia: this.provincia}
+             provincia: this.provincia
+            }
     });
   }
 }

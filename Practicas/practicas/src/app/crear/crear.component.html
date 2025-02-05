@@ -1,8 +1,8 @@
-<div class="conatiner mt-5 mb-5">
+<div class="conatiner mt-5">
     <div class="row">
         <div class="col-lg-3 col-md-2 col-sm-1"></div>
         <div class="col-lg-6 col-md-8 col-sm-10">
-            <form [formGroup]="formularioCliente" class="row g-3" (submit)="abrirConfirmacion()">
+            <form [formGroup]="formularioCliente" class="row g-3 mb-4" (submit)="abrirConfirmacion()">
                 <div class="col-12">
                     <label for="codigo" class="form-label">Código</label>
                     <input matInput [(ngModel)]="codigo" type="text" class="form-control" id="codigo" name="clienteCodigo" formControlName="clienteCodigo">
@@ -26,7 +26,7 @@
                         <option selected>DNI</option>
                         <option value="1">Pasaporte</option>
                         </select>
-                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control">
+                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control" name="identificacion">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -34,7 +34,6 @@
                     <input matInput [(ngModel)]="fechaNacimiento" type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento">
                 </div>
                 <div class="col-12">
-                    <label for="calle" class="form-label">Dirección</label> <br>
                     <label for="calle" class="form-label">Calle</label>
                     <input matInput [(ngModel)]="calle" type="text" class="form-control" id="calle" name="clienteCalle" formContrlName="clienteCalle">
                 </div>
