@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-12">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input matInput [(ngModel)]="nombre" type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre">
+                    <input matInput [(ngModel)]="nombre" type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre" [ngClass]="{'invalid': formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched}">
                 </div>
                 <div class="col-md-6">
                     <label for="apellido1" class="form-label">Primer Apellido</label>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="nacimiento" class="form-label">Fecha de Nacimiento</label>
-                    <input matInput [(ngModel)]="fechaNacimiento" type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento">
+                    <input matInput [(ngModel)]="fechaNacimiento" type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento" [ngClass]="{'invalid': formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched}">
                 </div>
                 <div class="col-12">
                     <label for="calle" class="form-label">Calle</label>
@@ -64,7 +64,10 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes DNI</label>
-                        <input class="form-control" type="file" id="imagenes" accept="img/*" multiple>
+                        <input class="form-control" type="file" id="imagenes" accept="img/*" formControlName="clienteImagenes" multiple>
+                        <!--<div *ngIf="limiteExcedido" class="error-message">
+                            No puedes seleccionar más de 3 archivos.
+                          </div>-->
                     </div>
                 </div>
                 <div class="col-md-2"></div>
