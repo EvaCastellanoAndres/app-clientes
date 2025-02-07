@@ -22,16 +22,27 @@
                 <div class="col-md-6">
                     <label for="inputSelect" class="form-label">Identificación</label>
                     <div class="input-group mb-3">
-                        <select class="form-select" id="inputSelect">
-                        <option selected>DNI</option>
-                        <option value="1">Pasaporte</option>
+                        <select class="form-select" id="inputSelect" formControlName="tipoDocumento">
+                        <option value="dni">DNI</option>
+                        <option value="pasaporte">Pasaporte</option>
+                        <option value="nie">NIE</option>
                         </select>
-                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control" name="identificacion">
+                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control" name="identificacion" formControlName="clienteIdentificacion">
+                        <div *ngIf="formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched">
+                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['identificacionInvalida']">
+                              Documento inválido. Introduzca un DNI, Pasaporte o NIE válido.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="nacimiento" class="form-label">Fecha de Nacimiento</label>
                     <input matInput [(ngModel)]="fechaNacimiento" type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento" [ngClass]="{'invalid': formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched">
+                        <p *ngIf="formularioCliente.controls['clienteFechaNacimiento'].errors?.['edadInvalida']">
+                          Fecha inválida.
+                        </p>
+                    </div>
                 </div>
                 <div class="col-12">
                     <label for="calle" class="form-label">Calle</label>
@@ -64,10 +75,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes DNI</label>
-                        <input class="form-control" type="file" id="imagenes" accept="img/*" formControlName="clienteImagenes" multiple>
-                        <!--<div *ngIf="limiteExcedido" class="error-message">
-                            No puedes seleccionar más de 3 archivos.
-                          </div>-->
+                        <input class="form-control" type="file" id="imagenes" accept="" formControlName="clienteImagenes">
                     </div>
                 </div>
                 <div class="col-md-2"></div>

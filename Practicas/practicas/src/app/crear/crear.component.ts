@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -12,41 +12,48 @@ import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirma
   templateUrl: './crear.component.html',
   styleUrl: './crear.component.scss'
 })
-export class CrearComponent {
-  formularioCliente = new FormGroup ({
-    clienteCodigo: new FormControl(),
-    clienteNombre: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]),
-    clienteApellido1: new FormControl(),
-    clienteApellido2: new FormControl(),
-    clienteDNI: new FormControl(),
-    clientePasaporte: new FormControl(),
-    clienteFechaNacimiento: new FormControl('', [Validators.required, this.validarEdad]),
-    clienteCalle: new FormControl(),
-    clientePortal: new FormControl(),
-    clienteNumero: new FormControl(),
-    clientePiso: new FormControl(),
-    clienteEscalera: new FormControl(),
-    clienteCodigoPostal: new FormControl(),
-    clienteCiudad: new FormControl(),
-    clienteProvincia: new FormControl(),
-    clienteImagenes: new FormControl()
-  })
 
-  codigo: number = 0;
+export class CrearComponent {
+
+  formularioCliente: FormGroup; 
+  
+  constructor(private fb: FormBuilder, public confirma: MatDialog) {
+    this.formularioCliente = this.fb.group({
+      clienteCodigo: ['', Validators.required],
+      clienteNombre: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]],
+      clienteApellido1: [],
+      clienteApellido2: [],
+      tipoDocumento: ['dni'],
+      clienteIdentificacion: [''],
+      clienteFechaNacimiento: ['', [Validators.required, edadValidator()]],
+      clienteCalle: [],
+      clientePortal: [],
+      clienteNumero: [],
+      clientePiso: [],
+      clienteEscalera: [],
+      clienteCodigoPostal: [],
+      clienteCiudad: [],
+      clienteProvincia: [],
+      clienteImagenes: []
+    })
+
+    this.formularioCliente.get('clienteIdentificacion')?.setValidators([
+      Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
+  }
+
+  codigo: string = '';
   nombre: string = '';
   apellido1: string = '';
   apellido2: string = '';
   identificacion: string = '';
   fechaNacimiento: Date = new Date;
   calle: string = '';
-  portal: number = 0;
+  portal: string = '';
   piso: string = '';
   escalera: string = '';
   codigoPostal: number = 0;
   ciudad: string = '';
-  provincia: string = ''; 
-  
-  constructor(public confirma: MatDialog) {}
+  provincia: string = '';
 
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
@@ -68,25 +75,91 @@ export class CrearComponent {
       });
     }
   }
+}
 
-  validarEdad(control: any) {
-    const fechaNac = new Date(control.value);
-    const edad = new Date().getFullYear() - fechaNac.getFullYear();
-    return edad > 17 && edad < 61 ? null : { invalidaAge: true };
-  }
-  /*imagenesSeleccionadas: File[] = [];
-  limiteExcedido:boolean = false;
+export function identificacionValidator(tipoDocumentoControl: AbstractControl): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    const tipoDocumento = tipoDocumentoControl.value;
 
-  onFileChange(event: any): void {
-    const imagenes = event.target.clienteImagenes;
-
-    if (imagenes.length > 4) {
-      this.limiteExcedido = true;
-      return;
+    if (!value || typeof value !== 'string') {
+      return { identificacionInvalida: true };
     }
 
-    this.limiteExcedido = false;
-    this.imagenesSeleccionadas = Array.from(imagenes);
-  }*/
+    const dniRegex = /^[0-9]{8}[A-Z]$/;
+    const pasaporteRegex = /^[A-Z0-9]{6,9}$/;
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
 
+    let esValido = false;
+
+    switch (tipoDocumento) {
+      case 'dni':
+        if (dniRegex.test(value)) {
+          esValido = validarLetraDNI(value);
+        }
+        break;
+      case 'pasaporte':
+        esValido = pasaporteRegex.test(value);
+        break;
+      case 'nie':
+        if (nieRegex.test(value)) {
+          esValido = validarNIE(value);
+        }
+        break;
+      default:
+        return { identificacionInvalida: true };    
+    }
+
+    function validarLetraDNI(dni: string): boolean {
+      const numeroDNI = parseInt(dni.slice(0,8), 10);
+      const letraDNI = dni.charAt(8).toUpperCase();
+      const letras = 'TRWAGMYFPDXBNJZSQVHLCKE'
+
+      return letraDNI == letras[numeroDNI % 23];
+    }
+
+    function validarNIE(nie: string): boolean {
+      let prefijoNIE = nie.charAt(0).toUpperCase();
+      switch (prefijoNIE) {
+        case 'X':
+          prefijoNIE = '0';
+          break;
+        case 'Y':
+          prefijoNIE = '1';
+          break;
+        case 'Z':
+          prefijoNIE = '2';
+          break;
+      }
+
+      return validarLetraDNI(prefijoNIE + nie.substring(1));
+    }
+    return esValido ? null : { identificacionInvalida: true };
+  };
+}
+
+export function edadValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) {
+      return { edadInvalida: true };
+    }
+
+    const fechaNac = new Date(control.value);
+    const hoy = new Date();
+    const edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const difMes = hoy.getMonth() - fechaNac.getMonth();
+    const difDia = hoy.getDate() - fechaNac.getDate();
+
+    if (
+      edad < 18 ||
+      edad > 60 ||
+      (edad === 18 && difMes < 0) ||
+      (edad === 18 && difMes === 0 && difDia < 0) ||
+      (edad === 60 && difMes > 0) ||
+      (edad === 60 && difMes === 0 && difDia > 0)
+    ) {
+      return { edadInvalida: true };
+    }
+    return null;
+  };
 }

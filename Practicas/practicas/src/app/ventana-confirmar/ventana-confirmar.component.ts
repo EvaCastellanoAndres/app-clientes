@@ -3,14 +3,14 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 
 export interface DatosVentana {
-  codigo: number;
+  codigo: string;
   nombre: string;
   apellido1: string;
   apellido2: string;
   identificacion: string;
   fechaNacimiento: Date;
   calle: string;
-  portal: number;
+  portal: string;
   piso: string;
   escalera: string;
   codigoPostal: number;
