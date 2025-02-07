@@ -32,6 +32,15 @@
                             <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['identificacionInvalida']">
                               Documento inválido. Introduzca un DNI, Pasaporte o NIE válido.
                             </p>
+                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['dniInvalido']">
+                                DNI inválido.
+                            </p>
+                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['pasaporteInvalido']">
+                                Pasaporte inválido.
+                            </p>
+                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['nieInvalido']">
+                                NIE inválido.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -75,7 +84,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes DNI</label>
-                        <input class="form-control" type="file" id="imagenes" accept="" formControlName="clienteImagenes">
+                        <input class="form-control" type="file" id="imagenes" accept="img/*" formControlName="clienteImagenes">
                     </div>
                 </div>
                 <div class="col-md-2"></div>

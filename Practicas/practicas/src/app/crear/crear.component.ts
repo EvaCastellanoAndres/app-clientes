@@ -87,27 +87,27 @@ export function identificacionValidator(tipoDocumentoControl: AbstractControl): 
     }
 
     const dniRegex = /^[0-9]{8}[A-Z]$/;
-    const pasaporteRegex = /^[A-Z0-9]{6,9}$/;
+    const pasaporteRegex = /^[A-z0-9]{2,3}[0-9]{6}$/;
     const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
 
-    let esValido = false;
+    let error = null;
 
     switch (tipoDocumento) {
       case 'dni':
-        if (dniRegex.test(value)) {
-          esValido = validarLetraDNI(value);
+        if (!dniRegex.test(value) || !validarLetraDNI(value)) {
+          error = { dniInvalido: true }
         }
         break;
       case 'pasaporte':
-        esValido = pasaporteRegex.test(value);
-        break;
-      case 'nie':
-        if (nieRegex.test(value)) {
-          esValido = validarNIE(value);
+        if (!pasaporteRegex.test(value)) {
+          error = { pasaporteInvalido: true};
         }
         break;
-      default:
-        return { identificacionInvalida: true };    
+      case 'nie':
+        if (!nieRegex.test(value) || !validarNIE(value)) {
+          error = { nieInvalido: true };
+        }
+        break;   
     }
 
     function validarLetraDNI(dni: string): boolean {
@@ -134,7 +134,7 @@ export function identificacionValidator(tipoDocumentoControl: AbstractControl): 
 
       return validarLetraDNI(prefijoNIE + nie.substring(1));
     }
-    return esValido ? null : { identificacionInvalida: true };
+    return error;
   };
 }
 
