@@ -51,7 +51,21 @@ export class ClientsService {
     const newId=clients.length>0 
     ? Math.max(...clients.map(c=>c.id))+1:1;
 
-    const newClient={id:newId, nombre:createClientDto.nombre, codigo:createClientDto.codigo, apellido1:createClientDto.apellido1, apellido2:createClientDto.apellido2, identificacion:createClientDto.identificacion, fechaNacimiento:createClientDto.fechaNacimiento, calle:createClientDto.calle, portal:createClientDto.portal, piso:createClientDto.piso, escalera:createClientDto.escalera, codigoPostal:createClientDto.codigoPostal, ciudad:createClientDto.ciudad, provincia:createClientDto.provincia, poblacion:createClientDto.poblacion};
+    const newClient={id:newId, 
+      nombre:createClientDto.nombre, 
+      codigo:createClientDto.codigo, 
+      apellido1:createClientDto.apellido1, 
+      apellido2:createClientDto.apellido2, 
+      identificacion:createClientDto.identificacion, 
+      fechaNacimiento:createClientDto.fechaNacimiento,
+      calle:createClientDto.calle, 
+      portal:createClientDto.portal, 
+      piso:createClientDto.piso, 
+      escalera:createClientDto.escalera,
+      codigoPostal:createClientDto.codigoPostal,
+      ciudad:createClientDto.ciudad, 
+      provincia:createClientDto.provincia,
+      poblacion:createClientDto.poblacion};
      
     
     clients.push(newClient);

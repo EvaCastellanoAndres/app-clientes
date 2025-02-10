@@ -1,30 +1,19 @@
 [
   {
     "id": 1,
-    "nombre": "Javier",
+    "nombre": "nombre prueba",
     "codigo": 1233,
-    "apellido1": "Morales",
+    "apellido1": "apellido1 prueba",
     "fechaNacimiento": "2004-12-13",
     "codigoPostal": 50100,
-    "poblacion": "teruel"
-  },
-  {
-    "id": 2,
-    "nombre": "Eva",
-    "codigo": 1233,
-    "apellido1": "Castellano",
-    "fechaNacimiento": "2003-07-11",
-    "codigoPostal": 50007,
-    "poblacion": "zgz",
-    "ciudad": "zgz"
-  },
-  {
-    "id": 3,
-    "nombre": "Alejandro",
-    "codigo": 4321,
-    "apellido1": "Castellano",
-    "fechaNacimiento": "2001-02-08",
-    "codigoPostal": 50007,
-    "poblacion": "zgz"
+    "poblacion": "poblacion",
+    "apellido2": "apellido2",
+    "identificacion": "73445892J",
+    "calle": "calle",
+    "portal": "portal",
+    "piso": 2,
+    "escalera": 1,
+    "ciudad": "ciudad",
+    "provincia": "provincia"
   }
 ]
