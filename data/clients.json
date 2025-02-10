@@ -1,19 +1,22 @@
 [
   {
     "id": 1,
-    "nombre": "nombre prueba",
-    "codigo": 1233,
-    "apellido1": "apellido1 prueba",
-    "fechaNacimiento": "2004-12-13",
-    "codigoPostal": 50100,
-    "poblacion": "poblacion",
-    "apellido2": "apellido2",
-    "identificacion": "73445892J",
-    "calle": "calle",
-    "portal": "portal",
-    "piso": 2,
-    "escalera": 1,
-    "ciudad": "ciudad",
-    "provincia": "provincia"
+    "nombre": "nombre de prueba",
+    "codigo": "1234",
+    "apellido1": "apellido 1 de prueba",
+    "apellido2": "apellido 2 de prueba",
+    "identificacion": "4400985k",
+    "fechaNacimiento": "1999-11-11",
+    "calle": "calle de prueba",
+    "portal": "2",
+    "piso": "33 izquierda",
+    "escalera": "1",
+    "codigoPostal": "50100",
+    "ciudad": "zgz",
+    "provincia": "zgz",
+    "poblacion": "zgz",
+    "imagenes": [
+      "/data/uploads/images-1739202557011-839298285.jpg"
+    ]
   }
 ]

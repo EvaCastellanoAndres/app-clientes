@@ -1,16 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, ParseIntPipe } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('client')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  async create(@Body() createClientDto: CreateClientDto) {
-    return await this.clientsService.create(createClientDto);
+@UseInterceptors(
+  FilesInterceptor('images', 4, {
+    storage: diskStorage({
+      destination: 'data/uploads',
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + extname(file.originalname));
+      },
+    }),
+  }),
+)
+async create(
+  @Body() createClientDto: CreateClientDto,
+  @UploadedFiles() files: Express.Multer.File[],
+) {
+  return this.clientsService.create(createClientDto, files);
 }
+
 
 
   @Get()
