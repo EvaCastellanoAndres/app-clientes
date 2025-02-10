@@ -102,13 +102,28 @@ export class ClientsService {
   async remove(id: number) {
     const clients = await this.readClientsFromFile();
     const position = clients.findIndex((e) => e.id === id);
-
+  
     if (position !== -1) {
+      const client = clients[position]; // Obtener el cliente antes de eliminarlo
+      const imagesToDelete = client.imagenes || []; // Obtener las imágenes asociadas
+  
+      // Borrar cada imagen del sistema de archivos
+      for (const imagePath of imagesToDelete) {
+        const absolutePath = path.join(__dirname, '..', '..', imagePath);
+        try {
+          await fs2.unlink(absolutePath); 
+        } catch (error) {
+          console.error(`Error al borrar la imagen ${absolutePath}:`, error);
+        }
+      }
+  
       const updatedClients = clients.filter((_, index) => index !== position);
       await this.writeClientsToFile(updatedClients);
-      return 'Cliente borrado';
+  
+      return { message: `Cliente con ID ${id} y sus imágenes han sido eliminados.` };
     } else {
       throw new Error(`Cliente con ID ${id} no encontrado.`);
     }
   }
+  
 }
