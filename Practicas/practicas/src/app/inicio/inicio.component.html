@@ -1,0 +1,47 @@
+<div class="container-xl">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <h4>Clientes</h4>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-end">
+                    <button class="btn btn-success" (click)="annadir()">
+                        <i class='fas fa-plus-circle'></i><span> Añadir</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-light table-hover border border-dark mb-0" id="tablaClientes">
+            <thead>
+              <tr class="table-dark text-white">
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Identificación</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Dirección</th>
+                <th>Código Postal</th>
+                <th>Ciudad</th>
+                <th>Provincia</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cliente of listadoClientes">
+                    <td>{{cliente.codigo}}</td>
+                    <td>{{cliente.nombre}} {{cliente.apellido1}} {{cliente.apellido2}}</td>
+                    <td>{{cliente.identificacion}}</td>
+                    <td>{{cliente.fechaNacimiento | date:'dd/MM/yyyy'}}</td>
+                    <td>{{cliente.calle}} {{cliente.portal}}, {{cliente.piso}} {{cliente.escalera}}</td>
+                    <td>{{cliente.codigoPostal}}</td>
+                    <td>{{cliente.ciudad}}</td>
+                    <td>{{cliente.provincia}}</td>
+                    <td>
+                        <a href="#" class="btn"><i class="fa fa-edit edit"></i></a>
+                    </td>
+                </tr>
+                <td *ngIf="listadoClientes.length == 0" colspan="9" style="text-align: center;">No hay clientes registrados</td>
+            </tbody>
+        </table>
+    </div>
+</div>

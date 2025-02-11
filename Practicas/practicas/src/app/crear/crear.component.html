@@ -10,10 +10,15 @@
                 <div class="col-12">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input matInput [(ngModel)]="nombre" type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre" [ngClass]="{'invalid': formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched">
+                        <div [hidden]="!formularioCliente.controls['clienteNombre'].errors?.['requerido']">
+                          Nombre obligatorio.
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="apellido1" class="form-label">Primer Apellido</label>
-                    <input matInput [(ngModel)]="apellido1" type="text" class="form-control" id="apellido1" name="clienteApellido1" formControlName="clienteApellido1">
+                    <input matInput [(ngModel)]="apellido1" type="text" class="form-control" id="apellido1" name="clienteApellido1" formControlName="clienteApellido1" [ngClass]="{'invalid': formularioCliente.controls['clienteApellido1'].invalid && formularioCliente.controls['clienteApellido1'].touched}">
                 </div>
                 <div class="col-md-6">
                     <label for="apellido2" class="form-label">Segundo Apellido</label>
@@ -27,7 +32,7 @@
                         <option value="pasaporte">Pasaporte</option>
                         <option value="nie">NIE</option>
                         </select>
-                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control" name="identificacion" formControlName="clienteIdentificacion">
+                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control" name="identificacion" formControlName="clienteIdentificacion" [ngClass]="{'invalid': formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched}">
                         <div *ngIf="formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched">
                             <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['identificacionInvalida']">
                               Documento inválido. Introduzca un DNI, Pasaporte o NIE válido.
@@ -84,7 +89,9 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes DNI</label>
-                        <input class="form-control" type="file" id="imagenes" accept="img/*" formControlName="clienteImagenes">
+                        <div *ngFor="let imgCtrl of clienteImagenes.controls; let i = index">
+                            <input class="form-control mt-2" type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="clienteImagenes">
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-2"></div>

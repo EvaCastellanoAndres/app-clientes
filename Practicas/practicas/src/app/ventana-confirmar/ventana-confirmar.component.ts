@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ClienteService } from '../Service/cliente.service';
 
 export interface DatosVentana {
   codigo: string;
@@ -24,5 +25,22 @@ export interface DatosVentana {
   styleUrl: './ventana-confirmar.component.scss'
 })
 export class VentanaConfirmarComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DatosVentana){}
+  constructor(
+    public dialogRef: MatDialogRef<VentanaConfirmarComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DatosVentana,
+    private clienteService: ClienteService,
+    private router: Router
+  ){}
+
+  confirmar () {
+    this.clienteService.annadirCliente(this.data);
+    this.dialogRef.close();
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 300);
+  }
+  
+  cancelar() {
+    this.dialogRef.close();
+  }
 }

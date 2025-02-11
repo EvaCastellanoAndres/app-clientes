@@ -17,11 +17,14 @@
         <p class="col-4">Provinvia: {{ data.provincia }}</p>
     </div>
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6 text-center">
-            <button type="submit" class="btn btn-dark">Confirmar</button>
+        <div class="col-md-1"></div>
+        <div class="col-md-5 text-center">
+            <button type="submit" class="btn btn-dark" (click)="confirmar()">Confirmar</button>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-5 text-center">
+            <button type="submit" class="btn btn-dark" (click)="cancelar()">Cancelar</button>
+        </div>
+        <div class="col-md-1"></div>
     </div>
 </div>
 </div>

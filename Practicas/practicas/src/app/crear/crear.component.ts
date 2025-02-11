@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -15,13 +15,13 @@ import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirma
 
 export class CrearComponent {
 
-  formularioCliente: FormGroup; 
+  formularioCliente: FormGroup;
   
   constructor(private fb: FormBuilder, public confirma: MatDialog) {
     this.formularioCliente = this.fb.group({
       clienteCodigo: ['', Validators.required],
-      clienteNombre: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]],
-      clienteApellido1: [],
+      clienteNombre: ['', [requeridoValidator(), Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]],
+      clienteApellido1: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]],
       clienteApellido2: [],
       tipoDocumento: ['dni'],
       clienteIdentificacion: [''],
@@ -34,11 +34,31 @@ export class CrearComponent {
       clienteCodigoPostal: [],
       clienteCiudad: [],
       clienteProvincia: [],
-      clienteImagenes: []
+      clienteImagenes: this.fb.array([this.fb.control(null)])
     })
 
     this.formularioCliente.get('clienteIdentificacion')?.setValidators([
-      Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
+      Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);    
+  }
+
+  get clienteImagenes(): FormArray {
+    return this.formularioCliente.get('clienteImagenes') as FormArray;
+  }
+
+  agregarInput(): void {
+    if (this.clienteImagenes.length < 4) {
+      this.clienteImagenes.push(this.fb.control(null));
+    }
+  }
+
+  manejarCambioArchivo(event: any, index: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.clienteImagenes.at(index).setValue(file);
+      if (this.clienteImagenes.length < 4 && index === this.clienteImagenes.length - 1) {
+        this.agregarInput();
+      }
+    }
   }
 
   codigo: string = '';
@@ -75,6 +95,12 @@ export class CrearComponent {
       });
     }
   }
+}
+
+export function requeridoValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return control.value ? null : { requerido: true };
+  };
 }
 
 export function identificacionValidator(tipoDocumentoControl: AbstractControl): ValidatorFn {
