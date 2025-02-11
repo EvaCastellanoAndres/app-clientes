@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import * as fs from 'fs';
-import { promises as fs2 } from 'fs';
+import { promises as fsPromises } from 'fs';
 import * as path from 'path';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class ClientsService {
 
   private async readClientsFromFile() {
     try {
-      const data = await fs2.readFile(this.filePath, 'utf-8');
+      const data = await fsPromises.readFile(this.filePath, 'utf-8');
       return JSON.parse(data);
     } catch (error) {
       return [];
@@ -29,7 +29,7 @@ export class ClientsService {
   }
 
   private async writeClientsToFile(clients: any[]) {
-    await fs2.writeFile(this.filePath, JSON.stringify(clients, null, 2), 'utf-8');
+    await fsPromises.writeFile(this.filePath, JSON.stringify(clients, null, 2), 'utf-8');
   }
 
   async create(createClientDto: CreateClientDto, files?: Express.Multer.File[]) {
@@ -111,7 +111,7 @@ export class ClientsService {
       for (const imagePath of imagesToDelete) {
         const absolutePath = path.join(__dirname, '..', '..', imagePath);
         try {
-          await fs2.unlink(absolutePath); 
+          await fsPromises.unlink(absolutePath); 
         } catch (error) {
           console.error(`Error al borrar la imagen ${absolutePath}:`, error);
         }
