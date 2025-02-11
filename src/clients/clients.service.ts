@@ -68,12 +68,12 @@ export class ClientsService {
 
   async findOne(id: number) {
     const clients = await this.readClientsFromFile();
-    return clients.find(client => client.id === id);
+    return clients.find((client: { id: number; }) => client.id === id);     // return clients.find(client => client.id === id);
   }
 
   async update(id: number, updateClientDto: UpdateClientDto, files?: Express.Multer.File[]) {
     const clients = await this.readClientsFromFile();
-    const clientIndex = clients.findIndex(client => client.id === id);
+    const clientIndex = clients.findIndex((client: { id: number; }) => client.id === id);     // (client => client.id === id);
 
     if (clientIndex === -1) {
       throw new Error(`Cliente con ID ${id} no encontrado.`);
@@ -101,7 +101,7 @@ export class ClientsService {
 
   async remove(id: number) {
     const clients = await this.readClientsFromFile();
-    const position = clients.findIndex((e) => e.id === id);
+    const position = clients.findIndex((e: { id: number; }) => e.id === id);
   
     if (position !== -1) {
       const client = clients[position]; // Obtener el cliente antes de eliminarlo
@@ -117,7 +117,7 @@ export class ClientsService {
         }
       }
   
-      const updatedClients = clients.filter((_, index) => index !== position);
+      const updatedClients = clients.filter((_: any, index: any) => index !== position);
       await this.writeClientsToFile(updatedClients);
   
       return { message: `Cliente con ID ${id} eliminado.` };
@@ -128,7 +128,7 @@ export class ClientsService {
 
   async saveClientImages(id: number, files: Express.Multer.File[]) {
     const clients = await this.readClientsFromFile();
-    const clientIndex = clients.findIndex(client => client.id === id);
+    const clientIndex = clients.findIndex((client: { id: number; }) => client.id === id);
 
     if (clientIndex === -1) {
       throw new Error(`Cliente con ID ${id} no encontrado.`);

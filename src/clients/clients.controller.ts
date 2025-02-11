@@ -2,16 +2,18 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { extname as pathExtname } from 'path';
+import { ValidationPipe } from '@nestjs/common';
 
 @Controller('client')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
+  
 @UseInterceptors(
   FilesInterceptor('images', 4, {
     storage: diskStorage({
@@ -35,14 +37,12 @@ export class ClientsController {
   }),
 )
 async create(
-  @Body() createClientDto: CreateClientDto,
-  @UploadedFiles() files: Express.Multer.File[],
+  @Body(new ValidationPipe({ transform: true })) createClientDto: CreateClientDto,
+  @UploadedFiles() files: Express.Multer.File[],  
 ) {
   const client = await this.clientsService.create(createClientDto, files);
     return client;
 }
-
-
 
   @Get()
   findAll() {
@@ -50,7 +50,11 @@ async create(
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
+    const client = await this.clientsService.findOne(id); // Busca el cliente
+  if (!client) {
+    throw new Error(`Cliente con ID ${id} no encontrado.`);
+  }
     return this.clientsService.findOne(+id);
   }
 

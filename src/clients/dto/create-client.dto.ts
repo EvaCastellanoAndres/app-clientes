@@ -1,20 +1,19 @@
 import { IsNotEmpty, IsString, IsNumber, IsDateString, Matches, IsArray, IsOptional } from 'class-validator';
 import { IsAgeWithinRange } from 'src/common/decorators/is-age-within-range-decorator';
-// TODO:https://docs.nestjs.com/techniques/file-upload
 
 export class CreateClientDto {
   id:number;
 
-  @IsOptional()
-  @IsNumber()
-  codigo: number;
+  @IsNotEmpty()
+  @IsString()
+  codigo: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @Matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/)
   nombre: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   apellido1: string;
 
@@ -26,7 +25,7 @@ export class CreateClientDto {
   @IsString()
   identificacion: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @IsDateString({ strict: true }, { message: 'La fecha de nacimiento debe estar en formato YYYY-MM-DD.' })
   @IsAgeWithinRange(18, 60, { message: 'La edad debe estar entre 18 y 60 años.' })
   fechaNacimiento: string;
@@ -36,7 +35,7 @@ export class CreateClientDto {
   calle: string;
 
   @IsOptional()
-  portal: number;
+  portal: string;
 
   @IsOptional()
   piso: string;

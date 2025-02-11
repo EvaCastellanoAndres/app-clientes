@@ -18,5 +18,27 @@
     "imagenes": [
       "/data/uploads/images-1739202863303-986094487.jpg"
     ]
+  },
+  {
+    "id": 2,
+    "nombre": "wachuwachuwa",
+    "codigo": "1234.3-dAqñ",
+    "apellido1": "apellido 1 de prueba",
+    "identificacion": "4400985k",
+    "fechaNacimiento": "1999-11-11",
+    "calle": "calle de prueba",
+    "portal": "2",
+    "imagenes": []
+  },
+  {
+    "id": 3,
+    "nombre": "wachuwachuwa",
+    "codigo": "1234.3-dAqñ",
+    "apellido1": "apellido 1 de prueba",
+    "identificacion": "4400985k",
+    "fechaNacimiento": "1999-11-11",
+    "calle": "calle de prueba",
+    "portal": "2",
+    "imagenes": []
   }
 ]

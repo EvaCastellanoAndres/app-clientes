@@ -1,28 +1,26 @@
-import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate } from 'class-validator';
 import * as moment from 'moment';
 
-export function IsAgeWithinRange(minAge: number, maxAge: number, validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
-    registerDecorator({
-      name: 'isAgeWithinRange',
-      target: object.constructor,
-      propertyName: propertyName,
-      options: validationOptions,
-      validator: {
-        validate(value: any, args: ValidationArguments) {
-          if (!value) return false; // Si no hay valor, es inválido.
-          
-          // Parseamos la fecha de nacimiento de forma estricta.
-          const birthDate = moment(value, 'YYYY-MM-DD', true);
-          if (!birthDate.isValid()) return false;
-          
-          const age = moment().diff(birthDate, 'years');
-          return age >= minAge && age <= maxAge;
-        },
-        defaultMessage(args: ValidationArguments) {
-          return `La edad debe estar entre ${minAge} y ${maxAge} años.`;
-        }
-      },
-    });
-  };
+@ValidatorConstraint({ async: false })
+export class IsAgeWithinRangeConstraint implements ValidatorConstraintInterface {
+  validate(value: string, args: ValidationArguments) {
+    const minAge = args.constraints[0]; // Edad mínima
+    const maxAge = args.constraints[1]; // Edad máxima
+
+    if (!value) return false; // Asegúrate de que haya un valor
+
+    const birthDate = moment(value, 'YYYY-MM-DD');
+    const currentDate = moment();
+    const age = currentDate.diff(birthDate, 'years');
+
+    return age >= minAge && age <= maxAge; // Verifica si la edad está dentro del rango
+  }
+
+  defaultMessage(args: ValidationArguments): string {
+    return `La edad debe estar entre ${args.constraints[0]} y ${args.constraints[1]} años.`;
+  }
+}
+
+export function IsAgeWithinRange(minAge: number, maxAge: number, validationOptions?: any) {
+  return Validate(IsAgeWithinRangeConstraint, [minAge, maxAge], validationOptions);
 }
