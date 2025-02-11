@@ -2,9 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, Upl
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { extname as pathExtname } from 'path';
 
 @Controller('client')
 export class ClientsController {
@@ -20,13 +21,25 @@ export class ClientsController {
         cb(null, file.fieldname + '-' + uniqueSuffix + extname(file.originalname));
       },
     }),
+    fileFilter: (req, file, cb) => {
+      const fileTypes = /jpeg|jpg|png/;
+        const extname = fileTypes.test(pathExtname(file.originalname).toLowerCase());
+        const mimetype = fileTypes.test(file.mimetype);
+
+        if (extname && mimetype) {
+          return cb(null, true);
+        } else {
+          return cb(new Error('Solo se permiten imágenes (JPG, JPEG, PNG).'), false);
+        }
+    },
   }),
 )
 async create(
   @Body() createClientDto: CreateClientDto,
   @UploadedFiles() files: Express.Multer.File[],
 ) {
-  return this.clientsService.create(createClientDto, files);
+  const client = await this.clientsService.create(createClientDto, files);
+    return client;
 }
 
 

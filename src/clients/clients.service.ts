@@ -120,9 +120,23 @@ export class ClientsService {
       const updatedClients = clients.filter((_, index) => index !== position);
       await this.writeClientsToFile(updatedClients);
   
-      return { message: `Cliente con ID ${id} y sus imágenes han sido eliminados.` };
+      return { message: `Cliente con ID ${id} eliminado.` };
     } else {
       throw new Error(`Cliente con ID ${id} no encontrado.`);
+    }
+  }
+
+  async saveClientImages(id: number, files: Express.Multer.File[]) {
+    const clients = await this.readClientsFromFile();
+    const clientIndex = clients.findIndex(client => client.id === id);
+
+    if (clientIndex === -1) {
+      throw new Error(`Cliente con ID ${id} no encontrado.`);
+    }
+    const imagePaths = files.map(file => `/data/uploads/${file.filename}`);
+
+    if (!clients[clientIndex].imagenes) {
+      clients[clientIndex].imagenes = [];
     }
   }
   
