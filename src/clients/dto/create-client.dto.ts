@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsDateString, Matches, IsArray, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsDateString, Matches, IsArray, IsOptional, IsNotIn } from 'class-validator';
 import { IsAgeWithinRange } from 'src/common/decorators/is-age-within-range-decorator';
 
 export class CreateClientDto {
