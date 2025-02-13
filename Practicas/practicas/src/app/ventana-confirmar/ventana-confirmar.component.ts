@@ -17,6 +17,7 @@ export interface DatosVentana {
   codigoPostal: number;
   ciudad: string;
   provincia: string;
+  imagenes: [];
 }
 @Component({
   selector: 'app-ventana-confirmar',

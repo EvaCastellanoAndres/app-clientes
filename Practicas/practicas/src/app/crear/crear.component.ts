@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { ClienteService } from '../Service/cliente.service';
+import { Router } from '@angular/router';
 
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
 
@@ -17,28 +19,27 @@ export class CrearComponent {
 
   formularioCliente: FormGroup;
   
-  constructor(private fb: FormBuilder, public confirma: MatDialog) {
+  constructor(private fb: FormBuilder, public confirma: MatDialog, private clienteService: ClienteService, private router: Router) {
     this.formularioCliente = this.fb.group({
-      clienteCodigo: ['', Validators.required],
-      clienteNombre: ['', [requeridoValidator(), Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]],
-      clienteApellido1: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáÁéÉíÍóÓúÚ ]+$/)]],
+      clienteCodigo: ['', [Validators.required]],
+      clienteNombre: ['', [requeridoValidator(), nombreValidator()]],
+      clienteApellido1: ['', [requeridoValidator(), nombreValidator()]],
       clienteApellido2: [],
       tipoDocumento: ['dni'],
       clienteIdentificacion: [''],
-      clienteFechaNacimiento: ['', [Validators.required, edadValidator()]],
-      clienteCalle: [],
-      clientePortal: [],
-      clienteNumero: [],
+      clienteFechaNacimiento: ['', [edadValidator()]],
+      clienteCalle: ['', [Validators.required]],
+      clientePortal: ['', [Validators.required]],
       clientePiso: [],
       clienteEscalera: [],
-      clienteCodigoPostal: [],
-      clienteCiudad: [],
-      clienteProvincia: [],
+      clienteCodigoPostal: ['', [Validators.required]],
+      clienteCiudad: ['', [requeridoValidator(), nombreValidator()]],
+      clienteProvincia: ['', [requeridoValidator(), nombreValidator()]],
       clienteImagenes: this.fb.array([this.fb.control(null)])
     })
 
     this.formularioCliente.get('clienteIdentificacion')?.setValidators([
-      Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);    
+      Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
   }
 
   get clienteImagenes(): FormArray {
@@ -61,36 +62,22 @@ export class CrearComponent {
     }
   }
 
-  codigo: string = '';
-  nombre: string = '';
-  apellido1: string = '';
-  apellido2: string = '';
-  identificacion: string = '';
-  fechaNacimiento: Date = new Date;
-  calle: string = '';
-  portal: string = '';
-  piso: string = '';
-  escalera: string = '';
-  codigoPostal: number = 0;
-  ciudad: string = '';
-  provincia: string = '';
-
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
       this.confirma.open(VentanaConfirmarComponent, { 
-      data: {codigo: this.codigo,
-             nombre: this.nombre,
-             apellido1: this.apellido1,
-             apellido2: this.apellido2,
-             identificacion: this.identificacion,
-             fechaNacimiento: this.fechaNacimiento,
-             calle: this.calle,
-             portal: this.portal,
-             piso: this.piso,
-             escalera: this.escalera,
-             codigoPostal: this.codigoPostal,
-             ciudad: this.ciudad,
-             provincia: this.provincia
+      data: {codigo: this.formularioCliente.value.clienteCodigo,
+             nombre: this.formularioCliente.value.clienteNombre,
+             apellido1: this.formularioCliente.value.clienteApellido1,
+             apellido2: this.formularioCliente.value.clienteApellido2,
+             identificacion: this.formularioCliente.value.clienteIdentificacion,
+             fechaNacimiento: this.formularioCliente.value.clienteFechaNacimiento,
+             calle: this.formularioCliente.value.clienteCalle,
+             portal: this.formularioCliente.value.clientePortal,
+             piso: this.formularioCliente.value.clientePiso,
+             escalera: this.formularioCliente.value.clienteEscalera,
+             codigoPostal: this.formularioCliente.value.clienteCodigoPostal,
+             ciudad: this.formularioCliente.value.clienteCiudad,
+             provincia: this.formularioCliente.value.clienteProvincia,
             }
       });
     }
@@ -100,6 +87,23 @@ export class CrearComponent {
 export function requeridoValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     return control.value ? null : { requerido: true };
+  };
+}
+
+export function nombreValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
+    if (!regex.test(value)) {
+      return { nombreInvalido: true };
+    }
+
+    return null;
   };
 }
 

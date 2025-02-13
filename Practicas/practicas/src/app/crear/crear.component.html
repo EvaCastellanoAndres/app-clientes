@@ -2,38 +2,52 @@
     <div class="row">
         <div class="col-lg-3 col-md-2 col-sm-1"></div>
         <div class="col-lg-6 col-md-8 col-sm-10">
-            <form [formGroup]="formularioCliente" class="row g-3 mb-4" (submit)="abrirConfirmacion()">
+            <form [formGroup]="formularioCliente" class="row g-3 mb-4">
                 <div class="col-12">
-                    <label for="codigo" class="form-label">Código</label>
-                    <input matInput [(ngModel)]="codigo" type="text" class="form-control" id="codigo" name="clienteCodigo" formControlName="clienteCodigo">
+                    <label for="codigo" class="form-label">Código<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="codigo" name="clienteCodigo" formControlName="clienteCodigo" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigo'].invalid && formularioCliente.controls['clienteCodigo'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteCodigo'].invalid && formularioCliente.controls['clienteCodigo'].touched">
+                        Campo obligatorio.
+                    </div>
                 </div>
                 <div class="col-12">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input matInput [(ngModel)]="nombre" type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre" [ngClass]="{'invalid': formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched}">
+                    <label for="nombre" class="form-label">Nombre<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre" [ngClass]="{'invalid': formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched}">
                     <div *ngIf="formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched">
                         <div [hidden]="!formularioCliente.controls['clienteNombre'].errors?.['requerido']">
-                          Nombre obligatorio.
+                            Campo obligatorio.
+                        </div>
+                        <div *ngIf="formularioCliente.controls['clienteNombre'].errors?.['nombreInvalido']">
+                            El nombre no puede contener carácteres especiales.
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="apellido1" class="form-label">Primer Apellido</label>
-                    <input matInput [(ngModel)]="apellido1" type="text" class="form-control" id="apellido1" name="clienteApellido1" formControlName="clienteApellido1" [ngClass]="{'invalid': formularioCliente.controls['clienteApellido1'].invalid && formularioCliente.controls['clienteApellido1'].touched}">
+                    <label for="apellido1" class="form-label">Primer Apellido<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="apellido1" name="clienteApellido1" formControlName="clienteApellido1" [ngClass]="{'invalid': formularioCliente.controls['clienteApellido1'].invalid && formularioCliente.controls['clienteApellido1'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteApellido1'].invalid && formularioCliente.controls['clienteApellido1'].touched">
+                        <div [hidden]="!formularioCliente.controls['clienteApellido1'].errors?.['requerido']">
+                            Campo obligatorio.
+                        </div>
+                        <div *ngIf="formularioCliente.controls['clienteApellido1'].errors?.['nombreInvalido']">
+                            El apellido no puede contener carácteres especiales.
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="apellido2" class="form-label">Segundo Apellido</label>
-                    <input matInput [(ngModel)]="apellido2" type="text" class="form-control" id="apellido2" name="clienteApellido2" formControlName="clienteApellido2">
+                    <input matInput type="text" class="form-control" id="apellido2" name="clienteApellido2" formControlName="clienteApellido2">
                 </div>
                 <div class="col-md-6">
-                    <label for="inputSelect" class="form-label">Identificación</label>
+                    <label for="inputSelect" class="form-label">Identificación<span class="obligatorio">*</span></label>
                     <div class="input-group mb-3">
                         <select class="form-select" id="inputSelect" formControlName="tipoDocumento">
                         <option value="dni">DNI</option>
                         <option value="pasaporte">Pasaporte</option>
                         <option value="nie">NIE</option>
                         </select>
-                        <input matInput [(ngModel)]="identificacion" type="text" class="form-control" name="identificacion" formControlName="clienteIdentificacion" [ngClass]="{'invalid': formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched}">
-                        <div *ngIf="formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched">
+                        <input matInput type="text" class="form-control" name="identificacion" formControlName="clienteIdentificacion" [ngClass]="{'invalid': formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched}">
+                        <div *ngIf="formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched" class="col-12">
                             <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['identificacionInvalida']">
                               Documento inválido. Introduzca un DNI, Pasaporte o NIE válido.
                             </p>
@@ -50,8 +64,8 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <label for="nacimiento" class="form-label">Fecha de Nacimiento</label>
-                    <input matInput [(ngModel)]="fechaNacimiento" type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento" [ngClass]="{'invalid': formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched}">
+                    <label for="nacimiento" class="form-label">Fecha de Nacimiento<span class="obligatorio">*</span></label>
+                    <input matInput type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento" [ngClass]="{'invalid': formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched}">
                     <div *ngIf="formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched">
                         <p *ngIf="formularioCliente.controls['clienteFechaNacimiento'].errors?.['edadInvalida']">
                           Fecha inválida.
@@ -59,32 +73,57 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <label for="calle" class="form-label">Calle</label>
-                    <input matInput [(ngModel)]="calle" type="text" class="form-control" id="calle" name="clienteCalle" formContrlName="clienteCalle">
+                    <label for="calle" class="form-label">Calle<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="calle" name="clienteCalle" formControlName="clienteCalle" [ngClass]="{'invalid': formularioCliente.controls['clienteCalle'].invalid && formularioCliente.controls['clienteCalle'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteCalle'].invalid && formularioCliente.controls['clienteCalle'].touched">
+                        Campo obligatorio.
+                    </div>
                 </div>
                 <div class="col-md-3">
-                    <label for="portal" class="form-label">Portal</label>
-                    <input matInput [(ngModel)]="portal" type="text" class="form-control" id="portal" name="clientePortal" formControlName="clientePortal">
+                    <label for="portal" class="form-label">Número<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="portal" name="clientePortal" formControlName="clientePortal" [ngClass]="{'invalid': formularioCliente.controls['clientePortal'].invalid && formularioCliente.controls['clientePortal'].touched}">
+                    <div *ngIf="formularioCliente.controls['clientePortal'].invalid && formularioCliente.controls['clientePortal'].touched">
+                        Campo obligatorio.
+                    </div>
                 </div>
                 <div class="col-md-3">
                     <label for="piso" class="form-label">Piso</label>
-                    <input matInput [(ngModel)]="piso" type="text" class="form-control" id="piso" name="clientePiso" formControlName="clientePiso">
+                    <input matInput type="text" class="form-control" id="piso" name="clientePiso" formControlName="clientePiso">
                 </div>
                 <div class="col-md-6">
                     <label for="escalera" class="form-label">Escalera</label>
-                    <input matInput [(ngModel)]="escalera" type="text" class="form-control" id="escalera" name="clienteEscalera" formControlName="clienteEscalera">
+                    <input matInput type="text" class="form-control" id="escalera" name="clienteEscalera" formControlName="clienteEscalera">
                 </div>
                 <div class="col-md-3">
-                    <label for="codigoPostal" class="form-label">Código Postal</label>
-                    <input matInput [(ngModel)]="codigoPostal" type="text" class="form-control" id="codigoPostal" name="clienteCodigoPostal" formControlName="clienteCodigoPostal">
+                    <label for="codigoPostal" class="form-label">Código Postal<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="codigoPostal" name="clienteCodigoPostal" formControlName="clienteCodigoPostal" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched">
+                        Campo obligatorio.
+                    </div>
                 </div>
                 <div class="col-md-5">
-                    <label for="ciudad" class="form-label">Ciudad</label>
-                    <input matInput [(ngModel)]="ciudad" type="text" class="form-control" id="ciudad" name="clienteCiudad" formControlName="clienteCiudad">
+                    <label for="ciudad" class="form-label">Ciudad<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="ciudad" name="clienteCiudad" formControlName="clienteCiudad" [ngClass]="{'invalid': formularioCliente.controls['clienteCiudad'].invalid && formularioCliente.controls['clienteCiudad'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteCiudad'].invalid && formularioCliente.controls['clienteCiudad'].touched">
+                        <div [hidden]="!formularioCliente.controls['clienteCiudad'].errors?.['requerido']">
+                            Campo obligatorio.
+                        </div>
+                        <div *ngIf="formularioCliente.controls['clienteCiudad'].errors?.['nombreInvalido']">
+                            La ciudad no puede contener carácteres especiales.
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="provincia" class="form-label">Provincia</label>
-                    <input matInput [(ngModel)]="provincia" type="text" class="form-control" id="provincia" name="clienteProvincia" formControlName="clienteProvincia">
+                    <label for="provincia" class="form-label">Provincia<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="provincia" name="clienteProvincia" formControlName="clienteProvincia" [ngClass]="{'invalid': formularioCliente.controls['clienteProvincia'].invalid && formularioCliente.controls['clienteProvincia'].touched}">
+                    <div *ngIf="formularioCliente.controls['clienteProvincia'].invalid && formularioCliente.controls['clienteProvincia'].touched">
+                        <div [hidden]="!formularioCliente.controls['clienteProvincia'].errors?.['requerido']">
+                            Campo obligatorio.
+                        </div>
+                        <div *ngIf="formularioCliente.controls['clienteProvincia'].errors?.['nombreInvalido']">
+                            La provincia no puede contener carácteres especiales.
+                        </div>
+                    </div>
                 </div>
                 <div class="col-12">
                     <div class="mb-3">
@@ -96,7 +135,7 @@
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-4 text-center">
-                    <button type="submit" class="btn btn-dark">Enviar</button>
+                    <button type="submit" class="btn btn-dark" (click)="abrirConfirmacion()" [disabled]="formularioCliente.invalid">Enviar</button>
                 </div>
                 <div class="col-md-4 text-center">
                     <button type="reset" class="btn btn-dark">Limpiar</button>

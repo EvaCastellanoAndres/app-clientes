@@ -4,8 +4,9 @@ import { CrearComponent } from './crear/crear.component';
 import { InicioComponent } from './inicio/inicio.component';
 
 export const routes: Routes = [
+    { path: 'inicio', component: InicioComponent},
     { path: 'crear', component: CrearComponent },
-    { path: '', component: InicioComponent}
+    { path: '**', redirectTo: 'inicio'}
 ];
 
 @NgModule({
