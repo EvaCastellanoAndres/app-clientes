@@ -7,23 +7,29 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ClienteService {
-  private API_URL='http://10.100.240.93:3000/client';
+  private API_URL='https://app-clientes-4hsr.onrender.com/client';
   private clientes = new BehaviorSubject<any[]>([]);
   clientes$ = this.clientes.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  getClientes(): Observable<any[]> {
-    return this.http.get<any[]>(this.API_URL);
+  getClientes() {
+    return this.http.get(this.API_URL);
   }
   
-  /*getClientes() {
-    this.http.get<any[]>(this.API_URL).subscribe((data) => {
-      this.clientes.next(data);
-    })
-  }*/
-  annadirCliente(cliente: any) {
+  crearCliente(cliente: any): Observable<any> {
+    return this.http.post<any>(this.API_URL, cliente);
+  }
+
+  actualizarCliente(id: number, cliente: any): Observable<any> {
+    return this.http.put<any>(`${this.API_URL}/${id}`, cliente);
+  }
+  
+  eliminarCliente(id: number): Observable<any> {
+    return this.http.delete<void>(`${this.API_URL}/${id}`);
+  }
+  /*annadirCliente(cliente: any) {
     const clientesActuales = this.clientes.getValue();
     this.clientes.next([...clientesActuales, cliente]);
-  }
+  }*/
 }

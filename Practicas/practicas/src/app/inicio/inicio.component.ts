@@ -34,8 +34,15 @@ export class InicioComponent implements OnInit {
   /*mostrarClientes() {
     this.listadoClientes = this.clienteService.getClientes()
   }*/
-
   annadir() {
     this.router.navigate(['crear'])
+  }
+
+  eliminarCliente(id: number) {
+    if (confirm('¿Seguro que deseas eliminar este cliente?')) {
+      this.clienteService.eliminarCliente(id).subscribe(() => {
+        this.mostrarClientes();
+      });
+    }
   }
 }

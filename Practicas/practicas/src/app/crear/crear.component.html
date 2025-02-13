@@ -72,6 +72,7 @@
                         </p>
                     </div>
                 </div>
+                <h3>Direcciones</h3>
                 <div class="col-12">
                     <label for="calle" class="form-label">Calle<span class="obligatorio">*</span></label>
                     <input matInput type="text" class="form-control" id="calle" name="clienteCalle" formControlName="clienteCalle" [ngClass]="{'invalid': formularioCliente.controls['clienteCalle'].invalid && formularioCliente.controls['clienteCalle'].touched}">
@@ -125,6 +126,45 @@
                         </div>
                     </div>
                 </div>
+                <!--<button type="button" class="btn btn-dark" (click)="agregarDireccion()">Añadir</button>
+                <div formArrayName="direcciones">
+                    <div *ngFor="let direccion of direcciones.controls; let i = index" [formGroupName]="i" class="direccion-form">
+                        <div class="col-12">
+                            <label for="calle" class="form-label">Calle<span class="obligatorio">*</span></label>
+                            <input matInput type="text" class="form-control" id="calle" name="calle" formControlName="calle"> 
+                        </div>
+                        <div class="col-md-3">
+                            <label for="portal" class="form-label">Número<span class="obligatorio">*</span></label>
+                            <input matInput type="text" class="form-control" id="portal" name="numero" formControlName="numero" >
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="piso" class="form-label">Piso</label>
+                            <input matInput type="text" class="form-control" id="piso" name="piso" formControlName="piso">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="escalera" class="form-label">Escalera</label>
+                            <input matInput type="text" class="form-control" id="escalera" name="escalera" formControlName="clienteEscalera">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="codigoPostal" class="form-label">Código Postal<span class="obligatorio">*</span></label>
+                            <input matInput type="text" class="form-control" id="codigoPostal" name="codigoPostal" formControlName="codigoPostal">
+                            
+                        </div>
+                        <div class="col-md-5">
+                            <label for="ciudad" class="form-label">Ciudad<span class="obligatorio">*</span></label>
+                            <input matInput type="text" class="form-control" id="ciudad" name="ciudad" formControlName="ciudad" >
+                           
+                        </div>
+                        <div class="col-md-4">
+                            <label for="provincia" class="form-label">Provincia<span class="obligatorio">*</span></label>
+                            <input matInput type="text" class="form-control" id="provincia" name="provincia" formControlName="provincia">
+                        
+                        </div>
+                        <button type="button" class="btn btn-danger" (click)="eliminarDireccion(i)">Eliminar</button>
+                        <hr>
+                    </div>
+                </div>-->
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes DNI</label>

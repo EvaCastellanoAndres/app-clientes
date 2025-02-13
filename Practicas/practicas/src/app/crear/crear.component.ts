@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ClienteService } from '../Service/cliente.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
 
@@ -15,11 +15,19 @@ import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirma
   styleUrl: './crear.component.scss'
 })
 
-export class CrearComponent {
+export class CrearComponent implements OnInit{
 
   formularioCliente: FormGroup;
+  editMode: boolean = false;
+  clienteId: number | null = null;
   
-  constructor(private fb: FormBuilder, public confirma: MatDialog, private clienteService: ClienteService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    public confirma: MatDialog,
+    private clienteService: ClienteService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.formularioCliente = this.fb.group({
       clienteCodigo: ['', [Validators.required]],
       clienteNombre: ['', [requeridoValidator(), nombreValidator()]],
@@ -28,6 +36,7 @@ export class CrearComponent {
       tipoDocumento: ['dni'],
       clienteIdentificacion: [''],
       clienteFechaNacimiento: ['', [edadValidator()]],
+      /*direcciones: this.fb.array([]),*/
       clienteCalle: ['', [Validators.required]],
       clientePortal: ['', [Validators.required]],
       clientePiso: [],
@@ -41,6 +50,37 @@ export class CrearComponent {
     this.formularioCliente.get('clienteIdentificacion')?.setValidators([
       Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
   }
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.formularioCliente.patchValue(params);
+        this.clienteId = params['id'];
+        this.editMode = true;
+      }
+    });
+  }
+
+  /*get direcciones(): FormArray {
+    return this.formularioCliente.get('direcciones') as FormArray;
+  }
+
+  agregarDireccion() {
+    const direccionForm = this.fb.group({
+      calle: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      piso: [],
+      escalera: [],
+      codigoPostal: ['', [Validators.required]],
+      ciudad: ['', [requeridoValidator(), nombreValidator()]],
+      provincia: ['', [requeridoValidator(), nombreValidator()]]
+    });
+
+    this.direcciones.push(direccionForm);
+  }
+
+  eliminarDireccion(index: number) {
+    this.direcciones.removeAt(index);
+  }*/
 
   get clienteImagenes(): FormArray {
     return this.formularioCliente.get('clienteImagenes') as FormArray;
@@ -63,6 +103,16 @@ export class CrearComponent {
   }
 
   abrirConfirmacion () {
+    /*const dialogRef = this.confirma.open(VentanaConfirmarComponent, {
+      data: this.formularioCliente.value
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.guardarCliente(result);
+      }
+    });*/
+
     if (this.formularioCliente.valid) {
       this.confirma.open(VentanaConfirmarComponent, { 
       data: {codigo: this.formularioCliente.value.clienteCodigo,
@@ -78,10 +128,24 @@ export class CrearComponent {
              codigoPostal: this.formularioCliente.value.clienteCodigoPostal,
              ciudad: this.formularioCliente.value.clienteCiudad,
              provincia: this.formularioCliente.value.clienteProvincia,
+             imagenes: this.formularioCliente.value.clienteImagenes
             }
       });
     }
   }
+  /*guardarCliente(cliente: any) {
+    if (this.formularioCliente.valid) {
+      if (this.editMode && this.clienteId) {
+        this.clienteService.actualizarCliente(this.clienteId, cliente).subscribe(() => {
+          this.router.navigate(['/inicio']);
+        });
+      } else {
+        this.clienteService.crearCliente(cliente).subscribe(() => {
+          this.router.navigate(['/inicio']); // Redirigir después de crear
+        });
+      }
+    }
+  }*/
 }
 
 export function requeridoValidator(): ValidatorFn {

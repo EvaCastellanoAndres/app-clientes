@@ -34,13 +34,29 @@ export class VentanaConfirmarComponent {
   ){}
 
   confirmar () {
-    this.clienteService.annadirCliente(this.data);
-    this.dialogRef.close();
+    console.log("Confirmar presionado, enviando datos:", this.data);
+
+  this.clienteService.crearCliente(this.data).subscribe(
+    response => {
+      console.log("Cliente guardado con éxito:", response);
+      this.dialogRef.close();
+      this.router.navigate(['/inicio']);
+    },
+    error => {
+      console.error("Error al guardar el cliente:", error);
+    }
+  );
+    /*this.dialogRef.close(this.data);*/
+    /*this.clienteService.crearCliente(this.data).subscribe(() => {
+      this.dialogRef.close();
+      this.router.navigate(['/inicio']);
+    });*/
+    /*this.dialogRef.close();
     setTimeout(() => {
       this.router.navigate(['']);
-    }, 300);
+    }, 300);*/
   }
-  
+
   cancelar() {
     this.dialogRef.close();
   }
