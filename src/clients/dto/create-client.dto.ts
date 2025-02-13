@@ -1,9 +1,17 @@
-import { IsNotEmpty, IsString, IsNumber, IsDateString, Matches, IsArray, IsOptional } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsDateString,
+  Matches,
+  IsArray,
+  IsOptional,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 import { IsAgeWithinRange } from 'src/common/decorators/is-age-within-range-decorator';
 
 export class CreateClientDto {
-  id:number;
+  id: number;
 
   @IsNotEmpty()
   @IsString()
@@ -27,55 +35,61 @@ export class CreateClientDto {
   identificacion: string;
 
   @IsNotEmpty()
-  @IsDateString({ strict: true }, { message: 'La fecha de nacimiento debe estar en formato YYYY-MM-DD.' })
-  @IsAgeWithinRange(18, 60, { message: 'La edad debe estar entre 18 y 60 años.' })
+  @IsDateString(
+    { strict: true },
+    { message: 'La fecha de nacimiento debe estar en formato YYYY-MM-DD.' },
+  )
+  @IsAgeWithinRange(18, 60, {
+    message: 'La edad debe estar entre 18 y 60 años.',
+  })
   fechaNacimiento: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
-  @IsString({ each: true }) 
+  @IsString({ each: true })
   calle: string[];
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
-  @IsString({ each: true }) 
+  @IsString({ each: true })
   portal: string[];
 
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
-  @IsString({ each: true }) 
+  @IsString({ each: true })
   piso: string[];
 
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
-  @IsArray()
-  @IsString({ each: true }) 
-  escalera: string[];
+  //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  //@IsArray()
+  // @IsString({ each: true })
+  @IsString()
+  escalera: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : [Number(value)])) 
+  @Transform(({ value }) =>
+    Array.isArray(value) ? value.map(Number) : [Number(value)],
+  )
   @IsArray()
   @IsNumber({}, { each: true })
   codigoPostal: number[];
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
   @IsString({ each: true })
   ciudad: string[];
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   @IsArray()
-  @IsString({ each: true }) 
+  @IsString({ each: true })
   provincia: string[];
 
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
   @IsArray()
-  @IsString({ each: true }) 
-  imagenes?: string[];
+  imagenes?: [];
 }
