@@ -31,13 +31,13 @@ export class CreateClientDto {
   @IsAgeWithinRange(18, 60, { message: 'La edad debe estar entre 18 y 60 años.' })
   fechaNacimiento: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
   @IsArray()
   @IsString({ each: true }) 
   calle: string[];
 
-  @IsOptional()
+  @IsNotEmpty()
   @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
   @IsArray()
   @IsString({ each: true }) 
@@ -55,29 +55,23 @@ export class CreateClientDto {
   @IsString({ each: true }) 
   escalera: string[];
 
-  @IsOptional()
+  @IsNotEmpty()
   @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : [Number(value)])) 
   @IsArray()
   @IsNumber({}, { each: true })
   codigoPostal: number[];
 
-  @IsOptional()
+  @IsNotEmpty()
   @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
   @IsArray()
   @IsString({ each: true })
   ciudad: string[];
 
-  @IsOptional()
+  @IsNotEmpty()
   @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
   @IsArray()
   @IsString({ each: true }) 
   provincia: string[];
-
-  @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
-  @IsArray()
-  @IsString({ each: true }) 
-  poblacion:string[];
 
   @IsOptional()
   @IsArray()
