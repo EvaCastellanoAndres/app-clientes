@@ -74,6 +74,7 @@ export class CreateClientDto {
   provincia: string[];
 
   @IsOptional()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
   @IsArray()
   @IsString({ each: true }) 
   imagenes?: string[];
