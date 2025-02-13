@@ -358,5 +358,34 @@
     "imagenes": [
       "data/uploads/mclovin-driver-liscene.jpg"
     ]
+  },
+  {
+    "id": 12,
+    "nombre": "jacinta",
+    "codigo": "jdjsdhajei",
+    "apellido1": "apellido1",
+    "apellido2": "apellido2",
+    "identificacion": "42333125s",
+    "fechaNacimiento": "2000-11-11",
+    "calle": [
+      "calle1"
+    ],
+    "portal": [
+      "2"
+    ],
+    "piso": [
+      "33 izquierda"
+    ],
+    "escalera": "2",
+    "codigoPostal": [
+      50100
+    ],
+    "ciudad": [
+      "zgz"
+    ],
+    "provincia": [
+      "zgz"
+    ],
+    "imagenes": []
   }
 ]
