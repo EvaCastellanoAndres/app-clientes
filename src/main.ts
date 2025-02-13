@@ -8,10 +8,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: 'http://10.50.80.51:4200',
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization'
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
   });
+  
   
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useStaticAssets(join(__dirname, '..', 'public'));
