@@ -45,22 +45,25 @@ export class CreateClientDto {
   fechaNacimiento: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
-  @IsArray()
-  @IsString({ each: true })
-  calle: string[];
+ //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  //@IsArray()
+  // @IsString({ each: true })
+  @IsString()
+  calle: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
-  @IsArray()
-  @IsString({ each: true })
-  portal: string[];
+ //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  //@IsArray()
+  // @IsString({ each: true })
+  @IsString()
+  portal: string;
 
   @IsOptional()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
-  @IsArray()
-  @IsString({ each: true })
-  piso: string[];
+  //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  //@IsArray()
+  // @IsString({ each: true })
+  @IsString()
+  piso: string;
 
   @IsOptional()
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
@@ -70,24 +73,27 @@ export class CreateClientDto {
   escalera: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) =>
+  /*@Transform(({ value }) =>
     Array.isArray(value) ? value.map(Number) : [Number(value)],
   )
   @IsArray()
-  @IsNumber({}, { each: true })
+  @IsNumber({}, { each: true })*/
+  @IsNumber()
   codigoPostal: number[];
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
-  @IsArray()
-  @IsString({ each: true })
-  ciudad: string[];
+  //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  //@IsArray()
+  // @IsString({ each: true })
+  @IsString()
+  ciudad: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
-  @IsArray()
-  @IsString({ each: true })
-  provincia: string[];
+ //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  //@IsArray()
+  // @IsString({ each: true })
+  @IsString()
+  provincia: string;
 
   @IsOptional()
   @IsArray()
