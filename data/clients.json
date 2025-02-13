@@ -1,33 +1,20 @@
 [
   {
     "id": 1,
-    "nombre": "nombre de prueba",
-    "codigo": "1234",
+    "nombre": "maria",
+    "codigo": "gjgjg",
     "apellido1": "apellido 1 de prueba",
     "apellido2": "apellido 2 de prueba",
-    "identificacion": "4400985k",
-    "fechaNacimiento": "1999-11-11",
-    "calle": "calle de prueba",
-    "portal": "2",
-    "piso": "33 izquierda",
-    "escalera": "1",
-    "codigoPostal": "50100",
-    "ciudad": "zgz",
-    "provincia": "zgz",
-    "poblacion": "zgz",
-    "imagenes": [
-      "/data/uploads/images-1739202863303-986094487.jpg"
-    ]
-  },
-  {
-    "id": 2,
-    "nombre": "pruebecita",
-    "codigo": "1234.3-dAqñ",
-    "apellido1": "apellido 1 de prueba",
-    "identificacion": "345671",
-    "fechaNacimiento": "1999-11-11",
-    "calle": "calle de prueba",
-    "portal": "2",
+    "identificacion": "holaholitaa",
+    "fechaNacimiento": "2000-11-11",
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["1"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
+    "poblacion": ["zgz"],
     "imagenes": []
   }
 ]

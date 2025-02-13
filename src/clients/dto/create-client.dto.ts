@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsNumber, IsDateString, Matches, IsArray, IsOptional, IsNotIn } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsDateString, Matches, IsArray, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { IsAgeWithinRange } from 'src/common/decorators/is-age-within-range-decorator';
 
 export class CreateClientDto {
@@ -31,33 +32,52 @@ export class CreateClientDto {
   fechaNacimiento: string;
 
   @IsOptional()
-  @IsString()
-  calle: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true }) 
+  calle: string[];
 
   @IsOptional()
-  portal: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true }) 
+  portal: string[];
 
   @IsOptional()
-  piso: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true }) 
+  piso: string[];
 
   @IsOptional()
-  escalera: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true }) 
+  escalera: string[];
 
   @IsOptional()
-  @IsNumber()
-  codigoPostal: number;
+  @Transform(({ value }) => (Array.isArray(value) ? value.map(Number) : [Number(value)])) 
+  @IsArray()
+  @IsNumber({}, { each: true })
+  codigoPostal: number[];
 
   @IsOptional()
-  @IsString()
-  ciudad: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true })
+  ciudad: string[];
 
   @IsOptional()
-  @IsString()
-  provincia: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true }) 
+  provincia: string[];
 
   @IsOptional()
-  @IsString()
-  poblacion:string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value])) 
+  @IsArray()
+  @IsString({ each: true }) 
+  poblacion:string[];
 
   @IsOptional()
   @IsArray()
