@@ -45,6 +45,9 @@ export class ClientsService {
     if (clients.some(client => client.identificacion === createClientDto.identificacion)) {
       throw new Error('La identificación ya está en uso.');
     }
+    if (clients.some(client => client.codigo === createClientDto.codigo)) {
+      throw new Error('El código ya está en uso.');
+    }
 
     const newId =
       clients.length > 0 ? Math.max(...clients.map((c) => c.id)) + 1 : 1;
