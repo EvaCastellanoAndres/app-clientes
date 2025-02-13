@@ -189,7 +189,9 @@
     "provincia": [
       "zgz"
     ],
-    "imagenes": []
+    "imagenes": [
+      "data/uploads/anverso_2.jpg"
+    ]
   },
   {
     "id": 7,
@@ -221,7 +223,9 @@
     "provincia": [
       "zgz"
     ],
-    "imagenes": []
+    "imagenes": [
+      "data/uploads/844251.jpg"
+    ]
   },
   {
     "id": 8,
@@ -317,7 +321,9 @@
     "provincia": [
       "zgz"
     ],
-    "imagenes": []
+    "imagenes": [
+      "data/uploads/89bf06a4-3624-4430-b000-c9058525ece0_16-9-aspect-ratio_default_0.jpg"
+    ]
   },
   {
     "id": 11,
@@ -349,6 +355,8 @@
     "provincia": [
       "zgz"
     ],
-    "imagenes": []
+    "imagenes": [
+      "data/uploads/mclovin-driver-liscene.jpg"
+    ]
   }
 ]
