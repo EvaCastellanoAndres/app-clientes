@@ -7,26 +7,13 @@
     "apellido2": "apellido 2 de prueba",
     "identificacion": "holaholitaa",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
     "codigoPostal": 50101,
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -37,28 +24,13 @@
     "apellido2": "apellido 2 de prueba",
     "identificacion": "jejeje",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -69,28 +41,13 @@
     "apellido2": "apellido 2 de prueba",
     "identificacion": "1234",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -101,28 +58,13 @@
     "apellido2": "apellido 2 de prueba",
     "identificacion": "4321",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -133,28 +75,13 @@
     "apellido2": "apellido 2 de prueba",
     "identificacion": "2338",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -165,31 +92,14 @@
     "apellido2": "apellido 2 de prueba",
     "identificacion": "45680f",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
-    "imagenes": [
-      "anverso_2.jpg"
-    ]
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
+    "imagenes": ["anverso_2.jpg"]
   },
   {
     "id": 7,
@@ -199,31 +109,14 @@
     "apellido2": "apellido2",
     "identificacion": "45789d",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
-    "imagenes": [
-      "data/uploads/844251.jpg"
-    ]
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
+    "imagenes": []
   },
   {
     "id": 8,
@@ -233,28 +126,13 @@
     "apellido2": "apellido2",
     "identificacion": "378582394l",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -265,28 +143,13 @@
     "apellido2": "apellido2",
     "identificacion": "93483482",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
@@ -297,30 +160,16 @@
     "apellido2": "apellido2",
     "identificacion": "24572f",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": [
-      "data/uploads/89bf06a4-3624-4430-b000-c9058525ece0_16-9-aspect-ratio_default_0.jpg"
+      "89bf06a4-3624-4430-b000-c9058525ece0_16-9-aspect-ratio_default_0.jpg",
+      "844251.jpg"
     ]
   },
   {
@@ -331,31 +180,14 @@
     "apellido2": "apellido2",
     "identificacion": "049487p",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1",
-      "calle2"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
-    "escalera": [
-      "2"
-    ],
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
-    "imagenes": [
-      "mclovin-driver-liscene.jpg"
-    ]
+    "calle": ["calle1", "calle2"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
+    "escalera": ["2"],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
+    "imagenes": ["mclovin-driver-liscene.jpg"]
   },
   {
     "id": 12,
@@ -365,25 +197,13 @@
     "apellido2": "apellido2",
     "identificacion": "42333125s",
     "fechaNacimiento": "2000-11-11",
-    "calle": [
-      "calle1"
-    ],
-    "portal": [
-      "2"
-    ],
-    "piso": [
-      "33 izquierda"
-    ],
+    "calle": ["calle1"],
+    "portal": ["2"],
+    "piso": ["33 izquierda"],
     "escalera": "2",
-    "codigoPostal": [
-      50100
-    ],
-    "ciudad": [
-      "zgz"
-    ],
-    "provincia": [
-      "zgz"
-    ],
+    "codigoPostal": [50100],
+    "ciudad": ["zgz"],
+    "provincia": ["zgz"],
     "imagenes": []
   },
   {
