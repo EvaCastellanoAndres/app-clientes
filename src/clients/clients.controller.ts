@@ -83,9 +83,44 @@ export class ClientsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientsService.update(+id, updateClientDto);
-  }
+@UseInterceptors(
+  FilesInterceptor('images', 4, {
+    storage: diskStorage({
+      destination: 'data/uploads',
+      filename: (req, file, cb) => {
+        const uniqueSuffix =
+          Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(
+          null,
+          file.fieldname + '-' + uniqueSuffix + extname(file.originalname),
+        );
+      },
+    }),
+    fileFilter: (req, file, cb) => {
+      const fileTypes = /jpeg|jpg|png/;
+      const extname = fileTypes.test(
+        pathExtname(file.originalname).toLowerCase(),
+      );
+      const mimetype = fileTypes.test(file.mimetype);
+
+      if (extname && mimetype) {
+        return cb(null, true);
+      } else {
+        return cb(
+          new Error('Solo se permiten imágenes (JPG, JPEG, PNG).'),
+          false,
+        );
+      }
+    },
+  }),
+)
+async update(
+  @Param('id') id: string,
+  @Body() updateClientDto: UpdateClientDto,
+  @UploadedFiles() files: Express.Multer.File[],
+) {
+  return this.clientsService.update(+id, updateClientDto, files);
+}
 
   @Delete(':id')
   remove(@Param('id') id: string) {
