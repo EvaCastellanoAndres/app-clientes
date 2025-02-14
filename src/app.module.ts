@@ -22,7 +22,7 @@ import { join } from 'path';
     ClientsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'data', 'uploads'), 
-      serveRoot: '/uploads', 
+      serveRoot: '/data/uploads', 
     }),
   ],
   controllers: [AppController],
