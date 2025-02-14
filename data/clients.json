@@ -20,9 +20,7 @@
     "escalera": [
       "2"
     ],
-    "codigoPostal": [
-      50100
-    ],
+    "codigoPostal": 50101,
     "ciudad": [
       "zgz"
     ],
@@ -386,6 +384,23 @@
     "provincia": [
       "zgz"
     ],
+    "imagenes": []
+  },
+  {
+    "id": 13,
+    "nombre": "benedicto",
+    "codigo": "fnhgj4",
+    "apellido1": "apellido1",
+    "apellido2": "apellido2",
+    "identificacion": "25jhnf",
+    "fechaNacimiento": "2000-11-11",
+    "calle": "calle1",
+    "portal": "2",
+    "piso": "33 izquierda",
+    "escalera": "2",
+    "codigoPostal": 50007,
+    "ciudad": "zgz",
+    "provincia": "zgz",
     "imagenes": []
   }
 ]

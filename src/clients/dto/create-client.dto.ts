@@ -73,11 +73,11 @@ export class CreateClientDto {
   escalera: string;
 
   @IsNotEmpty()
-  @Transform(({ value }) =>
+ /*  @Transform(({ value }) =>
     Array.isArray(value) ? value.map(Number) : [Number(value)],
   )
-  @IsArray()
-  @IsNumber({}, { each: true })
+  @IsArray() */
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   codigoPostal: number;
 
