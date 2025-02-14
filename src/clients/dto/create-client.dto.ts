@@ -79,7 +79,7 @@ export class CreateClientDto {
   @IsArray()
   @IsNumber({}, { each: true })*/
   @IsNumber()
-  codigoPostal: number[];
+  codigoPostal: number;
 
   @IsNotEmpty()
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
