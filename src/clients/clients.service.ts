@@ -68,7 +68,7 @@ export class ClientsService {
       ciudad: createClientDto.ciudad,
       provincia: createClientDto.provincia,
       imagenes: files
-        ? files.map((file) => `/data/uploads/${file.filename}`)
+        ? files.map((file) => `/uploads/${file.filename}`)
         : [],
     };
 

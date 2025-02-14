@@ -21,8 +21,8 @@ import { join } from 'path';
     }),
     ClientsModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'), 
-      serveRoot: 'data/uploads', 
+      rootPath: join(__dirname, '..', 'data', 'uploads'), 
+      serveRoot: '/uploads', 
     }),
   ],
   controllers: [AppController],
