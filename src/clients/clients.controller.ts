@@ -115,7 +115,7 @@ export class ClientsController {
   }),
 )
 async update(
-  @Param('id') id: string,
+  @Param('id') id: number,
   @Body() updateClientDto: UpdateClientDto,
   @UploadedFiles() files: Express.Multer.File[],
 ) {
@@ -123,7 +123,7 @@ async update(
 }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.clientsService.remove(+id);
   }
 }
