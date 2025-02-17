@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ClienteService } from '../Service/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
 
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
 
@@ -15,10 +17,10 @@ import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirma
   styleUrl: './crear.component.scss'
 })
 
-export class CrearComponent implements OnInit{
+export class CrearComponent{
 
   formularioCliente: FormGroup;
-  editMode: boolean = false;
+  editMode = false;
   clienteId: number | null = null;
   
   constructor(
@@ -29,7 +31,7 @@ export class CrearComponent implements OnInit{
     private route: ActivatedRoute
   ) {
     this.formularioCliente = this.fb.group({
-      clienteCodigo: ['', [Validators.required]],
+      clienteCodigo: ['', [requeridoValidator()]],
       clienteNombre: ['', [requeridoValidator(), nombreValidator()]],
       clienteApellido1: ['', [requeridoValidator(), nombreValidator()]],
       clienteApellido2: [],
@@ -50,15 +52,7 @@ export class CrearComponent implements OnInit{
     this.formularioCliente.get('clienteIdentificacion')?.setValidators([
       Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
   }
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params['id']) {
-        this.formularioCliente.patchValue(params);
-        this.clienteId = params['id'];
-        this.editMode = true;
-      }
-    });
-  }
+
 
   /*get direcciones(): FormArray {
     return this.formularioCliente.get('direcciones') as FormArray;
@@ -102,17 +96,27 @@ export class CrearComponent implements OnInit{
     }
   }
 
+  /*codigoUnicoValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value) return of(null); // Si está vacío, no validar
+      return this.clienteService.verificarClienteExistente(control.value, '').pipe(
+        map(existe => (existe ? { codigoExistente: true } : null)),
+        catchError(() => of(null)) // Si hay error, no bloquear el formulario
+      );
+    };
+  }
+
+  identificacionUnicaValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value) return of(null);
+      return this.clienteService.verificarClienteExistente('', control.value).pipe(
+        map(existe => (existe ? { identificacionExistente: true } : null)),
+        catchError(() => of(null))
+      );
+    };
+  }*/
+
   abrirConfirmacion () {
-    /*const dialogRef = this.confirma.open(VentanaConfirmarComponent, {
-      data: this.formularioCliente.value
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.guardarCliente(result);
-      }
-    });*/
-
     if (this.formularioCliente.valid) {
       this.confirma.open(VentanaConfirmarComponent, { 
       data: {codigo: this.formularioCliente.value.clienteCodigo,
@@ -133,19 +137,6 @@ export class CrearComponent implements OnInit{
       });
     }
   }
-  /*guardarCliente(cliente: any) {
-    if (this.formularioCliente.valid) {
-      if (this.editMode && this.clienteId) {
-        this.clienteService.actualizarCliente(this.clienteId, cliente).subscribe(() => {
-          this.router.navigate(['/inicio']);
-        });
-      } else {
-        this.clienteService.crearCliente(cliente).subscribe(() => {
-          this.router.navigate(['/inicio']); // Redirigir después de crear
-        });
-      }
-    }
-  }*/
 }
 
 export function requeridoValidator(): ValidatorFn {

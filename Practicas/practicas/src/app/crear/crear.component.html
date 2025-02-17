@@ -7,8 +7,14 @@
                     <label for="codigo" class="form-label">Código<span class="obligatorio">*</span></label>
                     <input matInput type="text" class="form-control" id="codigo" name="clienteCodigo" formControlName="clienteCodigo" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigo'].invalid && formularioCliente.controls['clienteCodigo'].touched}">
                     <div *ngIf="formularioCliente.controls['clienteCodigo'].invalid && formularioCliente.controls['clienteCodigo'].touched">
-                        Campo obligatorio.
+                        <div [hidden]="!formularioCliente.controls['clienteCodigo'].errors?.['requerido']">
+                            Campo obligatorio.
+                        </div>
+                        <div *ngIf="formularioCliente.controls['clienteCodigo'].errors?.['codigoExistente']">
+                            Este código ya está registrado.
+                        </div>
                     </div>
+                    
                 </div>
                 <div class="col-12">
                     <label for="nombre" class="form-label">Nombre<span class="obligatorio">*</span></label>
@@ -97,7 +103,7 @@
                 </div>
                 <div class="col-md-3">
                     <label for="codigoPostal" class="form-label">Código Postal<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="codigoPostal" name="clienteCodigoPostal" formControlName="clienteCodigoPostal" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched}">
+                    <input matInput type="number" class="form-control" id="codigoPostal" name="clienteCodigoPostal" formControlName="clienteCodigoPostal" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched}">
                     <div *ngIf="formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched">
                         Campo obligatorio.
                     </div>

@@ -1,9 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { ClienteService } from '../Service/cliente.service';
 
 export interface DatosVentana {
+  id: string,
   codigo: string;
   nombre: string;
   apellido1: string;
@@ -21,11 +23,15 @@ export interface DatosVentana {
 }
 @Component({
   selector: 'app-ventana-confirmar',
-  imports: [ MatDialogModule ],
+  imports: [ MatDialogModule, CommonModule ],
   templateUrl: './ventana-confirmar.component.html',
   styleUrl: './ventana-confirmar.component.scss'
 })
 export class VentanaConfirmarComponent {
+  mensajeError: string = '';
+  editMode: boolean = false;
+  clienteId: number | null = null;
+
   constructor(
     public dialogRef: MatDialogRef<VentanaConfirmarComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DatosVentana,
@@ -34,27 +40,24 @@ export class VentanaConfirmarComponent {
   ){}
 
   confirmar () {
-    console.log("Confirmar presionado, enviando datos:", this.data);
-
-  this.clienteService.crearCliente(this.data).subscribe(
-    response => {
-      console.log("Cliente guardado con éxito:", response);
-      this.dialogRef.close();
-      this.router.navigate(['/inicio']);
-    },
-    error => {
-      console.error("Error al guardar el cliente:", error);
+    if (this.data.id) {
+      console.log("Editando cliente con ID:", this.data.id);
+      this.clienteService.actualizarCliente(this.data.id, this.data).subscribe(() => {
+        this.dialogRef.close(true);
+        this.router.navigate(['/inicio']);
+      });
+    } else {
+      console.log("Creando nuevo cliente:", this.data);
+      this.clienteService.crearCliente(this.data).subscribe(() => {
+        this.dialogRef.close(true);
+        this.router.navigate(['/inicio']);
+      });
     }
-  );
-    /*this.dialogRef.close(this.data);*/
     /*this.clienteService.crearCliente(this.data).subscribe(() => {
       this.dialogRef.close();
       this.router.navigate(['/inicio']);
-    });*/
-    /*this.dialogRef.close();
-    setTimeout(() => {
-      this.router.navigate(['']);
-    }, 300);*/
+    }
+  );*/
   }
 
   cancelar() {

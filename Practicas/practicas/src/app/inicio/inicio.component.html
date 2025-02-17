@@ -1,4 +1,4 @@
-<div class="container-xl">
+<div class="container">
     <div class="table-wrapper">
         <div class="table-title">
             <div class="row">
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <table class="table table-striped table-hover table-bordered table-content mt-3 mb-0" id="tablaClientes">
+        <table class="table table-striped table-hover table-bordered table-content align-middle mt-3 mb-0" id="tablaClientes">
             <thead>
               <tr class="text-center">
                 <th>Código</th>
@@ -37,9 +37,9 @@
                     <td>{{cliente.codigoPostal}}</td>
                     <td>{{cliente.ciudad}}</td>
                     <td>{{cliente.provincia}}</td>
-                    <td>{{cliente.imagenes}}</td>
+                    <td><img *ngFor="let image of cliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + image" alt="" style="height: 50px;"></td>
                     <td>
-                        <a href="#" class="btn"><i class="fa fa-edit edit"></i></a>
+                        <button type="button" (click)="editarCliente(cliente.id)" class="btn"><i class="fa fa-edit edit"></i></button>
                         <button type="button" (click)="eliminarCliente(cliente.id)" class="btn"><i class='fas fa-trash-alt delete'></i></button>
                     </td>
                 </tr>

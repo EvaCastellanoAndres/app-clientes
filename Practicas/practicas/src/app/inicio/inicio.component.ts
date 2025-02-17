@@ -20,9 +20,6 @@ export class InicioComponent implements OnInit {
 
   ngOnInit() {
     this.mostrarClientes();
-    this.clienteService.clientes$.subscribe(clientes => {
-      this.listadoClientes = clientes;
-    });
   }
 
   mostrarClientes() {
@@ -31,11 +28,12 @@ export class InicioComponent implements OnInit {
     });
   }
   
-  /*mostrarClientes() {
-    this.listadoClientes = this.clienteService.getClientes()
-  }*/
   annadir() {
     this.router.navigate(['crear'])
+  }
+
+  editarCliente(id: number) {
+    this.router.navigate(['/editar', id]);
   }
 
   eliminarCliente(id: number) {

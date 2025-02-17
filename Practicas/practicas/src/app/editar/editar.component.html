@@ -1,0 +1,86 @@
+<div class="conatiner mt-5">
+    <div class="row">
+        <div class="col-lg-3 col-md-2 col-sm-1"></div>
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <form [formGroup]="formularioCliente" class="row g-3 mb-4">
+                <div class="col-12">
+                    <label for="codigo" class="form-label">Código<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="codigo" name="codigo" formControlName="codigo">                
+                </div>
+                <div class="col-12">
+                    <label for="nombre" class="form-label">Nombre<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre">
+                </div>
+                <div class="col-md-6">
+                    <label for="apellido1" class="form-label">Primer Apellido<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="apellido1" name="apellido1" formControlName="apellido1">
+                </div>
+                <div class="col-md-6">
+                    <label for="apellido2" class="form-label">Segundo Apellido</label>
+                    <input matInput type="text" class="form-control" id="apellido2" name="apellido2" formControlName="apellido2">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputSelect" class="form-label">Identificación<span class="obligatorio">*</span></label>
+                    <div class="input-group mb-3">
+                        <select class="form-select" id="inputSelect" formControlName="tipoDocumento">
+                        <option value="dni">DNI</option>
+                        <option value="pasaporte">Pasaporte</option>
+                        <option value="nie">NIE</option>
+                        </select>
+                        <input matInput type="text" class="form-control" name="identificacion" formControlName="identificacion">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="nacimiento" class="form-label">Fecha de Nacimiento<span class="obligatorio">*</span></label>
+                    <input matInput type="date" class="form-control" id="nacimiento" name="fechaNacimiento" formControlName="fechaNacimiento">
+                </div>
+                <h3>Direcciones</h3>
+                <div class="col-12">
+                    <label for="calle" class="form-label">Calle<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="calle" name="calle" formControlName="calle">
+                </div>
+                <div class="col-md-3">
+                    <label for="portal" class="form-label">Número<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="portal" name="portal" formControlName="portal">
+                </div>
+                <div class="col-md-3">
+                    <label for="piso" class="form-label">Piso</label>
+                    <input matInput type="text" class="form-control" id="piso" name="piso" formControlName="piso">
+                </div>
+                <div class="col-md-6">
+                    <label for="escalera" class="form-label">Escalera</label>
+                    <input matInput type="text" class="form-control" id="escalera" name="escalera" formControlName="escalera">
+                </div>
+                <div class="col-md-3">
+                    <label for="codigoPostal" class="form-label">Código Postal<span class="obligatorio">*</span></label>
+                    <input matInput type="number" class="form-control" id="codigoPostal" name="codigoPostal" formControlName="codigoPostal">
+                </div>
+                <div class="col-md-5">
+                    <label for="ciudad" class="form-label">Ciudad<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="ciudad" name="ciudad" formControlName="ciudad">
+                </div>
+                <div class="col-md-4">
+                    <label for="provincia" class="form-label">Provincia<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="provincia" name="provincia" formControlName="provincia">
+                </div>
+                <!--<div class="col-12">
+                    <div class="mb-3">
+                        <label for="imagenes" class="form-label">Imágenes DNI</label>
+                        <div *ngFor="let imgCtrl of imagenes.controls; let i = index">
+                            <input class="form-control mt-2" type="file" accept="image/*" id="imagenes" formControlName="imagenes">
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-md-2"></div>
+                <div class="col-md-4 text-center">
+                    <button type="submit" class="btn btn-dark" (click)="abrirConfirmacion()" [disabled]="formularioCliente.invalid">Enviar</button>
+                </div>
+                <div class="col-md-4 text-center">
+                    <button type="reset" class="btn btn-dark">Limpiar</button>
+                </div>
+                <div class="col-md-2"></div>
+            </form>
+            <div class="col-lg-3 col-md-2 col-sm-1"></div>
+        </div>
+    </div>
+</div>
