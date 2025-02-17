@@ -5,6 +5,7 @@ import { ClientsModule } from './clients/clients.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -20,9 +21,10 @@ import { join } from 'path';
       },
     }),
     ClientsModule,
+    ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'data', 'uploads'), 
-      serveRoot: '/uploads', 
+      rootPath: join(__dirname, '..', 'data', 'uploads'),
+      serveRoot: '/uploads',
     }),
   ],
   controllers: [AppController],

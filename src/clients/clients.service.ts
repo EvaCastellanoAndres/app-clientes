@@ -92,24 +92,22 @@ export class ClientsService {
   async update(
     id: number,
     updateClientDto: UpdateClientDto,
-    files?: Express.Multer.File[],
-  ) {
+    imageUrls: string[],
+  ): Promise<any> {
     const clients = await this.readClientsFromFile();
     const clientIndex = clients.findIndex(
       (client: { id: number }) => client.id === id,
     ); // (client => client.id === id);
 
-    if (clientIndex === -1) {
+    if (!clients) {
       throw new Error(`Cliente con ID ${id} no encontrado.`);
     }
-
+    clients.images = imageUrls;
     const client = clients[clientIndex];
 
     // Mantener imágenes existentes si no se envían nuevas
     const existingImages = client.imagenes || [];
-    const newImages = files
-      ? files.map((file) => file.filename)
-      : [];
+    const newImages = imageUrls || [];
 
     if (existingImages.length + newImages.length > 4) {
       throw new Error('Solo se pueden subir hasta 4 imágenes por cliente.');
@@ -128,24 +126,31 @@ export class ClientsService {
   async remove(id: number) {
     const clients = await this.readClientsFromFile();
     const position = clients.findIndex((e) => e.id === id);
-  
+
     if (position !== -1) {
       const client = clients[position]; // Obtener el cliente antes de eliminarlo
       const imagesToDelete = client.imagenes || []; // Obtener las imágenes asociadas
-  
+
       // Borrar cada imagen del sistema de archivos
       for (const imageName of imagesToDelete) {
-        const absolutePath = path.join(__dirname, '..', '..', 'data', 'uploads', imageName); // Reconstruir la ruta
+        const absolutePath = path.join(
+          __dirname,
+          '..',
+          '..',
+          'data',
+          'uploads',
+          imageName,
+        ); // Reconstruir la ruta
         try {
           await fsPromises.unlink(absolutePath);
         } catch (error) {
           console.error(`Error al borrar la imagen ${absolutePath}:`, error);
         }
       }
-  
+
       const updatedClients = clients.filter((_, index) => index !== position);
       await this.writeClientsToFile(updatedClients);
-  
+
       return { message: `Cliente con ID ${id} eliminado.` };
     } else {
       throw new Error(`Cliente con ID ${id} no encontrado.`);
