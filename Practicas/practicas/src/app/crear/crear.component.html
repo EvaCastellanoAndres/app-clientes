@@ -5,44 +5,46 @@
             <form [formGroup]="formularioCliente" class="row g-3 mb-4">
                 <div class="col-12">
                     <label for="codigo" class="form-label">Código<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="codigo" name="clienteCodigo" formControlName="clienteCodigo" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigo'].invalid && formularioCliente.controls['clienteCodigo'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteCodigo'].invalid && formularioCliente.controls['clienteCodigo'].touched">
-                        <div [hidden]="!formularioCliente.controls['clienteCodigo'].errors?.['requerido']">
+                    <input matInput type="text" class="form-control" id="codigo" name="codigo" formControlName="codigo" [ngClass]="{'invalid': formularioCliente.controls['codigo'].invalid && formularioCliente.controls['codigo'].touched}">
+                    <div *ngIf="formularioCliente.controls['codigo'].invalid && formularioCliente.controls['codigo'].touched">
+                        <div [hidden]="!formularioCliente.controls['codigo'].errors?.['requerido']">
                             Campo obligatorio.
                         </div>
-                        <div *ngIf="formularioCliente.controls['clienteCodigo'].errors?.['codigoExistente']">
-                            Este código ya está registrado.
-                        </div>
                     </div>
-                    
+                    <div *ngIf="formularioCliente.controls['codigo'].pending">
+                        Validando código...
+                    </div>
+                    <div *ngIf="formularioCliente.controls['codigo'].errors?.['codigoExistente']">
+                        Este código ya está registrado.
+                    </div>
                 </div>
                 <div class="col-12">
                     <label for="nombre" class="form-label">Nombre<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="nombre" name="clienteNombre" formControlName="clienteNombre" [ngClass]="{'invalid': formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteNombre'].invalid && formularioCliente.controls['clienteNombre'].touched">
-                        <div [hidden]="!formularioCliente.controls['clienteNombre'].errors?.['requerido']">
+                    <input matInput type="text" class="form-control" id="nombre" name="nombre" formControlName="nombre" [ngClass]="{'invalid': formularioCliente.controls['nombre'].invalid && formularioCliente.controls['nombre'].touched}">
+                    <div *ngIf="formularioCliente.controls['nombre'].invalid && formularioCliente.controls['nombre'].touched">
+                        <div [hidden]="!formularioCliente.controls['nombre'].errors?.['requerido']">
                             Campo obligatorio.
                         </div>
-                        <div *ngIf="formularioCliente.controls['clienteNombre'].errors?.['nombreInvalido']">
+                        <div *ngIf="formularioCliente.controls['nombre'].errors?.['nombreInvalido']">
                             El nombre no puede contener carácteres especiales.
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="apellido1" class="form-label">Primer Apellido<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="apellido1" name="clienteApellido1" formControlName="clienteApellido1" [ngClass]="{'invalid': formularioCliente.controls['clienteApellido1'].invalid && formularioCliente.controls['clienteApellido1'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteApellido1'].invalid && formularioCliente.controls['clienteApellido1'].touched">
-                        <div [hidden]="!formularioCliente.controls['clienteApellido1'].errors?.['requerido']">
+                    <input matInput type="text" class="form-control" id="apellido1" name="apellido1" formControlName="apellido1" [ngClass]="{'invalid': formularioCliente.controls['apellido1'].invalid && formularioCliente.controls['apellido1'].touched}">
+                    <div *ngIf="formularioCliente.controls['apellido1'].invalid && formularioCliente.controls['apellido1'].touched">
+                        <div [hidden]="!formularioCliente.controls['apellido1'].errors?.['requerido']">
                             Campo obligatorio.
                         </div>
-                        <div *ngIf="formularioCliente.controls['clienteApellido1'].errors?.['nombreInvalido']">
+                        <div *ngIf="formularioCliente.controls['apellido1'].errors?.['nombreInvalido']">
                             El apellido no puede contener carácteres especiales.
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="apellido2" class="form-label">Segundo Apellido</label>
-                    <input matInput type="text" class="form-control" id="apellido2" name="clienteApellido2" formControlName="clienteApellido2">
+                    <input matInput type="text" class="form-control" id="apellido2" name="apellido2" formControlName="apellido2">
                 </div>
                 <div class="col-md-6">
                     <label for="inputSelect" class="form-label">Identificación<span class="obligatorio">*</span></label>
@@ -52,28 +54,34 @@
                         <option value="pasaporte">Pasaporte</option>
                         <option value="nie">NIE</option>
                         </select>
-                        <input matInput type="text" class="form-control" name="identificacion" formControlName="clienteIdentificacion" [ngClass]="{'invalid': formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched}">
-                        <div *ngIf="formularioCliente.controls['clienteIdentificacion'].invalid && formularioCliente.controls['clienteIdentificacion'].touched" class="col-12">
-                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['identificacionInvalida']">
+                        <input matInput type="text" class="form-control" name="identificacion" formControlName="identificacion" [ngClass]="{'invalid': formularioCliente.controls['identificacion'].invalid && formularioCliente.controls['identificacion'].touched}">
+                        <div *ngIf="formularioCliente.controls['identificacion'].invalid && formularioCliente.controls['identificacion'].touched" class="col-12">
+                            <p *ngIf="formularioCliente.controls['identificacion'].errors?.['identificacionInvalida']">
                               Documento inválido. Introduzca un DNI, Pasaporte o NIE válido.
                             </p>
-                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['dniInvalido']">
+                            <p *ngIf="formularioCliente.controls['identificacion'].errors?.['dniInvalido']">
                                 DNI inválido.
                             </p>
-                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['pasaporteInvalido']">
+                            <p *ngIf="formularioCliente.controls['identificacion'].errors?.['pasaporteInvalido']">
                                 Pasaporte inválido.
                             </p>
-                            <p *ngIf="formularioCliente.controls['clienteIdentificacion'].errors?.['nieInvalido']">
+                            <p *ngIf="formularioCliente.controls['identificacion'].errors?.['nieInvalido']">
                                 NIE inválido.
                             </p>
                         </div>
+                        <div *ngIf="formularioCliente.controls['identificacion'].pending">
+                            Validando identificación...
+                          </div>
+                          <div *ngIf="formularioCliente.controls['identificacion'].errors?.['identificacionExistente']">
+                            Esta identificación ya está registrada.
+                          </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="nacimiento" class="form-label">Fecha de Nacimiento<span class="obligatorio">*</span></label>
-                    <input matInput type="date" class="form-control" id="nacimiento" name="clienteFechaNacimiento" formControlName="clienteFechaNacimiento" [ngClass]="{'invalid': formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteFechaNacimiento'].invalid && formularioCliente.controls['clienteFechaNacimiento'].touched">
-                        <p *ngIf="formularioCliente.controls['clienteFechaNacimiento'].errors?.['edadInvalida']">
+                    <input matInput type="date" class="form-control" id="nacimiento" name="fechaNacimiento" formControlName="fechaNacimiento" [ngClass]="{'invalid': formularioCliente.controls['fechaNacimiento'].invalid && formularioCliente.controls['fechaNacimiento'].touched}">
+                    <div *ngIf="formularioCliente.controls['fechaNacimiento'].invalid && formularioCliente.controls['fechaNacimiento'].touched">
+                        <p *ngIf="formularioCliente.controls['fechaNacimiento'].errors?.['edadInvalida']">
                           Fecha inválida.
                         </p>
                     </div>
@@ -81,53 +89,53 @@
                 <h3>Direcciones</h3>
                 <div class="col-12">
                     <label for="calle" class="form-label">Calle<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="calle" name="clienteCalle" formControlName="clienteCalle" [ngClass]="{'invalid': formularioCliente.controls['clienteCalle'].invalid && formularioCliente.controls['clienteCalle'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteCalle'].invalid && formularioCliente.controls['clienteCalle'].touched">
+                    <input matInput type="text" class="form-control" id="calle" name="calle" formControlName="calle" [ngClass]="{'invalid': formularioCliente.controls['calle'].invalid && formularioCliente.controls['calle'].touched}">
+                    <div *ngIf="formularioCliente.controls['calle'].invalid && formularioCliente.controls['calle'].touched">
                         Campo obligatorio.
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="portal" class="form-label">Número<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="portal" name="clientePortal" formControlName="clientePortal" [ngClass]="{'invalid': formularioCliente.controls['clientePortal'].invalid && formularioCliente.controls['clientePortal'].touched}">
-                    <div *ngIf="formularioCliente.controls['clientePortal'].invalid && formularioCliente.controls['clientePortal'].touched">
+                    <input matInput type="text" class="form-control" id="portal" name="numero" formControlName="numero" [ngClass]="{'invalid': formularioCliente.controls['numero'].invalid && formularioCliente.controls['numero'].touched}">
+                    <div *ngIf="formularioCliente.controls['numero'].invalid && formularioCliente.controls['numero'].touched">
                         Campo obligatorio.
                     </div>
                 </div>
                 <div class="col-md-3">
                     <label for="piso" class="form-label">Piso</label>
-                    <input matInput type="text" class="form-control" id="piso" name="clientePiso" formControlName="clientePiso">
+                    <input matInput type="text" class="form-control" id="piso" name="piso" formControlName="piso">
                 </div>
                 <div class="col-md-6">
                     <label for="escalera" class="form-label">Escalera</label>
-                    <input matInput type="text" class="form-control" id="escalera" name="clienteEscalera" formControlName="clienteEscalera">
+                    <input matInput type="text" class="form-control" id="escalera" name="escalera" formControlName="escalera">
                 </div>
                 <div class="col-md-3">
                     <label for="codigoPostal" class="form-label">Código Postal<span class="obligatorio">*</span></label>
-                    <input matInput type="number" class="form-control" id="codigoPostal" name="clienteCodigoPostal" formControlName="clienteCodigoPostal" [ngClass]="{'invalid': formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteCodigoPostal'].invalid && formularioCliente.controls['clienteCodigoPostal'].touched">
+                    <input matInput type="number" class="form-control" id="codigoPostal" name="codigoPostal" formControlName="codigoPostal" [ngClass]="{'invalid': formularioCliente.controls['codigoPostal'].invalid && formularioCliente.controls['codigoPostal'].touched}">
+                    <div *ngIf="formularioCliente.controls['codigoPostal'].invalid && formularioCliente.controls['codigoPostal'].touched">
                         Campo obligatorio.
                     </div>
                 </div>
                 <div class="col-md-5">
                     <label for="ciudad" class="form-label">Ciudad<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="ciudad" name="clienteCiudad" formControlName="clienteCiudad" [ngClass]="{'invalid': formularioCliente.controls['clienteCiudad'].invalid && formularioCliente.controls['clienteCiudad'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteCiudad'].invalid && formularioCliente.controls['clienteCiudad'].touched">
-                        <div [hidden]="!formularioCliente.controls['clienteCiudad'].errors?.['requerido']">
+                    <input matInput type="text" class="form-control" id="ciudad" name="ciudad" formControlName="ciudad" [ngClass]="{'invalid': formularioCliente.controls['ciudad'].invalid && formularioCliente.controls['ciudad'].touched}">
+                    <div *ngIf="formularioCliente.controls['ciudad'].invalid && formularioCliente.controls['ciudad'].touched">
+                        <div [hidden]="!formularioCliente.controls['ciudad'].errors?.['requerido']">
                             Campo obligatorio.
                         </div>
-                        <div *ngIf="formularioCliente.controls['clienteCiudad'].errors?.['nombreInvalido']">
+                        <div *ngIf="formularioCliente.controls['ciudad'].errors?.['nombreInvalido']">
                             La ciudad no puede contener carácteres especiales.
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label for="provincia" class="form-label">Provincia<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="provincia" name="clienteProvincia" formControlName="clienteProvincia" [ngClass]="{'invalid': formularioCliente.controls['clienteProvincia'].invalid && formularioCliente.controls['clienteProvincia'].touched}">
-                    <div *ngIf="formularioCliente.controls['clienteProvincia'].invalid && formularioCliente.controls['clienteProvincia'].touched">
-                        <div [hidden]="!formularioCliente.controls['clienteProvincia'].errors?.['requerido']">
+                    <input matInput type="text" class="form-control" id="provincia" name="provincia" formControlName="provincia" [ngClass]="{'invalid': formularioCliente.controls['provincia'].invalid && formularioCliente.controls['provincia'].touched}">
+                    <div *ngIf="formularioCliente.controls['provincia'].invalid && formularioCliente.controls['provincia'].touched">
+                        <div [hidden]="!formularioCliente.controls['provincia'].errors?.['requerido']">
                             Campo obligatorio.
                         </div>
-                        <div *ngIf="formularioCliente.controls['clienteProvincia'].errors?.['nombreInvalido']">
+                        <div *ngIf="formularioCliente.controls['provincia'].errors?.['nombreInvalido']">
                             La provincia no puede contener carácteres especiales.
                         </div>
                     </div>
@@ -150,7 +158,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="escalera" class="form-label">Escalera</label>
-                            <input matInput type="text" class="form-control" id="escalera" name="escalera" formControlName="clienteEscalera">
+                            <input matInput type="text" class="form-control" id="escalera" name="escalera" formControlName="escalera">
                         </div>
                         <div class="col-md-3">
                             <label for="codigoPostal" class="form-label">Código Postal<span class="obligatorio">*</span></label>
@@ -174,8 +182,8 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes DNI</label>
-                        <div *ngFor="let imgCtrl of clienteImagenes.controls; let i = index">
-                            <input class="form-control mt-2" type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="clienteImagenes">
+                        <div *ngFor="let imgCtrl of imagenes.controls; let i = index">
+                            <input class="form-control mt-2" type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="imagenes">
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ClienteService } from '../Service/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of,  timer } from 'rxjs';
 import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
 
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
@@ -31,25 +31,25 @@ export class CrearComponent{
     private route: ActivatedRoute
   ) {
     this.formularioCliente = this.fb.group({
-      clienteCodigo: ['', [requeridoValidator()]],
-      clienteNombre: ['', [requeridoValidator(), nombreValidator()]],
-      clienteApellido1: ['', [requeridoValidator(), nombreValidator()]],
-      clienteApellido2: [],
+      codigo: ['', [requeridoValidator()], [codigoValidator(this.clienteService)]],
+      nombre: ['', [requeridoValidator(), nombreValidator()]],
+      apellido1: ['', [requeridoValidator(), nombreValidator()]],
+      apellido2: [],
       tipoDocumento: ['dni'],
-      clienteIdentificacion: [''],
-      clienteFechaNacimiento: ['', [edadValidator()]],
+      identificacion: ['', [], [identificacionExistenteValidator(this.clienteService)]],
+      fechaNacimiento: ['', [edadValidator()]],
       /*direcciones: this.fb.array([]),*/
-      clienteCalle: ['', [Validators.required]],
-      clientePortal: ['', [Validators.required]],
-      clientePiso: [],
-      clienteEscalera: [],
-      clienteCodigoPostal: ['', [Validators.required]],
-      clienteCiudad: ['', [requeridoValidator(), nombreValidator()]],
-      clienteProvincia: ['', [requeridoValidator(), nombreValidator()]],
-      clienteImagenes: this.fb.array([this.fb.control(null)])
+      calle: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
+      piso: [],
+      escalera: [],
+      codigoPostal: ['', [Validators.required]],
+      ciudad: ['', [requeridoValidator(), nombreValidator()]],
+      provincia: ['', [requeridoValidator(), nombreValidator()]],
+      imagenes: this.fb.array([this.fb.control(null)])
     })
 
-    this.formularioCliente.get('clienteIdentificacion')?.setValidators([
+    this.formularioCliente.get('identificacion')?.setValidators([
       Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
   }
 
@@ -76,63 +76,43 @@ export class CrearComponent{
     this.direcciones.removeAt(index);
   }*/
 
-  get clienteImagenes(): FormArray {
-    return this.formularioCliente.get('clienteImagenes') as FormArray;
+  get imagenes(): FormArray {
+    return this.formularioCliente.get('imagenes') as FormArray;
   }
 
   agregarInput(): void {
-    if (this.clienteImagenes.length < 4) {
-      this.clienteImagenes.push(this.fb.control(null));
+    if (this.imagenes.length < 4) {
+      this.imagenes.push(this.fb.control(null));
     }
   }
 
   manejarCambioArchivo(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
-      this.clienteImagenes.at(index).setValue(file);
-      if (this.clienteImagenes.length < 4 && index === this.clienteImagenes.length - 1) {
+      this.imagenes.at(index).setValue(file);
+      if (this.imagenes.length < 4 && index === this.imagenes.length - 1) {
         this.agregarInput();
       }
     }
   }
 
-  /*codigoUnicoValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value) return of(null); // Si está vacío, no validar
-      return this.clienteService.verificarClienteExistente(control.value, '').pipe(
-        map(existe => (existe ? { codigoExistente: true } : null)),
-        catchError(() => of(null)) // Si hay error, no bloquear el formulario
-      );
-    };
-  }
-
-  identificacionUnicaValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value) return of(null);
-      return this.clienteService.verificarClienteExistente('', control.value).pipe(
-        map(existe => (existe ? { identificacionExistente: true } : null)),
-        catchError(() => of(null))
-      );
-    };
-  }*/
-
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
       this.confirma.open(VentanaConfirmarComponent, { 
-      data: {codigo: this.formularioCliente.value.clienteCodigo,
-             nombre: this.formularioCliente.value.clienteNombre,
-             apellido1: this.formularioCliente.value.clienteApellido1,
-             apellido2: this.formularioCliente.value.clienteApellido2,
-             identificacion: this.formularioCliente.value.clienteIdentificacion,
-             fechaNacimiento: this.formularioCliente.value.clienteFechaNacimiento,
-             calle: this.formularioCliente.value.clienteCalle,
-             portal: this.formularioCliente.value.clientePortal,
-             piso: this.formularioCliente.value.clientePiso,
-             escalera: this.formularioCliente.value.clienteEscalera,
-             codigoPostal: this.formularioCliente.value.clienteCodigoPostal,
-             ciudad: this.formularioCliente.value.clienteCiudad,
-             provincia: this.formularioCliente.value.clienteProvincia,
-             imagenes: this.formularioCliente.value.clienteImagenes
+      data: {codigo: this.formularioCliente.value.codigo,
+             nombre: this.formularioCliente.value.nombre,
+             apellido1: this.formularioCliente.value.apellido1,
+             apellido2: this.formularioCliente.value.apellido2,
+             identificacion: this.formularioCliente.value.identificacion,
+             fechaNacimiento: this.formularioCliente.value.fechaNacimiento,
+             calle: this.formularioCliente.value.calle,
+             portal: this.formularioCliente.value.numero,
+             piso: this.formularioCliente.value.piso,
+             escalera: this.formularioCliente.value.escalera,
+             codigoPostal: this.formularioCliente.value.codigoPostal,
+             ciudad: this.formularioCliente.value.ciudad,
+             provincia: this.formularioCliente.value.provincia,
+             imagenes: this.formularioCliente.value.imagenes
             }
       });
     }
@@ -159,6 +139,48 @@ export function nombreValidator(): ValidatorFn {
     }
 
     return null;
+  };
+}
+
+export function codigoValidator(clienteService: ClienteService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    const codigo = control.value;
+    if (!codigo) {
+      return of(null);
+    }
+    return timer(1000).pipe(
+      switchMap(() =>
+        clienteService.verificarCodigoExistente(codigo).pipe(
+          map((existe) => (existe ? { codigoExistente: true } : null)),
+          catchError(() => of(null))
+        )
+      )
+    );
+  };
+}
+
+export function codigoExistenteValidator(clienteService: ClienteService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    const codigo = control.value;
+    if (!codigo) {
+      return of(null);
+    }
+    return clienteService.verificarCodigoExistente(codigo.value).pipe(
+      map((existe) => (existe ? { codigoExistente: true } : null))
+    );
+  };
+}
+
+export function identificacionExistenteValidator(clienteService: ClienteService): AsyncValidatorFn {
+  return (control: AbstractControl): Observable<ValidationErrors | null> => {
+    const identificacion = control.value;
+    if (!identificacion) {
+      return of(null);
+    }
+    return clienteService.verificarIdentificacionExistente(identificacion).pipe(
+      map((existe) => (existe ? { identificacionExistente: true } : null)),
+      catchError(() => of(null))
+    );
   };
 }
 
