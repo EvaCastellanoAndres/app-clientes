@@ -12,8 +12,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": 50101,
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": ["images-1739531783174-210272755.jpg"]
   },
   {
@@ -29,8 +29,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -46,8 +46,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -63,8 +63,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -80,8 +80,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -97,8 +97,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": ["anverso_2.jpg"]
   },
   {
@@ -114,8 +114,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -131,8 +131,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -148,8 +148,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -165,8 +165,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": [
       "89bf06a4-3624-4430-b000-c9058525ece0_16-9-aspect-ratio_default_0.jpg",
       "844251.jpg"
@@ -185,8 +185,8 @@
     "piso": ["33 izquierda"],
     "escalera": ["2"],
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": ["mclovin-driver-liscene.jpg"]
   },
   {
@@ -202,8 +202,8 @@
     "piso": ["33 izquierda"],
     "escalera": "2",
     "codigoPostal": [50100],
-    "ciudad": ["zgz"],
-    "provincia": ["zgz"],
+    "ciudad": ["Zaragoza"],
+    "provincia": ["Zaragoza"],
     "imagenes": []
   },
   {
@@ -219,8 +219,8 @@
     "piso": "33 izquierda",
     "escalera": "2",
     "codigoPostal": 50007,
-    "ciudad": "zgz",
-    "provincia": "zgz",
-    "imagenes": []
+    "ciudad": "Zaragoza",
+    "provincia": "Zaragoza",
+    "imagenes": ["images-1739776856113-176262347.jpg"]
   }
 ]

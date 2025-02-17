@@ -55,21 +55,21 @@ export class CreateClientDto {
  //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
-  @IsString()
+  //@IsString()
   portal: string;
 
   @IsOptional()
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
-  @IsString()
+  //@IsString()
   piso: string;
 
   @IsOptional()
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
-  @IsString()
+  //@IsString()
   escalera: string;
 
   @IsNotEmpty()
