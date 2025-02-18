@@ -97,7 +97,7 @@ export class CreateClientDto {
   provincia: string;
 
   @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  imagenes?: string[];
+  //@IsArray()
+  //@IsString()
+  imagenes?: any[];
 }
