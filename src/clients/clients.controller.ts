@@ -16,19 +16,19 @@ import { UpdateClientDto } from './dto/update-client.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
 import { diskStorage } from 'multer';
-import { extname } from 'path'; // Keep this import
-import { UploadService } from '../upload/upload.service'; // Asegúrate de importar tu servicio de carga de imágenes
+import { extname } from 'path';
+import { UploadService } from '../upload/upload.service';
 
 @Controller('client')
 export class ClientsController {
   constructor(
     private readonly clientsService: ClientsService,
-    private readonly uploadService: UploadService, // Inyectar el servicio de carga
+    private readonly uploadService: UploadService,
   ) {}
 
   @Post()
   @UseInterceptors(
-    FilesInterceptor('images', 4, {
+    FilesInterceptor('files', 4, {
       // Usamos Multer para manejar la subida de imágenes
       storage: diskStorage({
         destination: 'data/uploads',
@@ -102,7 +102,7 @@ export class ClientsController {
 
   @Patch(':id')
   @UseInterceptors(
-    FilesInterceptor('images', 4, {
+    FilesInterceptor('files', 4, {
       storage: diskStorage({
         destination: 'data/uploads',
         filename: (req, file, cb) => {
@@ -135,15 +135,13 @@ export class ClientsController {
   async update(
     @Param('id') id: number,
     @Body() updateClientDto: UpdateClientDto,
-    @UploadedFiles() files: Express.Multer.File[], // Recibir las imágenes subidas
+    @UploadedFiles() files?: Express.Multer.File[],  // <-- '?' permite que sea opcional
   ) {
-    // Procesar las imágenes antes de actualizar
-    const imageUrls = await Promise.all(
-      files.map(async (file) => {
-        return await this.uploadService.uploadImage(file);
-      }),
-    );
-
+    // Si no hay archivos, simplemente envía un array vacío en lugar de undefined
+    const imageUrls = files?.length 
+      ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
+      : []; // <-- Ahora imageUrls será [] si no se enviaron archivos
+  
     return this.clientsService.update(+id, updateClientDto, imageUrls);
   }
 
