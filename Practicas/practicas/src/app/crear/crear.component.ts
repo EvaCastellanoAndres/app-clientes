@@ -93,6 +93,22 @@ export class CrearComponent{
       if (this.imagenes.length < 4 && index === this.imagenes.length - 1) {
         this.agregarInput();
       }
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'evamaria'); // 📌 Reemplaza con tu "upload preset" de Cloudinary
+
+      fetch('https://api.cloudinary.com/v1_1/dmhemvly5/image/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Imagen subida con éxito:", data);
+        this.formularioCliente.patchValue({ clienteImagen: data.secure_url }); // Guardamos la URL en el formulario
+      })
+      .catch(error => {
+        console.error("Error al subir la imagen:", error);
+      });
     }
   }
 
@@ -177,9 +193,17 @@ export function identificacionExistenteValidator(clienteService: ClienteService)
     if (!identificacion) {
       return of(null);
     }
-    return clienteService.verificarIdentificacionExistente(identificacion).pipe(
+    /*return clienteService.verificarIdentificacionExistente(identificacion).pipe(
       map((existe) => (existe ? { identificacionExistente: true } : null)),
       catchError(() => of(null))
+    );*/
+    return timer(1000).pipe(
+      switchMap(() =>
+        clienteService.verificarCodigoExistente(identificacion).pipe(
+          map((existe) => (existe ? { identificacionExistente: true } : null)),
+          catchError(() => of(null))
+        )
+      )
     );
   };
 }

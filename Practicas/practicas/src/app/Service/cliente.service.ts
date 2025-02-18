@@ -28,7 +28,7 @@ export class ClienteService {
 
   actualizarCliente(id: string, cliente: any): Observable<any> {
     console.log("Enviando datos al servidor:", cliente);
-    return this.http.put<any>(`${this.API_URL}/${id}`, cliente);
+    return this.http.patch<any>(`${this.API_URL}/${id}`, cliente);
   }
   
   eliminarCliente(id: number): Observable<any> {
@@ -50,13 +50,5 @@ export class ClienteService {
       }),
       catchError(() => of(false))
     );
-  }
-
-  verificarClienteExistente(codigo: string, identificacion: string): Observable<boolean> {
-    return this.http.get<any[]>(this.API_URL).pipe(
-      debounceTime(500),
-      map(clientes => {
-       return clientes.some(cliente => cliente.codigo === codigo || cliente.identificacion === identificacion);
-      }));
   }
 }

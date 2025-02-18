@@ -69,7 +69,7 @@
                                 NIE inválido.
                             </p>
                         </div>
-                        <div *ngIf="formularioCliente.controls['identificacion'].pending">
+                        <div *ngIf="formularioCliente.controls['identificacion'].pending" class="col-12">
                             Validando identificación...
                           </div>
                           <div *ngIf="formularioCliente.controls['identificacion'].errors?.['identificacionExistente']">
