@@ -62,29 +62,27 @@ export class ClientsController {
   async create(
     @Body(new ValidationPipe({ transform: true }))
     createClientDto: CreateClientDto,
-    @UploadedFiles() files: Express.Multer.File[], // Recibir las imágenes subidas
+    @UploadedFiles() files?: Express.Multer.File[], // Hacer opcional
   ) {
     try {
-      // Llamar al servicio de carga para obtener la URL de las imágenes
-      const imageUrls = await Promise.all(
-        files.map(async (file) => {
-          return await this.uploadService.uploadImage(file); // Asegúrate de que el servicio se encargue de la carga
-        }),
-      );
-
+      // Si files es undefined o vacío, asignamos un array vacío
+      const imageUrls = files?.length 
+        ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
+        : [];
+  
       // Guardar el cliente con la URL de las imágenes
       const client = await this.clientsService.create({
         ...createClientDto,
         imagenes: imageUrls,
       });
-
+  
       return client;
     } catch (error) {
       throw new BadRequestException(
         'Error al crear el cliente: ' + error.message,
       );
     }
-  }
+  }  
 
   @Get()
   findAll() {
