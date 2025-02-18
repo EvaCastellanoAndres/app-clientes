@@ -131,20 +131,21 @@ export class ClientsController {
     }),
   )
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string, // <-- Cambiar a string
     @Body() updateClientDto: UpdateClientDto,
-    @UploadedFiles() files?: Express.Multer.File[],  // <-- '?' permite que sea opcional
+    @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    // Si no hay archivos, simplemente envía un array vacío en lugar de undefined
-    const imageUrls = files?.length 
-      ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
-      : []; // <-- Ahora imageUrls será [] si no se enviaron archivos
+    const numericId = Number(id); // <-- Convertir manualmente
   
-    return this.clientsService.update(+id, updateClientDto, imageUrls);
+    if (isNaN(numericId)) {
+      throw new BadRequestException('ID inválido');
+    }
+  
+    const imageUrls = files?.length
+      ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
+      : [];
+  
+    return this.clientsService.update(numericId, updateClientDto, imageUrls);
   }
-
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.clientsService.remove(+id);
-  }
+  
 }
