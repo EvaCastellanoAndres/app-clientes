@@ -49,7 +49,7 @@ export class CreateClientDto {
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
-  @IsString()
+ // @IsString()
   calle: string;
 
   @IsNotEmpty()
@@ -86,14 +86,14 @@ export class CreateClientDto {
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
-  @IsString()
+ // @IsString()
   ciudad: string;
 
   @IsNotEmpty()
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
-  @IsString()
+ // @IsString()
   provincia: string;
 
   @IsOptional()
