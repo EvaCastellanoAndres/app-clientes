@@ -147,5 +147,8 @@ export class ClientsController {
   
     return this.clientsService.update(numericId, updateClientDto, imageUrls);
   }
-  
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return this.clientsService.remove(+id);
+  }
 }
