@@ -1,13 +1,11 @@
 .table-title {
-    color: #04fbff;
+    color: white;
     background-color: #153963;
     padding: 0.7rem;
 }
 
 .btn-light {
     color: #153963;
-    background-color: #04fbff;
-    border-color: #04fbff;
 }
 
 th {
@@ -15,10 +13,13 @@ th {
     color: #153963;
 }
 
-.delete {
-    color: #e20004;
+.view {
+    color: rgb(52, 174, 255);
 }
-
 .edit {
     color: #f89e49;
+}
+
+.delete {
+    color: #e20004;
 }

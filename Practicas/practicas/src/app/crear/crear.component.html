@@ -1,4 +1,14 @@
-<div class="conatiner mt-5">
+<div class="conatiner">
+    <div class="row titulo">
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <h4>Nuevo Cliente</h4>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 text-end">
+            <a href="/inicio" class="btn btn-light"><i class='fas fa-arrow-circle-left'></i>  Atrás</a>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+    </div>
     <div class="row">
         <div class="col-lg-3 col-md-2 col-sm-1"></div>
         <div class="col-lg-6 col-md-8 col-sm-10">
@@ -86,7 +96,7 @@
                         </p>
                     </div>
                 </div>
-                <h3>Direcciones</h3>
+                <!--<h5>Direcciones</h5>-->
                 <div class="col-12">
                     <label for="calle" class="form-label">Calle<span class="obligatorio">*</span></label>
                     <input matInput type="text" class="form-control" id="calle" name="calle" formControlName="calle" [ngClass]="{'invalid': formularioCliente.controls['calle'].invalid && formularioCliente.controls['calle'].touched}">

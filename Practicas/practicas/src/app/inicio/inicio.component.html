@@ -1,50 +1,53 @@
 <div class="container">
-    <div class="table-wrapper">
-        <div class="table-title">
-            <div class="row">
-                <div class="col-lg-6 col-sm-6">
-                    <h4>Clientes</h4>
-                </div>
-                <div class="col-lg-6 col-sm-6 text-end">
-                    <button class="btn btn-light" (click)="annadir()">
-                        <i class='fas fa-plus-circle'></i><span> Añadir</span>
-                    </button>
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <h4>Clientes</h4>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 text-end">
+                        <button class="btn btn-light" (click)="annadir()">
+                            <i class='fas fa-plus-circle'></i><span> Añadir</span>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <table class="table table-hover table-bordered table-content align-middle mt-3 mb-0" id="tablaClientes">
-            <thead>
-              <tr class="text-center align-middle">
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Identificación</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Dirección</th>
-                <th>Código Postal</th>
-                <th>Ciudad</th>
-                <th>Provincia</th>
-                <th>Imágenes</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let cliente of listadoClientes" class="text-center">
-                    <td>{{cliente.codigo}}</td>
-                    <td>{{cliente.nombre}} {{cliente.apellido1}} {{cliente.apellido2}}</td>
-                    <td>{{cliente.identificacion}}</td>
-                    <td>{{cliente.fechaNacimiento | date:'dd/MM/yyyy'}}</td>
-                    <td>{{cliente.calle}} {{cliente.portal}}, {{cliente.piso}} {{cliente.escalera}}</td>
-                    <td>{{cliente.codigoPostal}}</td>
-                    <td>{{cliente.ciudad}}</td>
-                    <td>{{cliente.provincia}}</td>
-                    <td><img *ngFor="let image of cliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + image" alt="" style="height: 50px;"></td>
-                    <td>
-                        <button type="button" (click)="editarCliente(cliente.id)" class="btn"><i class="fa fa-edit edit"></i></button>
-                        <button type="button" (click)="eliminarCliente(cliente.id)" class="btn"><i class='fas fa-trash-alt delete'></i></button>
-                    </td>
+            <table class="table table-hover table-bordered table-content align-middle mt-3" id="tablaClientes">
+                <thead>
+                <tr class="text-center align-middle">
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Identificación</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Dirección</th>
+                    <th>Código Postal</th>
+                    <th>Ciudad</th>
+                    <th>Provincia</th>
+                    <th>Imágenes</th>
+                    <th>Acciones</th>
                 </tr>
-                <td *ngIf="listadoClientes.length == 0" colspan="10" style="text-align: center;">No hay clientes registrados</td>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cliente of listadoClientes" class="text-center">
+                        <td>{{cliente.codigo}}</td>
+                        <td>{{cliente.nombre}} {{cliente.apellido1}} {{cliente.apellido2}}</td>
+                        <td>{{cliente.identificacion}}</td>
+                        <td>{{cliente.fechaNacimiento | date:'dd/MM/yyyy'}}</td>
+                        <td>{{cliente.calle}} {{cliente.portal}} {{cliente.piso}} {{cliente.escalera}}</td>
+                        <td>{{cliente.codigoPostal}}</td>
+                        <td>{{cliente.ciudad}}</td>
+                        <td>{{cliente.provincia}}</td>
+                        <td><img *ngFor="let imagen of cliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + imagen" alt="" style="height: 50px;"></td>
+                        <td>
+                            <button type="button" (click)="ver(cliente.id)" class="btn"><i class='fas fa-eye view'></i></button>
+                            <button type="button" (click)="editarCliente(cliente.id)" class="btn"><i class="fa fa-edit edit"></i></button>
+                            <button type="button" (click)="eliminarCliente(cliente.id)" class="btn"><i class='fas fa-trash-alt delete'></i></button>
+                        </td>
+                    </tr>
+                    <td *ngIf="listadoClientes.length == 0" colspan="10" style="text-align: center;">No hay clientes registrados</td>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

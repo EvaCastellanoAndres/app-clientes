@@ -15,7 +15,7 @@
         <p class="col-4">Código Postal: {{ data.codigoPostal }}</p>
         <p class="col-4">Ciudad: {{ data.ciudad }}</p>
         <p class="col-4">Provinvia: {{ data.provincia }}</p>
-        <p class="col-12">Imágenes: {{ data.imagenes }}</p>
+        <p class="col-12">Imágenes: <img *ngFor="let imagen of data.imagenes" [src]="'https://res.cloudinary.com/dmhemvly5/image/upload/v1739955090/' + imagen" alt="" style="height: 50px;"></p>
     </div>
     <div class="row">
         <div class="col-md-1"></div>

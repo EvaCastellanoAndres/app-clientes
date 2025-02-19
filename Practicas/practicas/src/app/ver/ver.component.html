@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <h4>Detalles</h4>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-end">
+                    <a href="/inicio" class="btn btn-light"><i class='fas fa-arrow-circle-left'></i>  Atrás</a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover table-bordered align-middle mt-3">
+            <tbody>
+                <tr>
+                    <td class="etiqueta"><label><b>Código</b></label></td>
+                    <td><span>{{ detallesCliente.codigo }}</span></td>
+                </tr>
+                <tr>
+                  <td class="etiqueta"><label><b>Nombre</b></label></td>
+                  <td><span>{{ detallesCliente.nombre }}</span></td>
+                </tr>
+                <tr>
+                  <td class="etiqueta"><label><b>Primer Apellido</b></label> </td>
+                  <td><span>{{ detallesCliente.apellido1 }}</span></td>
+                </tr>
+                <tr>
+                  <td class="etiqueta"> <label><b>Segundo Apellido</b></label></td>
+                  <td> <span>{{ detallesCliente.apellido2 }}</span></td>
+                </tr>
+                <tr>
+                  <td class="etiqueta"> <label><b>Identificación</b></label></td>
+                  <td><span>{{ detallesCliente.identificacion }}</span></td>
+                </tr>
+                <tr>
+                  <td class="etiqueta"> <label><b>Fecha de Nacimiento</b></label></td>
+                  <td> <span>{{ detallesCliente.fechaNacimiento }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Calle</b></label></td>
+                    <td> <span>{{ detallesCliente.calle }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Número</b></label></td>
+                    <td> <span>{{ detallesCliente.numero }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Piso</b></label></td>
+                    <td> <span>{{ detallesCliente.piso }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Escalera</b></label></td>
+                    <td> <span>{{ detallesCliente.escalera }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Código Postal</b></label></td>
+                    <td> <span>{{ detallesCliente.codigoPostal }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Ciudad</b></label></td>
+                    <td> <span>{{ detallesCliente.ciudad }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Provincia</b></label></td>
+                    <td> <span>{{ detallesCliente.provincia }}</span></td>
+                </tr>
+                <tr>
+                    <td class="etiqueta"> <label><b>Imágenes</b></label></td>
+                    <td> <span><img *ngFor="let imagen of detallesCliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + imagen" alt="" style="height: 50px;"></span></td>
+                </tr>
+              </tbody>
+        </table>
+    </div>
+</div>

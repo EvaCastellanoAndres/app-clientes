@@ -47,7 +47,7 @@ export class CrearComponent{
       ciudad: ['', [requeridoValidator(), nombreValidator()]],
       provincia: ['', [requeridoValidator(), nombreValidator()]],
       imagenes: this.fb.array([this.fb.control(null)])
-    })
+    });
 
     this.formularioCliente.get('identificacion')?.setValidators([
       Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
@@ -97,7 +97,7 @@ export class CrearComponent{
       formData.append('file', file);
       formData.append('upload_preset', 'evamaria'); // 📌 Reemplaza con tu "upload preset" de Cloudinary
 
-      fetch('https://api.cloudinary.com/v1_1/dmhemvly5/image/upload', {
+      fetch('https://api.cloudinary.com/v1_1/dmhemvly5/image/upload/v1739955090', {
         method: 'POST',
         body: formData
       })
@@ -171,18 +171,6 @@ export function codigoValidator(clienteService: ClienteService): AsyncValidatorF
           catchError(() => of(null))
         )
       )
-    );
-  };
-}
-
-export function codigoExistenteValidator(clienteService: ClienteService): AsyncValidatorFn {
-  return (control: AbstractControl): Observable<ValidationErrors | null> => {
-    const codigo = control.value;
-    if (!codigo) {
-      return of(null);
-    }
-    return clienteService.verificarCodigoExistente(codigo.value).pipe(
-      map((existe) => (existe ? { codigoExistente: true } : null))
     );
   };
 }

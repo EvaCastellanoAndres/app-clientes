@@ -32,6 +32,10 @@ export class InicioComponent implements OnInit {
     this.router.navigate(['crear'])
   }
 
+  ver(id: number) {
+    this.router.navigate(['/ver', id])
+  }
+
   editarCliente(id: number) {
     this.router.navigate(['/editar', id]);
   }
