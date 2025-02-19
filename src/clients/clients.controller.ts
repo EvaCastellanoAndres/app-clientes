@@ -71,10 +71,7 @@ export class ClientsController {
         : [];
   
       // Guardar el cliente con la URL de las imágenes
-      const client = await this.clientsService.create({
-        ...createClientDto,
-        imagenes: imageUrls,
-      });
+      const client = await this.clientsService.create(createClientDto, imageUrls);
   
       return client;
     } catch (error) {

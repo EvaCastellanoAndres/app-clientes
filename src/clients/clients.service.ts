@@ -38,6 +38,7 @@ export class ClientsService {
 
   async create(
     createClientDto: CreateClientDto,
+    imageUrls: string[],
     files?: Express.Multer.File[],
   ) {
     let clients = await this.readClientsFromFile();
@@ -71,7 +72,7 @@ export class ClientsService {
       codigoPostal: createClientDto.codigoPostal,
       ciudad: createClientDto.ciudad,
       provincia: createClientDto.provincia,
-      imagenes: files ? files.map((file) => file.filename) : [],
+      imagenes: imageUrls,
     };
 
     clients.push(newClient);
