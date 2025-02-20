@@ -1,49 +1,29 @@
-import { Controller, Post, Body, Req, Res } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Controller, Post, UseInterceptors, UploadedFile, Body } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import axios from 'axios';
-
+ 
 @Controller('cloudinary')
 export class CloudinaryController {
   @Post('upload')
-  async uploadToCloudinary(
-    @Body() body: any,
-    @Req() req: Request,
-    @Res() res: Response,
-  ) {
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    const CLOUDINARY_URL = 'https://api.cloudinary.com/dmhemvly5/image/upload';
+    const UPLOAD_PRESET = 'evamaria'; // Tu upload preset de Cloudinary
+ 
+    const formData = new FormData();
+    formData.append('file', file.buffer.toString('base64')); // Envía el archivo en base64
+    formData.append('upload_preset', UPLOAD_PRESET);
+ 
     try {
-      const cloudinaryUrl = 'https://api.cloudinary.com/dmhemvly5/image/upload';
-      const response = await axios.post(cloudinaryUrl, body, {
+      const response = await axios.post(CLOUDINARY_URL, formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
-      res.status(response.status).json(response.data);
+      return { url: response.data.secure_url };
     } catch (error) {
-      res
-        .status(error.response?.status || 500)
-        .json(error.response?.data || { message: 'Internal Server Error' });
+      console.error('Error al subir la imagen a Cloudinary:', error);
+      throw new Error('Error al subir la imagen');
     }
   }
 }
-
-/*import {
-  Controller,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-} from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { CloudinaryService } from './cloudinary.service';
-
-@Controller('cloudinary')
-export class CloudinaryController {
-  constructor(private readonly cloudinaryService: CloudinaryService) {}
-
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const uploadedImage = await this.cloudinaryService.uploadImage(file);
-    return { imageUrl: uploadedImage.secure_url };
-  }
-}
-*/
