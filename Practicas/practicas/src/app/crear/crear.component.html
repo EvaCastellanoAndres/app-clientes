@@ -82,7 +82,7 @@
                         <div *ngIf="formularioCliente.controls['identificacion'].pending" class="col-12">
                             Validando identificación...
                           </div>
-                          <div *ngIf="formularioCliente.controls['identificacion'].errors?.['identificacionExistente']">
+                          <div *ngIf="formularioCliente.controls['identificacion'].errors?.['identificacionExistente']" class="col-12">
                             Esta identificación ya está registrada.
                           </div>
                     </div>
@@ -105,8 +105,8 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <label for="portal" class="form-label">Número<span class="obligatorio">*</span></label>
-                    <input matInput type="text" class="form-control" id="portal" name="numero" formControlName="numero" [ngClass]="{'invalid': formularioCliente.controls['numero'].invalid && formularioCliente.controls['numero'].touched}">
+                    <label for="numero" class="form-label">Número<span class="obligatorio">*</span></label>
+                    <input matInput type="text" class="form-control" id="numero" name="numero" formControlName="numero" [ngClass]="{'invalid': formularioCliente.controls['numero'].invalid && formularioCliente.controls['numero'].touched}">
                     <div *ngIf="formularioCliente.controls['numero'].invalid && formularioCliente.controls['numero'].touched">
                         Campo obligatorio.
                     </div>
@@ -199,7 +199,7 @@
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-4 text-center">
-                    <button type="submit" class="btn btn-dark" (click)="abrirConfirmacion()" [disabled]="formularioCliente.invalid">Enviar</button>
+                    <button type="submit" class="btn btn-dark" (click)="abrirConfirmacion()">Enviar</button>
                 </div>
                 <div class="col-md-4 text-center">
                     <button type="reset" class="btn btn-dark">Limpiar</button>

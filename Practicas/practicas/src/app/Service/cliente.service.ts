@@ -38,14 +38,21 @@ export class ClienteService {
   verificarCodigoExistente(codigo: string): Observable<boolean> {
     return this.http.get<any[]>(this.API_URL).pipe(
       map((clientes) => {
+        if (!clientes || clientes.length === 0) {
+          return false;
+        }
         return clientes.some((cliente) => cliente.codigo === codigo);
-      })
+      }),
+      catchError(() => of(false))
     );
   }
 
   verificarIdentificacionExistente(identificacion: string): Observable<boolean> {
     return this.http.get<any[]>(this.API_URL).pipe(
       map((clientes) => {
+        if (!clientes || clientes.length === 0) {
+          return false;
+        }
         return clientes.some((cliente) => cliente.identificacion === identificacion);
       }),
       catchError(() => of(false))

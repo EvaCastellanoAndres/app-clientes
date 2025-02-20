@@ -1,5 +1,5 @@
 <div id="ventana">
-<h3>Confirmar los datos introducidos</h3>
+<h3 class="text-center titulo">Confirmar los datos introducidos</h3>
 <div class="container">
     <div class="row">
         <p class="col-12">Código: {{ data.codigo }}</p>
@@ -7,15 +7,15 @@
         <p class="col-md-6">Primer Apellido: {{ data.apellido1 }}</p>
         <p class="col-md-6">Segundo Apellido: {{ data.apellido2 }}</p>
         <p class="col-md-6">Identificación: {{ data.identificacion }}</p>
-        <p class="col-md-6">Fecha de Nacimiento: {{ data.fechaNacimiento }}</p>
+        <p class="col-md-6">Fecha de Nacimiento: {{ data.fechaNacimiento  | date:'dd/MM/yyyy' }}</p>
         <p class="col-12">Calle: {{ data.calle }}</p>
-        <p class="col-4">Número: {{ data.portal }}</p>
+        <p class="col-4">Número: {{ data.numero }}</p>
         <p class="col-4">Piso {{ data.piso }}</p>
         <p class="col-4">Escalera: {{ data.escalera }}</p>
         <p class="col-4">Código Postal: {{ data.codigoPostal }}</p>
         <p class="col-4">Ciudad: {{ data.ciudad }}</p>
         <p class="col-4">Provinvia: {{ data.provincia }}</p>
-        <p class="col-12">Imágenes: <img *ngFor="let imagen of data.imagenes" [src]="'https://res.cloudinary.com/dmhemvly5/image/upload/v1739955090/' + imagen" alt="" style="height: 50px;"></p>
+        <p class="col-12">Imágenes: <img *ngFor="let imagen of imagenesPreview" [src]="imagen" alt="" style="height: 50px;"></p>
     </div>
     <div class="row">
         <div class="col-md-1"></div>

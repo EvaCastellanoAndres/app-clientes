@@ -15,12 +15,12 @@
 }
 
 .obligatorio {
-  color: red;
+  color: #FF6633;
 }
 
 .invalid {
-    border: 2px solid red;
-    background-color: #ffe6e6;
+    border: 2px solid #FF6633;
+    background-color: #ffbfa9c4;
     padding: 5px;
     border-radius: 4px;
     transition: border 0.1s ease-in-out, box-shadow 0.3s ease-in-out;

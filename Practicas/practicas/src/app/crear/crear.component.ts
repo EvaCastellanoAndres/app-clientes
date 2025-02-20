@@ -31,7 +31,7 @@ export class CrearComponent{
     private route: ActivatedRoute
   ) {
     this.formularioCliente = this.fb.group({
-      codigo: ['', [requeridoValidator()], [codigoValidator(this.clienteService)]],
+      codigo: ['', [requeridoValidator()], [codigoExistenteValidator(this.clienteService)]],
       nombre: ['', [requeridoValidator(), nombreValidator()]],
       apellido1: ['', [requeridoValidator(), nombreValidator()]],
       apellido2: [],
@@ -93,7 +93,7 @@ export class CrearComponent{
       if (this.imagenes.length < 4 && index === this.imagenes.length - 1) {
         this.agregarInput();
       }
-      const formData = new FormData();
+      /* const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', 'evamaria'); // 📌 Reemplaza con tu "upload preset" de Cloudinary
 
@@ -108,10 +108,26 @@ export class CrearComponent{
       })
       .catch(error => {
         console.error("Error al subir la imagen:", error);
-      });
+      }); */
     }
   }
 
+  /* abrirConfirmacion() {
+    if (this.formularioCliente.valid) {
+      const imagenes = this.imagenes.controls.map(control => control.value).filter(imagen => imagen !== null);
+  
+      this.confirma.open(VentanaConfirmarComponent, { 
+        data: {
+          ...this.formularioCliente.value,
+          imagenes: imagenes // Aquí se pasan las imágenes
+        }
+      });
+    } else {
+      Object.values(this.formularioCliente.controls).forEach(control => {
+        control.markAsTouched();
+      });
+    }
+  } */
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
       this.confirma.open(VentanaConfirmarComponent, { 
@@ -130,6 +146,10 @@ export class CrearComponent{
              provincia: this.formularioCliente.value.provincia,
              imagenes: this.formularioCliente.value.imagenes
             }
+      });
+    } else {
+      Object.values(this.formularioCliente.controls).forEach(control => {
+        control.markAsTouched();
       });
     }
   }
@@ -158,7 +178,7 @@ export function nombreValidator(): ValidatorFn {
   };
 }
 
-export function codigoValidator(clienteService: ClienteService): AsyncValidatorFn {
+export function codigoExistenteValidator(clienteService: ClienteService): AsyncValidatorFn {
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
     const codigo = control.value;
     if (!codigo) {
@@ -187,7 +207,7 @@ export function identificacionExistenteValidator(clienteService: ClienteService)
     );*/
     return timer(1000).pipe(
       switchMap(() =>
-        clienteService.verificarCodigoExistente(identificacion).pipe(
+        clienteService.verificarIdentificacionExistente(identificacion).pipe(
           map((existe) => (existe ? { identificacionExistente: true } : null)),
           catchError(() => of(null))
         )
