@@ -61,27 +61,28 @@ export class ClientsController {
   )
   async create(
     @Body(new ValidationPipe({ transform: true })) createClientDto: CreateClientDto,
-    @UploadedFiles() files?: Express.Multer.File[], // Hacer opcional
+    @UploadedFiles() files?: Express.Multer.File[],
   ) {
     try {
-      // Si no hay archivos, asignamos un array vacío
       const imageUrls = files?.length 
         ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
         : [];
   
-      // Asignar las URLs de las imágenes al DTO antes de guardarlo
       const clientData = { ...createClientDto, imagenes: imageUrls };
   
-      // Guardar el cliente con la URL de las imágenes
-      const client = await this.clientsService.create(clientData,imageUrls);
+      console.log("Datos que se enviarán a la BD:", JSON.stringify(clientData, null, 2));
+  
+      const client = await this.clientsService.create(clientData, imageUrls);
+  
+      console.log("Cliente realmente guardado en BD:", client);
   
       return client;
     } catch (error) {
-      throw new BadRequestException(
-        'Error al crear el cliente: ' + error.message,
-      );
+      console.error("Error en create:", error);
+      throw new BadRequestException('Error al crear el cliente: ' + error.message);
     }
   }
+  
   
 
   @Get()

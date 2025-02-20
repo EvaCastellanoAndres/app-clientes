@@ -40,7 +40,7 @@ export class ClientsService {
     createClientDto: CreateClientDto,
     imageUrls: string[],
     files?: Express.Multer.File[],
-  ) {
+  ) {console.log("Recibido en clientsService.create:", JSON.stringify(createClientDto, null, 2));
     let clients = await this.readClientsFromFile();
 
     if (
@@ -77,7 +77,7 @@ export class ClientsService {
 
     clients.push(newClient);
     await this.writeClientsToFile(clients);
-
+    console.log("Cliente insertado en la base de datos:", newClient);
     return newClient;
   }
 
