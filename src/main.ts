@@ -1,18 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+dotenv.config(); // Carga variables de entorno
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // Habilitar CORS
+
+  // Habilitar CORS correctamente
   app.enableCors({
-    origin: '*', // Permite solicitudes desde cualquier origen (en producción, cambia esto a tu dominio frontend)
+    origin: process.env.FRONTEND_URL || '*', // Mejor limitar a tu dominio en producción
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   await app.listen(process.env.PORT || 3000);
 }
+
 bootstrap();
+
 
 /* import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';

@@ -1,29 +1,23 @@
 import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import axios from 'axios';
- 
+import { CloudinaryService } from './cloudinary.service';
+
 @Controller('cloudinary')
 export class CloudinaryController {
+  constructor(private readonly cloudinaryService: CloudinaryService) {}
+
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file: Express.Multer.File) {
-    const CLOUDINARY_URL = process.env.CLOUDINARY_URL || 'https://api.cloudinary.com/dmhemvly5/image/upload';
-    const UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET || 'evamaria';
- 
-    const formData = new FormData();
-    formData.append('file', file.buffer.toString('base64')); // Envía el archivo en base64
-    formData.append('upload_preset', UPLOAD_PRESET);
- 
+    console.log("Archivo recibido:", file);
+    console.log("Buffer:", file?.buffer);
+
     try {
-      const response = await axios.post(CLOUDINARY_URL, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      return { url: response.data.secure_url };
+      const uploadResult = await this.cloudinaryService.uploadImage(file);
+      return uploadResult;
     } catch (error) {
-      console.error('Error al subir la imagen a Cloudinary:', error);
-      throw new Error('Error al subir la imagen');
+      console.error('Error al subir la imagen:', error);
+      return { error: 'No se pudo subir la imagen a Cloudinary' };
     }
   }
 }
