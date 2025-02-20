@@ -63,13 +63,14 @@ export class ClientsController {
     @Body(new ValidationPipe({ transform: true })) createClientDto: CreateClientDto,
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
+    console.log("Archivos subidos:", files?.map(file => file.originalname) || "No se enviaron archivos");
     try {
       const imageUrls = files?.length 
         ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
         : [];
-  
+        console.log("URLs de imágenes generadas:", imageUrls);
       const clientData = { ...createClientDto, imagenes: imageUrls };
-  
+      console.log("URLs de imágenes generadas v-2.0:", imageUrls);
       console.log("Datos que se enviarán a la BD:", JSON.stringify(clientData, null, 2));
   
       const client = await this.clientsService.create(clientData, imageUrls);
