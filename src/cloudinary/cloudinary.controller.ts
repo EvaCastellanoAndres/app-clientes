@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Body } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import axios from 'axios';
  
@@ -7,8 +7,8 @@ export class CloudinaryController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file: Express.Multer.File) {
-    const CLOUDINARY_URL = 'https://api.cloudinary.com/dmhemvly5/image/upload';
-    const UPLOAD_PRESET = 'evamaria'; // Tu upload preset de Cloudinary
+    const CLOUDINARY_URL = process.env.CLOUDINARY_URL || 'https://api.cloudinary.com/dmhemvly5/image/upload';
+    const UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET || 'evamaria';
  
     const formData = new FormData();
     formData.append('file', file.buffer.toString('base64')); // Envía el archivo en base64
