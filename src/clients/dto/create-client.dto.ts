@@ -99,5 +99,5 @@ export class CreateClientDto {
   @IsOptional()
   //@IsArray()
   //@IsString()
-  imagenes?: any[];
+  imagenes: string[];
 }
