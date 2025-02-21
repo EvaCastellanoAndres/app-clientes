@@ -20,54 +20,60 @@ import { ValidationPipe } from '@nestjs/common';
 import { UploadService } from '../upload/upload.service';
 import * as multer from 'multer';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 const multerOptions: MulterOptions = {
   storage: multer.memoryStorage(), // Guardar archivos en memoria para enviarlos a Cloudinary
   limits: { fileSize: 5 * 1024 * 1024 }, // Límite de 5MB por archivo
 };
 
-@Controller('client')
+@Controller('clients')
 export class ClientsController {
   constructor(
     private readonly clientsService: ClientsService,
     private readonly uploadService: UploadService,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  @Post()
-  @UseInterceptors(FilesInterceptor('imagenes', 4, multerOptions)) // Ahora Multer usará memoria
-  async create(
-    @Body(new ValidationPipe({ transform: true }))
-    createClientDto: CreateClientDto,
-    @UploadedFiles() files?: Express.Multer.File[],
+  @Post('create')
+  @UseInterceptors(FilesInterceptor('imagenes')) // Se espera que los archivos vengan en el campo "imagenes"
+  async createClient(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() clientData: any,
   ) {
-    console.log(
-      '📂 Archivos recibidos en interceptor:',
-      files?.map((f) => f.originalname) || 'No se enviaron archivos',
-    );
-    try {
-      let imageUrls: string[] = [];
-      if (files && files.length > 0) {
-        console.log('📤 Subiendo imágenes a Cloudinary...');
-        imageUrls = await Promise.all(
-          files.map(async (file) => await this.uploadService.uploadImage(file)),
-        );
+    // Log para verificar que se reciben los archivos
+    console.log("📂 Archivos recibidos en interceptor:", files && files.length ? files.length : "No se enviaron archivos");
+
+    // Variable para acumular las URLs generadas por Cloudinary
+    let imageUrls: string[] = [];
+
+    // Si se recibieron archivos, procesarlos
+    if (files && files.length > 0) {
+      for (const file of files) {
+        try {
+          // Se llama al servicio de Cloudinary para subir cada archivo
+          const result = await this.cloudinaryService.uploadImage(file);
+          imageUrls.push(result.url);
+        } catch (error) {
+          console.error("Error subiendo imagen a Cloudinary:", error);
+        }
       }
-      console.log('✅ URLs de imágenes generadas:', imageUrls);
-      const clientData = { ...createClientDto, imagenes: imageUrls };
-      console.log(
-        '📡 Datos que se enviarán a la BD:',
-        JSON.stringify(clientData, null, 2),
-      );
-      const client = await this.clientsService.create(clientData, imageUrls);
-      console.log('💾 Cliente guardado en BD:', client);
-      return client;
-    } catch (error) {
-      console.error('❌ Error en create:', error);
-      throw new BadRequestException(
-        'Error al crear el cliente: ' + error.message,
-      );
     }
+
+    console.log("✅ URLs de imágenes generadas:", imageUrls);
+
+    // Agregar las URLs de las imágenes al objeto de datos del cliente
+    // Si por algún motivo ya existe la propiedad "imagenes", se puede concatenar o reemplazar según tu lógica
+    clientData.imagenes = imageUrls;
+
+    console.log("📡 Datos que se enviarán a la BD:", clientData);
+
+    // Crear el cliente usando el servicio correspondiente
+    const createdClient = await this.clientsService.create(clientData,imageUrls);
+    console.log("💾 Cliente guardado en BD:", createdClient);
+    return createdClient;
   }
+
 
   /* @Post()
   @UseInterceptors(
