@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import * as fs from 'fs';
 import { promises as fsPromises } from 'fs';
@@ -68,7 +67,7 @@ export class ClientsService {
       codigoPostal: createClientDto.codigoPostal,
       ciudad: createClientDto.ciudad,
       provincia: createClientDto.provincia,
-      imagenes: createClientDto.imagenes || [], // Asegurar que imagenes sea un array válido
+      imagenes: createClientDto.imagenes || [],
     };
     console.log(
       'Cliente a guardar en JSON:',
@@ -86,7 +85,7 @@ export class ClientsService {
 
   async findOne(id: number) {
     const clients = await this.readClientsFromFile();
-    return clients.find((client: { id: number }) => client.id === id); // return clients.find(client => client.id === id);
+    return clients.find((client: { id: number }) => client.id === id);
   }
 
   async update(
@@ -97,7 +96,7 @@ export class ClientsService {
     const clients = await this.readClientsFromFile();
     const clientIndex = clients.findIndex(
       (client: { id: number }) => client.id === id,
-    ); // (client => client.id === id);
+    );
 
     if (!clients) {
       throw new Error(`Cliente con ID ${id} no encontrado.`);
