@@ -39,42 +39,49 @@ export class ClientsController {
   @UseInterceptors(FilesInterceptor('imagenes', 4)) // Se espera que los archivos vengan en el campo "imagenes"
   async createClient(
     @UploadedFiles() files: Express.Multer.File[],
-    @Body() clientData: any,
+
+    @Body() clientData: any, // Los datos del cliente vendrán en el cuerpo de la solicitud
   ) {
-    // Log para verificar que se reciben los archivos
-    console.log("📂 Archivos recibidos en interceptor:", files && files.length ? files.length : "No se enviaron archivos");
+    console.log(
+      '📂 Archivos recibidos en interceptor:',
+      files && files.length ? files.length : 'No se enviaron archivos',
+    );
 
     // Variable para acumular las URLs generadas por Cloudinary
+
     let imageUrls: string[] = [];
 
     // Si se recibieron archivos, procesarlos
+
     if (files && files.length > 0) {
       for (const file of files) {
         try {
           // Se llama al servicio de Cloudinary para subir cada archivo
+
           const result = await this.cloudinaryService.uploadImage(file);
-          console.log("📸 URL subida a Cloudinary:", result.url); //
+          console.log('📸 URL subida a Cloudinary:', result.url);
           imageUrls.push(result.url);
         } catch (error) {
-          console.error("Error subiendo imagen a Cloudinary:", error);
+          console.error('Error subiendo imagen a Cloudinary:', error);
         }
       }
     }
 
-    console.log("✅ URLs de imágenes generadas:", imageUrls);
+    console.log('✅ URLs de imágenes generadas:', imageUrls);
 
-    // Agregar las URLs de las imágenes al objeto de datos del cliente
-    // Si por algún motivo ya existe la propiedad "imagenes", se puede concatenar o reemplazar según tu lógica
-    clientData.imagenes = imageUrls;
+    // Combinar los datos del cliente con las URLs de las imágenes
+    const datosCompletos = {
+      ...clientData,
+      imagenes: imageUrls,
+    };
 
-    console.log("📡 Datos que se enviarán a la BD:", clientData);
+    console.log('📡 Datos que se enviarán a la BD:', datosCompletos);
 
     // Crear el cliente usando el servicio correspondiente
-    const createdClient = await this.clientsService.create(clientData,imageUrls);
-    console.log("💾 Cliente guardado en BD:", createdClient);
+    const createdClient = await this.clientsService.create(datosCompletos);
+    console.log('💾 Cliente guardado en BD:', createdClient);
     return createdClient;
   }
-
 
   /* @Post()
   @UseInterceptors(

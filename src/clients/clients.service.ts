@@ -36,25 +36,23 @@ export class ClientsService {
     );
   }
 
-  async create(
-    createClientDto: CreateClientDto,
-    imageUrls: string[], // <- Aquí llegan las URLs de imágenes
-    files?: Express.Multer.File[],
-  ) {
-    console.log("Recibido en clientsService.create:", JSON.stringify(createClientDto, null, 2));
-    console.log("URLs de imágenes recibidas:", imageUrls);
-  
+  async create(createClientDto: any) {
+    console.log(
+      'Recibido en clientsService.create:',
+      JSON.stringify(createClientDto, null, 2),
+    );
     let clients = await this.readClientsFromFile();
-  
-    if (clients.some(client => client.identificacion === createClientDto.identificacion)) {
+    if (
+      clients.some(
+        (client) => client.identificacion === createClientDto.identificacion,
+      )
+    ) {
       throw new Error('La identificación ya está en uso.');
     }
-    if (clients.some(client => client.codigo === createClientDto.codigo)) {
+    if (clients.some((client) => client.codigo === createClientDto.codigo)) {
       throw new Error('El código ya está en uso.');
     }
-  
-    const newId = clients.length > 0 ? Math.max(...clients.map(c => c.id)) + 1 : 1;
-  
+    const newId = clients.length > 0 ? Math.max(...clients.map((c) => c.id)) + 1 : 1;
     const newClient = {
       id: newId,
       nombre: createClientDto.nombre,
@@ -70,17 +68,17 @@ export class ClientsService {
       codigoPostal: createClientDto.codigoPostal,
       ciudad: createClientDto.ciudad,
       provincia: createClientDto.provincia,
-      imagenes: imageUrls.length ? imageUrls : [], // <- Asegurar que imagenes sea un array válido
+      imagenes: createClientDto.imagenes || [], // Asegurar que imagenes sea un array válido
     };
-  
-    console.log("Cliente a guardar en JSON:", JSON.stringify(newClient, null, 2));
-  
+    console.log(
+      'Cliente a guardar en JSON:',
+      JSON.stringify(newClient, null, 2),
+    );
     clients.push(newClient);
     await this.writeClientsToFile(clients);
-    console.log("Cliente insertado en la base de datos:", newClient);
+    console.log('Cliente insertado en la base de datos:', newClient);
     return newClient;
   }
-  
 
   async findAll() {
     return await this.readClientsFromFile();
