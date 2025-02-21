@@ -7,6 +7,7 @@ import {
   IsArray,
   IsOptional,
   isString,
+  IsUrl,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { IsAgeWithinRange } from 'src/common/decorators/is-age-within-range-decorator';
@@ -49,7 +50,7 @@ export class CreateClientDto {
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
- // @IsString()
+  // @IsString()
   calle: string;
 
   @IsNotEmpty()
@@ -86,18 +87,18 @@ export class CreateClientDto {
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
- // @IsString()
+  // @IsString()
   ciudad: string;
 
   @IsNotEmpty()
   //@Transform(({ value }) => (Array.isArray(value) ? value : [value]))
   //@IsArray()
   // @IsString({ each: true })
- // @IsString()
+  // @IsString()
   provincia: string;
 
   @IsOptional()
-  //@IsArray()
-  //@IsString()
+  @IsArray()
+  @IsUrl({}, { each: true })
   imagenes?: string[];
 }
