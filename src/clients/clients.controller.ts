@@ -36,7 +36,7 @@ export class ClientsController {
   ) {}
 
   @Post('create')
-  @UseInterceptors(FilesInterceptor('imagenes')) // Se espera que los archivos vengan en el campo "imagenes"
+  @UseInterceptors(FilesInterceptor('file')) // Se espera que los archivos vengan en el campo "imagenes"
   async createClient(
     @UploadedFiles() files: Express.Multer.File[],
     @Body() clientData: any,
@@ -53,8 +53,7 @@ export class ClientsController {
         try {
           // Se llama al servicio de Cloudinary para subir cada archivo
           const result = await this.cloudinaryService.uploadImage(file);
-          console.log("📸 URL subida a Cloudinary:", result.url);
-
+          console.log("📸 URL subida a Cloudinary:", result.url); //
           imageUrls.push(result.url);
         } catch (error) {
           console.error("Error subiendo imagen a Cloudinary:", error);
