@@ -27,7 +27,7 @@ const multerOptions: MulterOptions = {
   limits: { fileSize: 5 * 1024 * 1024 }, // Límite de 5MB por archivo
 };
 
-@Controller('clients')
+@Controller('client')
 export class ClientsController {
   constructor(
     private readonly clientsService: ClientsService,
