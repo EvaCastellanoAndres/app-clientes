@@ -53,6 +53,8 @@ export class ClientsController {
         try {
           // Se llama al servicio de Cloudinary para subir cada archivo
           const result = await this.cloudinaryService.uploadImage(file);
+          console.log("📸 URL subida a Cloudinary:", result.url);
+
           imageUrls.push(result.url);
         } catch (error) {
           console.error("Error subiendo imagen a Cloudinary:", error);
