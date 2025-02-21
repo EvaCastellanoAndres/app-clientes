@@ -36,7 +36,7 @@ export class ClientsController {
   ) {}
 
   @Post('create')
-  @UseInterceptors(FilesInterceptor('file')) // Se espera que los archivos vengan en el campo "imagenes"
+  @UseInterceptors(FilesInterceptor('imagenes', 4)) // Se espera que los archivos vengan en el campo "imagenes"
   async createClient(
     @UploadedFiles() files: Express.Multer.File[],
     @Body() clientData: any,
