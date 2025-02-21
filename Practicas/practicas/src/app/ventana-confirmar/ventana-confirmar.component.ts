@@ -20,6 +20,7 @@ export interface DatosVentana {
   ciudad: string;
   provincia: string;
   imagenes: (File | string)[];
+  [key: string]: any;
 }
 @Component({
   selector: 'app-ventana-confirmar',
@@ -67,9 +68,74 @@ export class VentanaConfirmarComponent implements OnInit {
     });
   }
   
+  async uploadImage(file: File): Promise<string | null> {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    try {
+      console.log("📤 Subiendo imagen al backend:", file.name);
+      const response = await fetch('https://app-clientes-4hsr.onrender.com/cloudinary/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.text(); // Leer el error como texto
+        console.error("❌ Error en la subida (texto):", errorData);
+        return null; // Devuelve null si hay un error
+      }
+  
+      const data = await response.json();
+      console.log("✅ Imagen subida con éxito:", data.url);
+      return data.url; // Devuelve la URL de la imagen subida
+    } catch (error) {
+      console.error("❌ Error al subir la imagen (fetch error):", error);
+      return null; // Devuelve null si hay un error
+    }
+  }
+
+  async confirmar() {
+    console.log("Confirmar presionado, enviando datos:", this.data);
+  
+    // Verifica si hay imágenes para subir
+    if (this.data.imagenes && this.data.imagenes.length > 0) {
+      const urls: string[] = [];
+  
+      // Filtra solo las imágenes que son instancias de File
+      const imagenesFiles = this.data.imagenes.filter((imagen): imagen is File => imagen instanceof File);
+  
+      // Sube cada imagen a través del backend
+      for (const imagen of imagenesFiles) {
+        const url = await this.uploadImage(imagen);
+        if (url) {
+          urls.push(url); // Agrega la URL de la imagen subida
+        }
+      }
+  
+      // Combina las URLs de las imágenes subidas con las que ya son URLs (si las hay)
+      const todasLasImagenes = [...urls, ...this.data.imagenes.filter(imagen => typeof imagen === "string")];
+  
+      // Actualiza el objeto data con las URLs de las imágenes
+      this.data = { ...this.data, imagenes: todasLasImagenes };
+    }
+  
+    console.log("📤 Datos enviados al backend:", this.data);
+    // Guarda los datos del cliente
+    this.clienteService.crearCliente(this.data).subscribe(
+      response => {
+        console.log("✅ Cliente guardado con éxito:", response);
+        this.dialogRef.close();
+        this.router.navigate(['/inicio']);
+      },
+      error => {
+        console.error("❌ Error al guardar el cliente:", error);
+      }
+    );
+  }
+
   /* async subirImagenes(imagenes: File[]): Promise<string[]> {
     const urls: string[] = [];
-    const CLOUDINARY_URL = "https://res.cloudinary.com/dmhemvly5/image/upload/v1739955090/"; // ⚠️ Reemplaza "tu_cloud_name" con tu Cloud Name
+    const CLOUDINARY_URL = "https://api.cloudinary.com/dmhemvly5/image/upload"; // ⚠️ Reemplaza "tu_cloud_name" con tu Cloud Name
     const UPLOAD_PRESET = "evamaria"; // ⚠️ Reemplázalo con tu preset en Cloudinary
   
     for (const imagen of imagenes) {
@@ -78,28 +144,55 @@ export class VentanaConfirmarComponent implements OnInit {
       formData.append("upload_preset", UPLOAD_PRESET); 
   
       try {
+        console.log("📤 Subiendo imagen a Cloudinary:", imagen.name);
         const response = await fetch(CLOUDINARY_URL, {
           method: "POST",
           body: formData
         });
+
+        console.log("📡 Respuesta de Cloudinary:", response);
   
         if (!response.ok) {
-          const errorData = await response.json();
-          console.error("❌ Error al subir imagen:", errorData);
+          const errorData = await response.text(); // 🔹 Leer error como texto
+          console.error("❌ Error en la subida (texto):", errorData);
           continue;
         }
   
         const data = await response.json();
-        urls.push(data.secure_url); // Guardamos la URL de Cloudinary
+        console.log("✅ Imagen subida con éxito:", data.secure_url);
+        urls.push(data.secure_url);
       } catch (error) {
-        console.error("❌ Error al subir la imagen:", error);
+        console.error("❌ Error al subir la imagen (fetch error):", error);
       }
     }
   
+  
     return urls;
   }
-  
+
+
+    
   async confirmar() {
+    console.log("Confirmar presionado, enviando datos:", this.data);
+  
+    if (this.data.imagenes && this.data.imagenes.length > 0) {
+      const urls = await this.subirImagenes(this.data.imagenes as File[]); // 👈 Aseguramos que son archivos
+      this.data = { ...this.data, imagenes: urls }; // 👈 Asignamos correctamente las URLs
+    }
+  
+    this.clienteService.crearCliente(this.data).subscribe(
+      response => {
+        console.log("✅ Cliente guardado con éxito:", response);
+        this.dialogRef.close();
+        this.router.navigate(['/inicio']);
+      },
+      error => {
+        console.error("❌ Error al guardar el cliente:", error);
+      }
+    );
+  } */
+  
+  /* async confirmar() {
     try {
       // Filtra las imágenes que son instancias de File
       const imagenesFiles = this.data.imagenes.filter((imagen): imagen is File => imagen instanceof File);
@@ -132,7 +225,7 @@ export class VentanaConfirmarComponent implements OnInit {
     }
   } */
 
-  confirmar () {
+ /*  confirmar () {
     if (this.data.id) {
       console.log("Editando cliente con ID:", this.data.id);
       this.clienteService.actualizarCliente(this.data.id, this.data).subscribe(() => {
@@ -147,7 +240,7 @@ export class VentanaConfirmarComponent implements OnInit {
       });
     }
   }
-
+ */
   cancelar() {
     this.dialogRef.close();
   }

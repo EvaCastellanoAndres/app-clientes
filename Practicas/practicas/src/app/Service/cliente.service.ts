@@ -23,7 +23,7 @@ export class ClienteService {
   }
   
   crearCliente(cliente: any): Observable<any> {
-    return this.http.post<any>(this.API_URL, cliente);
+    return this.http.post<any>(`${this.API_URL}/create`, cliente);
   }
 
   actualizarCliente(id: string, cliente: any): Observable<any> {

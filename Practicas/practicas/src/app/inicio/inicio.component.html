@@ -38,7 +38,7 @@
                         <td>{{cliente.codigoPostal}}</td>
                         <td>{{cliente.ciudad}}</td>
                         <td>{{cliente.provincia}}</td>
-                        <td><img *ngFor="let imagen of cliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + imagen" alt="" style="height: 50px;"></td>
+                        <td><img *ngFor="let imagen of cliente.imagenes" [src]="imagen" alt="" style="height: 50px;"></td>
                         <td>
                             <button type="button" (click)="ver(cliente.id)" class="btn"><i class='fas fa-eye view'></i></button>
                             <button type="button" (click)="editarCliente(cliente.id)" class="btn"><i class="fa fa-edit edit"></i></button>
