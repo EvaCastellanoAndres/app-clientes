@@ -14,10 +14,17 @@ import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ValidationPipe } from '@nestjs/common';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { ValidationPipe } from '@nestjs/common';
 import { UploadService } from '../upload/upload.service';
+import * as multer from 'multer';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+
+const multerOptions: MulterOptions = {
+  storage: multer.memoryStorage(), // Guardar archivos en memoria para enviarlos a Cloudinary
+  limits: { fileSize: 5 * 1024 * 1024 }, // Límite de 5MB por archivo
+};
 
 @Controller('client')
 export class ClientsController {
@@ -25,30 +32,40 @@ export class ClientsController {
     private readonly clientsService: ClientsService,
     private readonly uploadService: UploadService,
   ) {}
+
   @Post()
-  @UseInterceptors(FilesInterceptor('imagenes', 4)) // Asegurar que el campo sea 'imagenes'
+  @UseInterceptors(FilesInterceptor('imagenes', 4, multerOptions)) // Ahora Multer usará memoria
   async create(
-    @Body(new ValidationPipe({ transform: true })) createClientDto: CreateClientDto,
+    @Body(new ValidationPipe({ transform: true }))
+    createClientDto: CreateClientDto,
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    console.log("📂 Archivos recibidos:", files);
+    console.log(
+      '📂 Archivos recibidos en interceptor:',
+      files?.map((f) => f.originalname) || 'No se enviaron archivos',
+    );
     try {
       let imageUrls: string[] = [];
       if (files && files.length > 0) {
-        console.log("📤 Subiendo imágenes a Cloudinary...");
+        console.log('📤 Subiendo imágenes a Cloudinary...');
         imageUrls = await Promise.all(
           files.map(async (file) => await this.uploadService.uploadImage(file)),
         );
       }
-      console.log("✅ URLs de imágenes generadas:", imageUrls);
+      console.log('✅ URLs de imágenes generadas:', imageUrls);
       const clientData = { ...createClientDto, imagenes: imageUrls };
-      console.log("📡 Datos que se enviarán a la BD:", JSON.stringify(clientData, null, 2));
+      console.log(
+        '📡 Datos que se enviarán a la BD:',
+        JSON.stringify(clientData, null, 2),
+      );
       const client = await this.clientsService.create(clientData, imageUrls);
-      console.log("💾 Cliente guardado en BD:", client);
+      console.log('💾 Cliente guardado en BD:', client);
       return client;
     } catch (error) {
-      console.error("❌ Error en create:", error);
-      throw new BadRequestException('Error al crear el cliente: ' + error.message);
+      console.error('❌ Error en create:', error);
+      throw new BadRequestException(
+        'Error al crear el cliente: ' + error.message,
+      );
     }
   }
 
@@ -161,15 +178,17 @@ export class ClientsController {
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
     const numericId = Number(id); // <-- Convertir manualmente
-  
+
     if (isNaN(numericId)) {
       throw new BadRequestException('ID inválido');
     }
-  
+
     const imageUrls = files?.length
-      ? await Promise.all(files.map(async (file) => await this.uploadService.uploadImage(file)))
+      ? await Promise.all(
+          files.map(async (file) => await this.uploadService.uploadImage(file)),
+        )
       : [];
-  
+
     return this.clientsService.update(numericId, updateClientDto, imageUrls);
   }
   @Delete(':id')
