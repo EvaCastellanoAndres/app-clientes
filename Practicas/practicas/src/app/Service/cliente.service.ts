@@ -9,8 +9,6 @@ import { map, debounceTime, switchMap, catchError } from 'rxjs/operators';
 })
 export class ClienteService {
   private API_URL='https://app-clientes-4hsr.onrender.com/client';
-  /*private clientes = new BehaviorSubject<any[]>([]);
-  clientes$ = this.clientes.asObservable();*/
 
   constructor(private http: HttpClient) { }
 
@@ -22,9 +20,12 @@ export class ClienteService {
     return this.http.get(`${this.API_URL}/${id}`);
   }
   
-  crearCliente(cliente: any): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/create`, cliente);
+  crearCliente(formData: FormData) {
+    return this.http.post(`${this.API_URL}/create`, formData);
   }
+  /* crearCliente(cliente: any): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/create`, cliente);
+  } */
 
   actualizarCliente(id: string, cliente: any): Observable<any> {
     console.log("Enviando datos al servidor:", cliente);

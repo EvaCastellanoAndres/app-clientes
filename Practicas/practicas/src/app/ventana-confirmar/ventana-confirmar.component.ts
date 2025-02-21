@@ -96,151 +96,48 @@ export class VentanaConfirmarComponent implements OnInit {
 
   async confirmar() {
     console.log("Confirmar presionado, enviando datos:", this.data);
-  
-    // Verifica si hay imágenes para subir
+
+    // Crear un objeto FormData
+    const formData = new FormData();
+
+    // Agregar los datos del cliente al FormData
+    Object.keys(this.data).forEach(key => {
+      if (key !== 'imagenes') {
+        formData.append(key, this.data[key]);
+      }
+    });
+
+    // Agregar las imágenes al FormData
     if (this.data.imagenes && this.data.imagenes.length > 0) {
-      const urls: string[] = [];
-  
-      // Filtra solo las imágenes que son instancias de File
-      const imagenesFiles = this.data.imagenes.filter((imagen): imagen is File => imagen instanceof File);
-  
-      // Sube cada imagen a través del backend
-      for (const imagen of imagenesFiles) {
-        const url = await this.uploadImage(imagen);
-        if (url) {
-          urls.push(url); // Agrega la URL de la imagen subida
+      this.data.imagenes.forEach((imagen, index) => {
+        if (imagen instanceof File) {
+          formData.append('imagenes', imagen); // Agregar cada archivo al FormData
         }
-      }
-  
-      // Combina las URLs de las imágenes subidas con las que ya son URLs (si las hay)
-      const todasLasImagenes = [...urls, ...this.data.imagenes.filter(imagen => typeof imagen === "string")];
-  
-      // Actualiza el objeto data con las URLs de las imágenes
-      this.data = { ...this.data, imagenes: todasLasImagenes };
+      });
     }
-  
-    console.log("📤 Datos enviados al backend:", this.data);
-    // Guarda los datos del cliente
-    this.clienteService.crearCliente(this.data).subscribe(
-      response => {
-        console.log("✅ Cliente guardado con éxito:", response);
-        this.dialogRef.close();
-        this.router.navigate(['/inicio']);
-      },
-      error => {
-        console.error("❌ Error al guardar el cliente:", error);
-      }
-    );
-  }
 
-  /* async subirImagenes(imagenes: File[]): Promise<string[]> {
-    const urls: string[] = [];
-    const CLOUDINARY_URL = "https://api.cloudinary.com/dmhemvly5/image/upload"; // ⚠️ Reemplaza "tu_cloud_name" con tu Cloud Name
-    const UPLOAD_PRESET = "evamaria"; // ⚠️ Reemplázalo con tu preset en Cloudinary
-  
-    for (const imagen of imagenes) {
-      const formData = new FormData();
-      formData.append("file", imagen);
-      formData.append("upload_preset", UPLOAD_PRESET); 
-  
-      try {
-        console.log("📤 Subiendo imagen a Cloudinary:", imagen.name);
-        const response = await fetch(CLOUDINARY_URL, {
-          method: "POST",
-          body: formData
-        });
+    console.log("📤 Datos enviados al backend:", formData);
 
-        console.log("📡 Respuesta de Cloudinary:", response);
-  
-        if (!response.ok) {
-          const errorData = await response.text(); // 🔹 Leer error como texto
-          console.error("❌ Error en la subida (texto):", errorData);
-          continue;
-        }
-  
-        const data = await response.json();
-        console.log("✅ Imagen subida con éxito:", data.secure_url);
-        urls.push(data.secure_url);
-      } catch (error) {
-        console.error("❌ Error al subir la imagen (fetch error):", error);
-      }
-    }
-  
-  
-    return urls;
-  }
-
-
-    
-  async confirmar() {
-    console.log("Confirmar presionado, enviando datos:", this.data);
-  
-    if (this.data.imagenes && this.data.imagenes.length > 0) {
-      const urls = await this.subirImagenes(this.data.imagenes as File[]); // 👈 Aseguramos que son archivos
-      this.data = { ...this.data, imagenes: urls }; // 👈 Asignamos correctamente las URLs
-    }
-  
-    this.clienteService.crearCliente(this.data).subscribe(
-      response => {
-        console.log("✅ Cliente guardado con éxito:", response);
-        this.dialogRef.close();
-        this.router.navigate(['/inicio']);
-      },
-      error => {
-        console.error("❌ Error al guardar el cliente:", error);
-      }
-    );
-  } */
-  
-  /* async confirmar() {
-    try {
-      // Filtra las imágenes que son instancias de File
-      const imagenesFiles = this.data.imagenes.filter((imagen): imagen is File => imagen instanceof File);
-  
-      // Sube las imágenes a Cloudinary
-      const imagenesUrls = await this.subirImagenes(imagenesFiles);
-  
-      // Combina las URLs de las imágenes con las que ya pueden ser URLs (si las hay)
-      const todasLasImagenes = [...imagenesUrls, ...this.data.imagenes.filter(imagen => typeof imagen === "string")];
-  
-      // Actualiza el objeto data con las URLs de las imágenes
-      const datosActualizados = { ...this.data, imagenes: todasLasImagenes };
-  
-      if (this.data.id) {
-        console.log("Editando cliente con ID:", this.data.id);
-        this.clienteService.actualizarCliente(this.data.id, datosActualizados).subscribe(() => {
-          this.dialogRef.close(true);
-          this.router.navigate(['/inicio']);
-        });
-      } else {
-        console.log("Creando nuevo cliente:", datosActualizados);
-        this.clienteService.crearCliente(datosActualizados).subscribe(() => {
-          this.dialogRef.close(true);
-          this.router.navigate(['/inicio']);
-        });
-      }
-    } catch (error) {
-      console.error("❌ Error al subir las imágenes o guardar el cliente:", error);
-      this.mensajeError = "Hubo un error al guardar el cliente. Por favor, inténtalo de nuevo.";
-    }
-  } */
-
- /*  confirmar () {
+    // Enviar el FormData al backend
     if (this.data.id) {
-      console.log("Editando cliente con ID:", this.data.id);
-      this.clienteService.actualizarCliente(this.data.id, this.data).subscribe(() => {
+      this.clienteService.actualizarCliente(this.data.id, formData).subscribe(() => {
         this.dialogRef.close(true);
         this.router.navigate(['/inicio']);
       });
     } else {
-      console.log("Creando nuevo cliente:", this.data);
-      this.clienteService.crearCliente(this.data).subscribe(() => {
-        this.dialogRef.close(true);
-        this.router.navigate(['/inicio']);
-      });
+      this.clienteService.crearCliente(formData).subscribe(
+        response => {
+          console.log("✅ Cliente guardado con éxito:", response);
+          this.dialogRef.close();
+          this.router.navigate(['/inicio']);
+        },
+        error => {
+          console.error("❌ Error al guardar el cliente:", error);
+        }
+      );
     }
   }
- */
+
   cancelar() {
     this.dialogRef.close();
   }
