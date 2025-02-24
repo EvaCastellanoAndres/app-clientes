@@ -61,7 +61,7 @@ export class ClientsService {
       identificacion: createClientDto.identificacion,
       fechaNacimiento: createClientDto.fechaNacimiento,
       calle: createClientDto.calle,
-      portal: createClientDto.portal,
+      numero: createClientDto.numero,
       piso: createClientDto.piso,
       escalera: createClientDto.escalera,
       codigoPostal: createClientDto.codigoPostal,

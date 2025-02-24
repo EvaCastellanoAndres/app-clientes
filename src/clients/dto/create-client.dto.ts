@@ -6,6 +6,7 @@ import {
   Matches,
   IsArray,
   IsOptional,
+  isString,
   IsUrl,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
@@ -46,19 +47,27 @@ export class CreateClientDto {
   fechaNacimiento: string;
 
   @IsNotEmpty()
-  @IsString()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsString({ each: true })
   calle: string;
 
   @IsNotEmpty()
-  @IsString()
-  portal: string;
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsString({ each: true })
+  numero: string;
 
   @IsOptional()
-  @IsString()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsString({ each: true })
   piso: string;
 
   @IsOptional()
-  @IsString()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsString({ each: true })
   escalera: string;
 
   @IsNotEmpty()
@@ -67,11 +76,15 @@ export class CreateClientDto {
   codigoPostal: number;
 
   @IsNotEmpty()
-  @IsString()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsString({ each: true })
   ciudad: string;
 
   @IsNotEmpty()
-  @IsString()
+  @Transform(({ value }) => (Array.isArray(value) ? value : [value]))
+  @IsArray()
+  @IsString({ each: true })
   provincia: string;
 
   @IsOptional()
