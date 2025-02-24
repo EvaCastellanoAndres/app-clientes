@@ -35,7 +35,7 @@ export class ClientsService {
     );
   }
 
-  async create(createClientDto: any) {
+  async create(createClientDto: any, imageUrls: string[]) {
     console.log(
       'Recibido en clientsService.create:',
       JSON.stringify(createClientDto, null, 2),
@@ -67,7 +67,7 @@ export class ClientsService {
       codigoPostal: createClientDto.codigoPostal,
       ciudad: createClientDto.ciudad,
       provincia: createClientDto.provincia,
-      imagenes: createClientDto.imagenes || [],
+      imagenes: [...(createClientDto.imagenes || []), ...imageUrls],
     };
     console.log(
       'Cliente a guardar en JSON:',
