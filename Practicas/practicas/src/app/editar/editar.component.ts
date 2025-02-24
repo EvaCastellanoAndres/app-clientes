@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../Service/cliente.service';
-import { FormsModule,ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule, FormBuilder, FormGroup, AbstractControl, ValidatorFn, ValidationErrors, AsyncValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
 import { CommonModule } from '@angular/common';
+import { catchError, map, Observable, of, switchMap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-editar',
@@ -25,21 +26,24 @@ export class EditarComponent implements OnInit {
   ) {
     this.formularioCliente = this.fb.group({
       codigo: [''],
-      nombre: [''],
-      apellido1: [''],
+      nombre: ['', [requeridoValidator(), nombreValidator()]],
+      apellido1: ['', [requeridoValidator(), nombreValidator()]],
       apellido2: [''],
       tipoDocumento: ['dni'],
       identificacion: [''],
-      fechaNacimiento: [''],
-      calle: [''],
-      portal: [''],
+      fechaNacimiento: ['', [edadValidator()]],
+      calle: ['', [Validators.required]],
+      numero: ['', [Validators.required]],
       piso: [''],
       escalera: [''],
-      codigoPostal: [''],
-      ciudad: [''],
-      provincia: [''],
+      codigoPostal: ['', [Validators.required]],
+      ciudad: ['', [requeridoValidator(), nombreValidator()]],
+      provincia: ['', [requeridoValidator(), nombreValidator()]],
       imagenes: ['']
     });
+
+    this.formularioCliente.get('identificacion')?.setValidators([
+          Validators.required, identificacionValidator(this.formularioCliente.get('tipoDocumento')!)]);
   }
 
   ngOnInit() {
@@ -51,47 +55,144 @@ export class EditarComponent implements OnInit {
 
   cargarCliente(id: string) {
     this.clienteService.obtenerCliente(id).subscribe(cliente => {
-      this.formularioCliente.patchValue(cliente);
+      if (!cliente) return;
+  
+      const clienteLimpio = { ...cliente };
+  
+      Object.keys(clienteLimpio).forEach(key => {
+        if (clienteLimpio[key] === null || clienteLimpio[key] === 'null' || clienteLimpio[key] === undefined) {
+          clienteLimpio[key] = '';
+        }
+      });
+      this.formularioCliente.patchValue(clienteLimpio);
     });
+    /* this.clienteService.obtenerCliente(id).subscribe(cliente => {
+      this.formularioCliente.patchValue(cliente);
+    }); */
   }
 
   abrirConfirmacion() {
     if (this.formularioCliente.valid) {
-      const dialogRef = this.dialog.open(VentanaConfirmarComponent, {
+      this.dialog.open(VentanaConfirmarComponent, {
         data: {
           id: this.clienteId,
           ...this.formularioCliente.value,
         }
       });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log("📌 Resultado de la ventana de confirmación en EDITAR:", result);
-        if (result === true) {
-            console.log("✅ Cliente actualizado correctamente.");
-        } else {
-            console.log("❌ Edición cancelada.");
-        }
-    });
-
-      /*dialogRef.afterClosed().subscribe(result => {
-        console.log("Resultado de la ventana de confirmación:", result); 
-        if (result) {
-          this.guardarCliente();
-        }
-      });*/
-    }
-  }
-
-  guardarCliente() {
-    if (this.formularioCliente.valid && this.clienteId) {
-      const cliente = this.formularioCliente.value;
-      console.log("Cliente enviado:", cliente); 
-      this.clienteService.actualizarCliente(this.clienteId, cliente).subscribe(response => {
-        console.log("Respuesta del servidor:", response);
-        this.router.navigate(['/inicio']);
-      }, error => {
-        console.error("Error al actualizar el cliente:", error);
+    } else {
+      Object.values(this.formularioCliente.controls).forEach(control => {
+        control.markAsTouched();
       });
     }
   }
+}
 
+export function requeridoValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    return control.value ? null : { requerido: true };
+  };
+}
+
+export function nombreValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
+    const regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/;
+    if (!regex.test(value)) {
+      return { nombreInvalido: true };
+    }
+
+    return null;
+  };
+}
+
+export function identificacionValidator(tipoDocumentoControl: AbstractControl): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    const tipoDocumento = tipoDocumentoControl.value;
+
+    if (!value || typeof value !== 'string') {
+      return { identificacionInvalida: true };
+    }
+
+    const dniRegex = /^[0-9]{8}[A-Z]$/;
+    const pasaporteRegex = /^[A-z0-9]{2,3}[0-9]{6}$/;
+    const nieRegex = /^[XYZ][0-9]{7}[A-Z]$/;
+
+    let error = null;
+
+    switch (tipoDocumento) {
+      case 'dni':
+        if (!dniRegex.test(value) || !validarLetraDNI(value)) {
+          error = { dniInvalido: true }
+        }
+        break;
+      case 'pasaporte':
+        if (!pasaporteRegex.test(value)) {
+          error = { pasaporteInvalido: true};
+        }
+        break;
+      case 'nie':
+        if (!nieRegex.test(value) || !validarNIE(value)) {
+          error = { nieInvalido: true };
+        }
+        break;   
+    }
+
+    function validarLetraDNI(dni: string): boolean {
+      const numeroDNI = parseInt(dni.slice(0,8), 10);
+      const letraDNI = dni.charAt(8).toUpperCase();
+      const letras = 'TRWAGMYFPDXBNJZSQVHLCKE'
+
+      return letraDNI == letras[numeroDNI % 23];
+    }
+
+    function validarNIE(nie: string): boolean {
+      let prefijoNIE = nie.charAt(0).toUpperCase();
+      switch (prefijoNIE) {
+        case 'X':
+          prefijoNIE = '0';
+          break;
+        case 'Y':
+          prefijoNIE = '1';
+          break;
+        case 'Z':
+          prefijoNIE = '2';
+          break;
+      }
+
+      return validarLetraDNI(prefijoNIE + nie.substring(1));
+    }
+    return error;
+  };
+}
+
+export function edadValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) {
+      return { edadInvalida: true };
+    }
+
+    const fechaNac = new Date(control.value);
+    const hoy = new Date();
+    const edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const difMes = hoy.getMonth() - fechaNac.getMonth();
+    const difDia = hoy.getDate() - fechaNac.getDate();
+
+    if (
+      edad < 18 ||
+      edad > 60 ||
+      (edad === 18 && difMes < 0) ||
+      (edad === 18 && difMes === 0 && difDia < 0) ||
+      (edad === 60 && difMes > 0) ||
+      (edad === 60 && difMes === 0 && difDia > 0)
+    ) {
+      return { edadInvalida: true };
+    }
+    return null;
+  };
 }

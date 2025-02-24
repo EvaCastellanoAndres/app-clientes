@@ -98,22 +98,11 @@ export class CrearComponent{
 
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
-      this.confirma.open(VentanaConfirmarComponent, { 
-      data: {codigo: this.formularioCliente.value.codigo,
-             nombre: this.formularioCliente.value.nombre,
-             apellido1: this.formularioCliente.value.apellido1,
-             apellido2: this.formularioCliente.value.apellido2,
-             identificacion: this.formularioCliente.value.identificacion,
-             fechaNacimiento: this.formularioCliente.value.fechaNacimiento,
-             calle: this.formularioCliente.value.calle,
-             portal: this.formularioCliente.value.numero,
-             piso: this.formularioCliente.value.piso,
-             escalera: this.formularioCliente.value.escalera,
-             codigoPostal: this.formularioCliente.value.codigoPostal,
-             ciudad: this.formularioCliente.value.ciudad,
-             provincia: this.formularioCliente.value.provincia,
-             imagenes: this.formularioCliente.value.imagenes
-            }
+      this.confirma.open(VentanaConfirmarComponent, {
+        data: {
+          id: this.clienteId,
+          ...this.formularioCliente.value,
+        }
       });
     } else {
       Object.values(this.formularioCliente.controls).forEach(control => {

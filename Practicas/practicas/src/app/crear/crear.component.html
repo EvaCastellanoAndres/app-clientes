@@ -84,7 +84,7 @@
                           </div>
                           <div *ngIf="formularioCliente.controls['identificacion'].errors?.['identificacionExistente']" class="col-12">
                             Esta identificación ya está registrada.
-                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -158,8 +158,8 @@
                             <input matInput type="text" class="form-control" id="calle" name="calle" formControlName="calle"> 
                         </div>
                         <div class="col-md-3">
-                            <label for="portal" class="form-label">Número<span class="obligatorio">*</span></label>
-                            <input matInput type="text" class="form-control" id="portal" name="numero" formControlName="numero" >
+                            <label for="numero" class="form-label">Número<span class="obligatorio">*</span></label>
+                            <input matInput type="text" class="form-control" id="numero" name="numero" formControlName="numero" >
 
                         </div>
                         <div class="col-md-3">
@@ -191,7 +191,7 @@
                 </div>-->
                 <div class="col-12">
                     <div class="mb-3">
-                        <label for="imagenes" class="form-label">Imágenes DNI</label>
+                        <label for="imagenes" class="form-label">Imágenes Identificación</label>
                         <div *ngFor="let imgCtrl of imagenes.controls; let i = index">
                             <input class="form-control mt-2" type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="imagenes">
                         </div>

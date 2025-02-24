@@ -5,16 +5,32 @@
     margin-bottom: 1.5rem;
 }
 
-.btn-light {
-    color: #153963;
+h4 {
+  margin-top: 0.3rem;;
 }
-  
+
+.btn-light {
+  color: #153963;
+}
+
 .btn-dark {
-    background-color: #153963;
-    border-color: #153963;
+  background-color: #153963;
+  border-color: #153963;
 }
 
 .obligatorio {
-    color: red;
-
+  color: #FF6633;
 }
+
+.invalid {
+    border: 2px solid #FF6633;
+    background-color: #ffbfa9c4;
+    padding: 5px;
+    border-radius: 4px;
+    transition: border 0.1s ease-in-out, box-shadow 0.3s ease-in-out;
+  
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+    }
+  }

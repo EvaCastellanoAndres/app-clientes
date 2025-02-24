@@ -31,16 +31,16 @@
                 <tbody>
                     <tr *ngFor="let cliente of listadoClientes" class="text-center">
                         <td>{{cliente.codigo}}</td>
-                        <td>{{cliente.nombre}} {{cliente.apellido1}} {{cliente.apellido2}}</td>
+                        <td>{{cliente.nombre}} {{cliente.apellido1}} {{ getValueOrEmpty(cliente.apellido2) }}</td>
                         <td>{{cliente.identificacion}}</td>
                         <td>{{cliente.fechaNacimiento | date:'dd/MM/yyyy'}}</td>
-                        <td>{{cliente.calle}} {{cliente.portal}} {{cliente.piso}} {{cliente.escalera}}</td>
+                        <td>{{cliente.calle}} {{cliente.numero}} {{ getValueOrEmpty(cliente.piso) }} {{ getValueOrEmpty(cliente.escalera) }}</td>
                         <td>{{cliente.codigoPostal}}</td>
                         <td>{{cliente.ciudad}}</td>
                         <td>{{cliente.provincia}}</td>
                         <td>
-                            <img *ngFor="let imagen of cliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + imagen" alt="" style="height: 50px;">
                             <img *ngFor="let imagen of cliente.imagenes" [src]="imagen" alt="" style="height: 50px;">
+                            <div *ngIf="!cliente.imagenes || cliente.imagenes.length === 0" style="color: grey">No hay imágenes</div>
                         </td>
                         <td>
                             <button type="button" (click)="ver(cliente.id)" class="btn"><i class='fas fa-eye view'></i></button>

@@ -28,6 +28,10 @@ export class InicioComponent implements OnInit {
     });
   }
   
+  getValueOrEmpty(value: any): string {
+    return (value === null || value === undefined || value === 'null') ? '' : value;
+  }
+
   annadir() {
     this.router.navigate(['crear'])
   }
