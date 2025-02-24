@@ -13,16 +13,18 @@ export class CloudinaryService {
   }
 
   async uploadImage(file: Express.Multer.File): Promise<{ url: string }> {
-    return new Promise((resolve, reject) => {
-      const uploadStream = cloudinary.uploader.upload_stream(
-        { folder: 'client/', use_filename: true, unique_filename: false },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve({ url: result?.secure_url || '' });
-        },
-      );
+  return new Promise((resolve, reject) => {
+    const uniqueFilename = `client_${Date.now()}_${Math.round(Math.random() * 1e9)}`;
 
-      Readable.from(file.buffer).pipe(uploadStream);
-    });
-  }
+    cloudinary.uploader.upload_stream(
+      { public_id: uniqueFilename, folder: "client" }, // 👈 Asegurar nombres únicos
+      (error, result) => {
+        if (error) return reject(error);
+        if (!result) return reject(new Error('Result is undefined')); // Add this check
+        resolve({ url: result.secure_url });
+      }
+    ).end(file.buffer);
+  });
+
+}
 }

@@ -67,7 +67,7 @@ export class ClientsService {
       codigoPostal: createClientDto.codigoPostal,
       ciudad: createClientDto.ciudad,
       provincia: createClientDto.provincia,
-      imagenes: [...(createClientDto.imagenes || []), ...imageUrls],
+      imagenes: imageUrls,
     };
     console.log(
       'Cliente a guardar en JSON:',
@@ -111,11 +111,12 @@ export class ClientsService {
     if (existingImages.length + newImages.length > 4) {
       throw new Error('Solo se pueden subir hasta 4 imágenes por cliente.');
     }
+    const mergedImages = [...new Set([...existingImages, ...newImages])];
 
     clients[clientIndex] = {
       ...client,
       ...updateClientDto,
-      imagenes: [...existingImages, ...newImages],
+      imagenes: mergedImages,
     };
 
     await this.writeClientsToFile(clients);
