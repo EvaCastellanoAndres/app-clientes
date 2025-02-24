@@ -61,7 +61,7 @@ export class ClientsController {
       ...clientData,
       imagenes: imageUrls,
     };
-    const createdClient = await this.clientsService.create(datosCompletos);
+    const createdClient = await this.clientsService.create(datosCompletos, imageUrls);
     return createdClient;
   }
   @Get()
