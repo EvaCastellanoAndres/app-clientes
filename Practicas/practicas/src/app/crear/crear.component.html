@@ -1,4 +1,4 @@
-<div class="conatiner">
+<div class="container-fluid">
     <div class="row titulo">
         <div class="col-lg-2 col-md-2 col-sm-2"></div>
         <div class="col-lg-5 col-md-5 col-sm-5">
@@ -193,8 +193,15 @@
                     <div class="mb-3">
                         <label for="imagenes" class="form-label">Imágenes Identificación</label>
                         <div *ngFor="let imgCtrl of imagenes.controls; let i = index">
-                            <input class="form-control mt-2" type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="imagenes">
+                            <button type="button" class="btn btn-dark mt-2" (click)="solicitarPermisoGaleria(i)">
+                              Seleccionar Imagen
+                            </button>
+                            <input #fileInputs type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="imagenes" style="display: none;">
+                            <img *ngIf="imagenesPrevisualizadas[i]" [src]="imagenesPrevisualizadas[i]" alt="Vista previa de la imagen" style="max-width: 100px; margin-top: 1.5rem; margin-left: 3rem;">
                         </div>
+                        <!-- <div *ngFor="let imgCtrl of imagenes.controls; let i = index">
+                            <input class="form-control mt-2" type="file" (change)="manejarCambioArchivo($event, i)" accept="image/*" id="imagenes" formControlName="imagenes">
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-2"></div>

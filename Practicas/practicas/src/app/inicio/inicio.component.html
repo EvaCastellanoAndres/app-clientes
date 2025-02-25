@@ -39,7 +39,7 @@
                         <td>{{cliente.ciudad}}</td>
                         <td>{{cliente.provincia}}</td>
                         <td>
-                            <img *ngFor="let imagen of cliente.imagenes" [src]="imagen" alt="" style="height: 50px;">
+                            <img *ngFor="let imagen of cliente.imagenes" [src]="imagen" alt="" style="height: 65px;">
                             <div *ngIf="!cliente.imagenes || cliente.imagenes.length === 0" style="color: grey">No hay imágenes</div>
                         </td>
                         <td>

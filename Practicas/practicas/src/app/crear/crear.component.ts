@@ -1,31 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ClienteService } from '../Service/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, of,  timer } from 'rxjs';
 import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
 
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
+import { VentanaPermisosComponent } from '../ventana-permisos/ventana-permisos.component';
 
 @Component({
   selector: 'app-crear',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatButtonModule, MatInputModule, MatFormFieldModule],
   templateUrl: './crear.component.html',
   styleUrl: './crear.component.scss'
 })
 
 export class CrearComponent{
 
+  @ViewChild('fileInput') fileInputs: any;
+
   formularioCliente: FormGroup;
-  editMode = false;
   clienteId: number | null = null;
+  imagenesPrevisualizadas: string[] = [];
+  permisosOtorgados: boolean = false;
   
   constructor(
     private fb: FormBuilder,
-    public confirma: MatDialog,
+    public dialog: MatDialog,
     private clienteService: ClienteService,
     private router: Router,
     private route: ActivatedRoute
@@ -86,7 +93,75 @@ export class CrearComponent{
     }
   }
 
+  /* solicitarPermisoGaleria(index: number): void {
+    if (!this.permisosOtorgados) {
+      const dialogRef = this.dialog.open(VentanaPermisosComponent, {
+        data: {
+          mensaje: '¿Permitir acceso a la galería para seleccionar una imagen?',
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.permisosOtorgados = true;
+          this.fileInputs.toArray()[index].nativeElement.click(); // Acceder al input correspondiente
+        }
+      });
+    } else {
+      this.fileInputs.toArray()[index].nativeElement.click(); // Acceder al input correspondiente
+    }
+  }
+ */
+
+  solicitarPermisoGaleria(index: number) {
+    if (!this.permisosOtorgados) {
+      const dialogRef = this.dialog.open(VentanaPermisosComponent, {
+        data: {
+          mensaje: '¿Permitir acceso a la galería para seleccionar una imagen?',
+        }
+      });
+      dialogRef.afterClosed().subscribe(permitido => {
+        if (permitido) {
+          this.permisosOtorgados = true;
+          this.abrirSelectorImagen(index);
+        }
+      });
+    } else {
+      this.abrirSelectorImagen(index);
+    }
+  }
+
+  abrirSelectorImagen(index: number) {
+    const fileInputs = document.querySelectorAll<HTMLInputElement>("#imagenes");
+    if (fileInputs[index]) {
+      fileInputs[index].click();
+    }
+  }
+
   manejarCambioArchivo(event: any, index: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagenesPrevisualizadas[index] = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.imagenes.at(index).setValue(file);
+        if (this.imagenes.length < 4 && index === this.imagenes.length - 1) {
+          this.agregarInput();
+        }
+      } else {
+        alert('Por favor, selecciona un archivo de imagen válido.');
+        event.target.value = '';
+      }
+    } else {
+      alert('No se ha seleccionado ningún archivo.');
+    }
+  }
+
+  /* manejarCambioArchivo(event: any, index: number): void {
     const file = event.target.files[0];
     if (file) {
       this.imagenes.at(index).setValue(file);
@@ -94,11 +169,11 @@ export class CrearComponent{
         this.agregarInput();
       }
     }
-  }
+  } */
 
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
-      this.confirma.open(VentanaConfirmarComponent, {
+      this.dialog.open(VentanaConfirmarComponent, {
         data: {
           id: this.clienteId,
           ...this.formularioCliente.value,

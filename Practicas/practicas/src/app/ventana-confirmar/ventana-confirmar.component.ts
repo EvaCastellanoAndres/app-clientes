@@ -30,7 +30,6 @@ export interface DatosVentana {
 })
 export class VentanaConfirmarComponent implements OnInit {
   mensajeError: string = '';
-  editMode: boolean = false;
   clienteId: number | null = null;
   imagenesPreview: string[] = [];
 
