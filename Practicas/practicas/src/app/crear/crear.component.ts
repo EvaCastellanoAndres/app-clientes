@@ -157,16 +157,6 @@ export class CrearComponent{
     }
   }
 
-  /* manejarCambioArchivo(event: any, index: number): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.imagenes.at(index).setValue(file);
-      if (this.imagenes.length < 4 && index === this.imagenes.length - 1) {
-        this.agregarInput();
-      }
-    }
-  } */
-
   abrirConfirmacion () {
     if (this.formularioCliente.valid) {
       this.dialog.open(VentanaConfirmarComponent, {

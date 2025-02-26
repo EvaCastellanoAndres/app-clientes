@@ -56,10 +56,8 @@ export class VentanaConfirmarComponent implements OnInit {
   
     this.data.imagenes.forEach((imagen: any) => {
       if (imagen instanceof File) {
-        // Si es un archivo, creamos una URL temporal
         this.imagenesPreview.push(URL.createObjectURL(imagen));
       } else if (typeof imagen === "string") {
-        // Si ya es una URL (por ejemplo, recuperada de la base de datos), la usamos directamente
         this.imagenesPreview.push(imagen);
       } else {
         console.error("❌ Tipo de dato inesperado en `this.data.imagenes`:", imagen);
@@ -94,30 +92,22 @@ export class VentanaConfirmarComponent implements OnInit {
   }
 
   async confirmar() {
-    console.log("Confirmar presionado, enviando datos:", this.data);
-
-    // Crear un objeto FormData
     const formData = new FormData();
 
-    // Agregar los datos del cliente al FormData
     Object.keys(this.data).forEach(key => {
       if (key !== 'imagenes') {
         formData.append(key, this.data[key]);
       }
     });
 
-    // Agregar las imágenes al FormData
     if (this.data.imagenes && this.data.imagenes.length > 0) {
       this.data.imagenes.forEach((imagen, index) => {
         if (imagen instanceof File) {
-          formData.append('imagenes', imagen); // Agregar cada archivo al FormData
+          formData.append('imagenes', imagen);
         }
       });
     }
 
-    console.log("📤 Datos enviados al backend:", formData);
-
-    // Enviar el FormData al backend
     if (this.data.id) {
       this.clienteService.actualizarCliente(this.data.id, formData).subscribe(() => {
         this.dialogRef.close(true);

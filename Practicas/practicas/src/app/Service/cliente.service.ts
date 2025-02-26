@@ -23,9 +23,6 @@ export class ClienteService {
   crearCliente(formData: FormData) {
     return this.http.post(`${this.API_URL}/create`, formData);
   }
-  /* crearCliente(cliente: any): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/create`, cliente);
-  } */
 
   actualizarCliente(id: string, cliente: any): Observable<any> {
     console.log("Enviando datos al servidor:", cliente);

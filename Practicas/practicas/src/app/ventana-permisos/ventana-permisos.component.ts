@@ -1,4 +1,4 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogActions, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
@@ -10,19 +10,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './ventana-permisos.component.scss'
 })
 export class VentanaPermisosComponent {
-  /* readonly dialogRef = inject(MatDialogRef<VentanaPermisosComponent>); */
 
   constructor(public dialogRef: MatDialogRef<VentanaPermisosComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   aceptar() {
-    this.dialogRef.close(true); // Usuario aceptó permisos
+    this.dialogRef.close(true);
   }
 
   cancelar() {
-    this.dialogRef.close(false); // Usuario rechazó permisos
+    this.dialogRef.close(false);
   }
-
- /*  onNoClick(): void {
-    this.dialogRef.close();
-  } */
 }

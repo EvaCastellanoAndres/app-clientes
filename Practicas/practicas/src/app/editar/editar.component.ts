@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ClienteService } from '../Service/cliente.service';
-import { FormsModule,ReactiveFormsModule, FormBuilder, FormGroup, AbstractControl, ValidatorFn, ValidationErrors, AsyncValidatorFn, Validators } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule, FormBuilder, FormGroup, AbstractControl, ValidatorFn, ValidationErrors, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
 import { CommonModule } from '@angular/common';
-import { catchError, map, Observable, of, switchMap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-editar',
@@ -16,10 +15,10 @@ import { catchError, map, Observable, of, switchMap, timer } from 'rxjs';
 export class EditarComponent implements OnInit {
   clienteId: string | null = null;
   formularioCliente: FormGroup;
+  imagenesPrevisualizadas: string[] = [];
 
   constructor (
     private route: ActivatedRoute,
-    private router: Router,
     private clienteService: ClienteService,
     private fb: FormBuilder,
     public dialog: MatDialog
@@ -39,7 +38,7 @@ export class EditarComponent implements OnInit {
       codigoPostal: ['', [Validators.required]],
       ciudad: ['', [requeridoValidator(), nombreValidator()]],
       provincia: ['', [requeridoValidator(), nombreValidator()]],
-      imagenes: ['']
+      imagenes: this.fb.array([])
     });
 
     this.formularioCliente.get('identificacion')?.setValidators([
@@ -64,13 +63,57 @@ export class EditarComponent implements OnInit {
           clienteSinNull[key] = '';
         }
       });
+
+      if (cliente.imagenes) {
+        this.imagenesPrevisualizadas = cliente.imagenes;
+        cliente.imagenes.forEach((imagen: string) => {
+          this.imagenes.push(this.fb.control(imagen));
+        });
+      }
       this.formularioCliente.patchValue(clienteSinNull);
       this.formularioCliente.get('codigo')?.disable();
     });
-    /* this.clienteService.obtenerCliente(id).subscribe(cliente => {
-      this.formularioCliente.patchValue(cliente);
-    }); */
   }
+
+  get imagenes(): FormArray {
+    return this.formularioCliente.get('imagenes') as FormArray;
+  }
+
+ /*  agregarInput(): void {
+    if (this.imagenes.length < 4) {
+      this.imagenes.push(this.fb.control(null));
+    }
+  }
+
+  manejarCambioArchivo(event: any, index: number): void {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagenesPrevisualizadas[index] = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        this.imagenes.at(index).setValue(file);
+        if (this.imagenes.length < 4 && index === this.imagenes.length - 1) {
+          this.agregarInput();
+        }
+      } else {
+        alert('Por favor, selecciona un archivo de imagen válido.');
+        event.target.value = '';
+      }
+    } else {
+      alert('No se ha seleccionado ningún archivo.');
+    }
+  }
+
+  abrirSelectorImagen(index: number) {
+    const fileInputs = document.querySelectorAll<HTMLInputElement>("#imagenes");
+    if (fileInputs[index]) {
+      fileInputs[index].click();
+    }
+  } */
 
   abrirConfirmacion() {
     if (this.formularioCliente.valid) {
