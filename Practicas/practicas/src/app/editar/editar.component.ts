@@ -57,14 +57,15 @@ export class EditarComponent implements OnInit {
     this.clienteService.obtenerCliente(id).subscribe(cliente => {
       if (!cliente) return;
   
-      const clienteLimpio = { ...cliente };
+      const clienteSinNull = { ...cliente };
   
-      Object.keys(clienteLimpio).forEach(key => {
-        if (clienteLimpio[key] === null || clienteLimpio[key] === 'null' || clienteLimpio[key] === undefined) {
-          clienteLimpio[key] = '';
+      Object.keys(clienteSinNull).forEach(key => {
+        if (clienteSinNull[key] === null || clienteSinNull[key] === 'null' || clienteSinNull[key] === undefined) {
+          clienteSinNull[key] = '';
         }
       });
-      this.formularioCliente.patchValue(clienteLimpio);
+      this.formularioCliente.patchValue(clienteSinNull);
+      this.formularioCliente.get('codigo')?.disable();
     });
     /* this.clienteService.obtenerCliente(id).subscribe(cliente => {
       this.formularioCliente.patchValue(cliente);

@@ -3,20 +3,18 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule, Validators, FormArray, AbstractControl, ValidationErrors, ValidatorFn, AsyncValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ClienteService } from '../Service/cliente.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, of,  timer } from 'rxjs';
-import { map, catchError, debounceTime, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 import { VentanaConfirmarComponent } from '../ventana-confirmar/ventana-confirmar.component';
 import { VentanaPermisosComponent } from '../ventana-permisos/ventana-permisos.component';
 
 @Component({
   selector: 'app-crear',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatButtonModule, MatInputModule, MatFormFieldModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MatInputModule, MatFormFieldModule],
   templateUrl: './crear.component.html',
   styleUrl: './crear.component.scss'
 })
@@ -34,14 +32,12 @@ export class CrearComponent{
     private fb: FormBuilder,
     public dialog: MatDialog,
     private clienteService: ClienteService,
-    private router: Router,
-    private route: ActivatedRoute
   ) {
     this.formularioCliente = this.fb.group({
       codigo: ['', [requeridoValidator()], [codigoExistenteValidator(this.clienteService)]],
       nombre: ['', [requeridoValidator(), nombreValidator()]],
       apellido1: ['', [requeridoValidator(), nombreValidator()]],
-      apellido2: [],
+      apellido2: ['', [nombreValidator()]],
       tipoDocumento: ['dni'],
       identificacion: ['', [], [identificacionExistenteValidator(this.clienteService)]],
       fechaNacimiento: ['', [edadValidator()]],

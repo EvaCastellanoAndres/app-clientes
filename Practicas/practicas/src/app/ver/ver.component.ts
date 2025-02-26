@@ -33,4 +33,8 @@ export class VerComponent implements OnInit {
       this.detallesCliente = cliente;
     });
   }
+
+  getValueOrEmpty(value: any): string {
+    return (value === null || value === undefined || value === 'null') ? '' : value;
+  }
 }

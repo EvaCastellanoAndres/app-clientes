@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                   <td class="etiqueta"> <label><b>Segundo Apellido</b></label></td>
-                  <td> <span>{{ detallesCliente.apellido2 }}</span></td>
+                  <td> <span>{{ getValueOrEmpty(detallesCliente.apellido2) }}</span></td>
                 </tr>
                 <tr>
                   <td class="etiqueta"> <label><b>Identificación</b></label></td>
@@ -46,11 +46,11 @@
                 </tr>
                 <tr>
                     <td class="etiqueta"> <label><b>Piso</b></label></td>
-                    <td> <span>{{ detallesCliente.piso }}</span></td>
+                    <td> <span>{{ getValueOrEmpty(detallesCliente.piso) }}</span></td>
                 </tr>
                 <tr>
                     <td class="etiqueta"> <label><b>Escalera</b></label></td>
-                    <td> <span>{{ detallesCliente.escalera }}</span></td>
+                    <td> <span>{{ getValueOrEmpty(detallesCliente.escalera) }}</span></td>
                 </tr>
                 <tr>
                     <td class="etiqueta"> <label><b>Código Postal</b></label></td>
@@ -67,8 +67,8 @@
                 <tr>
                     <td class="etiqueta"> <label><b>Imágenes</b></label></td>
                     <td><span>
-                        <img *ngFor="let imagen of detallesCliente.imagenes" [src]="'https://app-clientes-4hsr.onrender.com/uploads/' + imagen" alt="" style="height: 50px;">
                         <img *ngFor="let imagen of detallesCliente.imagenes" [src]="imagen" alt="" style="height: 50px;">
+                        <div *ngIf="!detallesCliente.imagenes || detallesCliente.imagenes.length === 0" style="color: grey">No hay imágenes</div>
                     </span></td>
                 </tr>
               </tbody>

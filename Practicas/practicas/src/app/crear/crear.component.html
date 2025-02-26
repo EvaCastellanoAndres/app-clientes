@@ -54,7 +54,12 @@
                 </div>
                 <div class="col-md-6">
                     <label for="apellido2" class="form-label">Segundo Apellido</label>
-                    <input matInput type="text" class="form-control" id="apellido2" name="apellido2" formControlName="apellido2">
+                    <input matInput type="text" class="form-control" id="apellido2" name="apellido2" formControlName="apellido2" [ngClass]="{'invalid': formularioCliente.controls['apellido2'].invalid && formularioCliente.controls['apellido2'].touched}">
+                    <div *ngIf="formularioCliente.controls['apellido2'].invalid && formularioCliente.controls['apellido2'].touched">
+                        <div *ngIf="formularioCliente.controls['apellido2'].errors?.['nombreInvalido']">
+                            El apellido no puede contener carácteres especiales.
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="inputSelect" class="form-label">Identificación<span class="obligatorio">*</span></label>
