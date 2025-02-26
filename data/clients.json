@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "nombre": "benedicto",
+    "codigo": "fnhgj4",
+    "apellido1": "apellido1",
+    "apellido2": "apellido2",
+    "identificacion": "25jhnf",
+    "fechaNacimiento": "2000-11-11",
+    "calle": "calle1",
+    "numero": "2",
+    "piso": "33 izquierda",
+    "escalera": "2",
+    "codigoPostal": 50007,
+    "ciudad": "Zaragoza",
+    "provincia": "Zaragoza",
+    "imagenes": []
+  }
+]
