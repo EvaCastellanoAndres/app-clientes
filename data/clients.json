@@ -1,19 +1,20 @@
 [
   {
     "id": 1,
-    "nombre": "benedicto",
-    "codigo": "fnhgj4",
-    "apellido1": "apellido1",
-    "apellido2": "apellido2",
-    "identificacion": "25jhnf",
+    "nombre": "Benedicto",
+    "codigo": "f3nHJ-hQW1gj4",
+    "apellido1": "Convicto",
+    "apellido2": "Conflicto",
+    "identificacion": "56024020E",
     "fechaNacimiento": "2000-11-11",
-    "calle": "calle1",
-    "numero": "2",
-    "piso": "33 izquierda",
-    "escalera": "2",
-    "codigoPostal": 50007,
+    "calle": "Pº de Isabel la Católica",
+    "numero": "6",
+    "piso": "8",
+    "escalera": "",
+    "codigoPostal": 50009,
     "ciudad": "Zaragoza",
     "provincia": "Zaragoza",
     "imagenes": []
   }
 ]
+
