@@ -38,10 +38,6 @@ async createClient(
   @UploadedFiles() files: Express.Multer.File[],
   @Body() clientData: any,
 ) {
-  console.log(
-    '📂 Archivos recibidos en interceptor:',
-    files && files.length ? files.length : 'No se enviaron archivos',
-  );
 
   let imageUrls: (string | null)[] = [];
 
@@ -49,7 +45,6 @@ async createClient(
     imageUrls = await Promise.all(files.map(async (file) => {
       try {
         const result = await this.cloudinaryService.uploadImage(file);
-        console.log('📸 URL subida a Cloudinary:', result.url);
         return result.url;
       } catch (error) {
         console.error('Error subiendo imagen a Cloudinary:', error);
@@ -58,10 +53,8 @@ async createClient(
     }));
   }
 
-  // Filtrar imágenes nulas en caso de error
   const validImageUrls = imageUrls.filter((url): url is string => url !== null);
 
-  console.log('✅ URLs de imágenes generadas:', validImageUrls);
 
   const datosCompletos = {
     ...clientData,
@@ -71,39 +64,6 @@ async createClient(
   const createdClient = await this.clientsService.create(datosCompletos, validImageUrls);
   return createdClient;
 }
-
-
-  /* @Post('create')
-  @UseInterceptors(FilesInterceptor('imagenes', 4)) 
-  async createClient(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() clientData: any,
-  ) {
-    console.log(
-      '📂 Archivos recibidos en interceptor:',
-      files && files.length ? files.length : 'No se enviaron archivos',
-    );
-    let imageUrls: string[] = [];
-    if (files && files.length > 0) {
-      for (const file of files) {
-        try {
-          const result = await this.cloudinaryService.uploadImage(file);
-          console.log('📸 URL subida a Cloudinary:', result.url);
-          return result.url;
-        } catch (error) {
-          console.error('Error subiendo imagen a Cloudinary:', error);
-          return null;
-        }
-      }
-    }
-    console.log('✅ URLs de imágenes generadas:', imageUrls);
-    const datosCompletos = {
-      ...clientData,
-      imagenes: imageUrls,
-    };
-    const createdClient = await this.clientsService.create(datosCompletos, imageUrls);
-    return createdClient;
-  } */
   @Get()
   findAll() {
     return this.clientsService.findAll();

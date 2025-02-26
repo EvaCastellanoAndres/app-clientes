@@ -7,13 +7,13 @@ export class IsAgeWithinRangeConstraint implements ValidatorConstraintInterface 
     const minAge = args.constraints[0]; // Edad mínima
     const maxAge = args.constraints[1]; // Edad máxima
 
-    if (!value) return false; // Asegúrate de que haya un valor
+    if (!value) return false;
 
     const birthDate = moment(value, 'YYYY-MM-DD');
     const currentDate = moment();
     const age = currentDate.diff(birthDate, 'years');
 
-    return age >= minAge && age <= maxAge; // Verifica si la edad está dentro del rango
+    return age >= minAge && age <= maxAge;
   }
 
   defaultMessage(args: ValidationArguments): string {

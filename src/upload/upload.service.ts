@@ -8,7 +8,7 @@ export class UploadService {
       const uniqueFilename = `client_${Date.now()}_${Math.round(Math.random() * 1e9)}`;
   
       cloudinary.uploader.upload_stream(
-        { public_id: uniqueFilename, folder: "client" }, // 👈 Asegura nombres únicos
+        { public_id: uniqueFilename, folder: "client" },
         (error, result: UploadApiResponse) => {
           if (error) return reject(error);
           resolve(result.secure_url);

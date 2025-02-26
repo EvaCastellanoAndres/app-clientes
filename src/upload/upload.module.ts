@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UploadService } from './upload.service'; // Asegúrate de importar el servicio
+import { UploadService } from './upload.service';
 
 @Module({
   providers: [UploadService],
-  exports: [UploadService], // Exporta el servicio para que otros módulos puedan usarlo
+  exports: [UploadService],
 })
 export class UploadModule {}

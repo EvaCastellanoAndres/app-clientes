@@ -14,7 +14,7 @@ import * as multer from 'multer';
 @Module({
   imports: [
     MulterModule.register({
-      storage: multer.memoryStorage(), // Almacena en memoria para enviar a Cloudinary
+      storage: multer.memoryStorage(),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

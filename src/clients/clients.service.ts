@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UpdateClientDto } from './dto/update-client.dto';
 import * as fs from 'fs';
 import { promises as fsPromises } from 'fs';
@@ -36,10 +36,6 @@ export class ClientsService {
   }
 
   async create(createClientDto: any, imageUrls: string[]) {
-    console.log(
-      'Recibido en clientsService.create:',
-      JSON.stringify(createClientDto, null, 2),
-    );
     let clients = await this.readClientsFromFile();
     if (
       clients.some(
@@ -69,13 +65,8 @@ export class ClientsService {
       provincia: createClientDto.provincia,
       imagenes: imageUrls,
     };
-    console.log(
-      'Cliente a guardar en JSON:',
-      JSON.stringify(newClient, null, 2),
-    );
     clients.push(newClient);
     await this.writeClientsToFile(clients);
-    console.log('Cliente insertado en la base de datos:', newClient);
     return newClient;
   }
 
@@ -104,7 +95,6 @@ export class ClientsService {
     clients.images = imageUrls;
     const client = clients[clientIndex];
 
-    // Mantener imágenes existentes si no se envían nuevas
     const existingImages = client.imagenes || [];
     const newImages = imageUrls || [];
 
@@ -128,10 +118,9 @@ export class ClientsService {
     const position = clients.findIndex((e) => e.id === id);
 
     if (position !== -1) {
-      const client = clients[position]; // Obtener el cliente antes de eliminarlo
-      const imagesToDelete = client.imagenes || []; // Obtener las imágenes asociadas
+      const client = clients[position]; 
+      const imagesToDelete = client.imagenes || []; 
 
-      // Borrar cada imagen del sistema de archivos
       for (const imageName of imagesToDelete) {
         const absolutePath = path.join(
           __dirname,

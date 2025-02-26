@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { v2 as cloudinary } from 'cloudinary';
-import { Readable } from 'stream';
 
 @Injectable()
 export class CloudinaryService {
@@ -17,10 +16,10 @@ export class CloudinaryService {
     const uniqueFilename = `client_${Date.now()}_${Math.round(Math.random() * 1e9)}`;
 
     cloudinary.uploader.upload_stream(
-      { public_id: uniqueFilename, folder: "client" }, // 👈 Asegurar nombres únicos
+      { public_id: uniqueFilename, folder: "client" }, 
       (error, result) => {
         if (error) return reject(error);
-        if (!result) return reject(new Error('Result is undefined')); // Add this check
+        if (!result) return reject(new Error('Result is undefined')); 
         resolve({ url: result.secure_url });
       }
     ).end(file.buffer);
